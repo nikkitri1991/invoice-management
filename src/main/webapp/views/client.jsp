@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="../theme/cdn.jsp" %>
+<%@include file="../theme/cdn.jsp"%>
 </head>
 
 <body>
@@ -12,7 +12,7 @@
 		</div>
 		<div class="col-md-9">
 			<div class="container">
-			<div  id="clientForm"  style="margin-top:8%"></div>
+				<div id="clientForm" style="margin-top: 8%"></div>
 			</div>
 		</div>
 	</div>
@@ -56,69 +56,313 @@
 						"label": "Primary Bussiness",
 						"required": true,
 						"placeHolder": "Primary Bussiness"
+					},
 				
-				}, 
-			
-				{
-					"type": "date",
-					"name": "appliedDate",
-					"label": "Applied Date ",
-					"required": false
-				},
-				
-				 {
-						"type": "select",
-						"name": "departmentId",
-						"label": "Department",
-						"provider": {
-							"url": "http://localhost:9098/jet/pis/department",
-							"value": "id",
-							"label": "name"
+						{
+							"type": "group",
+							"name": "companyAddress",
+							"label": "Company Address Group",
+							"cols": 2,
+							"fields": [
+								{
+									"type": "text",
+									"name": "address1",
+									"label": "Address1",
+									"required": true,
+									"placeHolder": "Enter Address"
+								},
+								{
+									"type": "select",
+									"name": "addressType",
+									"label": " AddressType",
+									"options": [{
+										"value": "",
+										"label": ""
+									}, {
+										"value": "",
+										"label": "",
+										"selected": "selected"
+									}, {
+										"value": "",
+										"label": ""
+									}],
+									"required": true,
+									"placeHolder": "Select Address Type"
+								}]
 						},
-						"required": true
-				},
-				{
-					"type": "select",
-					"name": "designationId",
-					"label": "Designation ",
-					"provider": {
-								"url": "http://localhost:9098/jet/pis/designation",
-								"value": "id",
-								"label": "name"
-							},
-							"required": true
-				},
-				{
-					"type": "select",
-					"name": "recruiterId",
-					"label": "Recruiter",
-					"provider": {
-								"url": "http://localhost:9099/api/v1/recruitementSource",
+						{
+						"type": "group",
+						"name": "companyAddress1",
+						"label": "Company Address Group",
+						"cols": 2,
+						"fields": [	
+								
+								{
+									"type": "text",
+									"name": "address2",
+									"label": "Address2",
+									"placeHolder": "Enter Address"
+											
+									}, 
+									
+								{
+									"type": "number",
+									"name": "mobile",
+									"label": "Mobile",
+									"placeHolder": "Enter Mobile"
+								}]
+						},
+						{
+							"type": "group",
+							"name": "companyAddress2",
+							"label": "Company Address Group",
+							"cols": 2,
+							"fields": [	
+							
+								{
+									"type": "text",
+									"name": "city",
+									"label": "City",
+									"placeHolder": "Enter City"
+								},
+								{
+									"type": "text",
+									"name": "fax",
+									"label": "Fax",
+									"placeHolder": "Enter Fax"
+								}]
+						
+						},
+						{
+							"type": "group",
+							"name": "companyAddress3",
+							"label": "Company Address Group",
+							"cols": 2,
+							"fields": [	
+								{
+									"type": "text",
+									"name": "state",
+									"label": "State",
+									"placeHolder": "Enter State"
+								},
+								{
+									"type": "email",
+									"name": "email",
+									"label": "Email",
+									"placeHolder": "Enter Email"
+								}]
+						},
+						{
+							"type": "group",
+							"name": "companyAddress4",
+							"label": "Company Address Group",
+							"cols": 2,
+							"fields": [	
+								{
+									"type": "text",
+									"name": "pincode",
+									"label": "Pincode",
+									"placeHolder": "Enter Pincode"
+								},
+								{
+									"type": "number",
+									"name": "phone",
+									"label": "Phone",
+									"placeHolder": "Enter Phone Number"
+								}]
+						},
+						{
+							"type": "group",
+							"name": "companyAddress5",
+							"label": "Company Address Group",
+							"cols": 2,
+							"fields": [	
+								{
+									"type": "select",
+									"name": "country",
+									"label": "Country",
+									"required": true,
+									"provider": {
+										"url": "",
 										"value": "id",
 										"label": "name"
+									}
 								},
-					"required": true
-				},
-				{
-					"type": "select",
-					"name": "selectionPhaseId",
-					"label": "Designation ",
-					"provider": {
-								"url": "http://localhost:9098/jet/pis/designation",
-								"value": "id",
-								"label": "name"
+								{
+									"type": "number",
+									"name": "webSite",
+									"label": "Website",
+									"placeHolder": "Enter website"
+								}]
+					},
+					{
+						"type": "group",
+						"name": "contactPerson",
+						"label": "Contact Person",
+						"cols": 2,
+						"fields": [
+							{
+								"type": "text",
+								"name": "firstName",
+								"label": "First Name",
+								"required": true,
+								"placeHolder": "Enter First Name"
 							},
-							"required": true
-				},
-					
-			
+							
+							{
+								"type": "number",
+								"name": "phone",
+								"label": "Phone",
+								"placeHolder": "Enter Phone Number"
+							},
+							{
+								"type": "text",
+								"name": "extn",
+								"label": "Extn",
+								"placeHolder": ""
+							}]
+					},
+					{
+						"type": "group",
+						"name": "contactPerson1",
+						"label": "Contact Person",
+						"cols": 2,
+						"fields": [		
+							
+							{
+								"type": "text",
+								"name": "lastName",
+								"label": "Last Name",
+								"required": true,
+								"placeHolder": "Enter Last Name"
+							},
+							{
+								"type": "number",
+								"name": "mobile",
+								"label": "Mobile",
+								"placeHolder": "Enter Mobile"
+							}]
+					},
+					{
+						"type": "group",
+						"name": "contactPerson2",
+						"label": "Contact Person",
+						"cols": 2,
+						"fields": [
+						
+							{
+								"type": "text",
+								"name": "designation",
+								"label": "Designation",
+								"placeHolder": "Enter Designation"
+							},{
+								"type": "text",
+								"name": "profileURl",
+								"label": "Profile URL",
+								"placeHolder": "Enter Profile URL"
+							}]
+					},
+					{
+						"type": "group",
+						"name": "contactPerson3",
+						"label": "Contact Person",
+						"cols": 2,
+						"fields": [
+							
+							{
+								"type": "email",
+								"name": "email",
+								"label": "Email",
+								"placeHolder": "Enter Email"
+							},{
+								"type": "text",
+								"name": "messageChannel",
+								"label": "Message Channel",
+								"placeHolder": "Enter Message Channel"
+							}]
+					},
+	
 				{
-					"type": "file",
-					"name": "aadhaar",
-					"label": "Aadhaar",
-					"accept": "image/png, image/jpeg"
-				}
-			],
+					"type": "group",
+					"name": "taxes",
+					"label": "Taxes",
+					"cols": 2,
+					"fields": [
+						{
+							"type": "text",
+							"name": "taxDocNo1",
+							"label": "Tax Doc No.1",
+							"required": true,
+							"placeHolder": "Enter Tax Doc No.1 "
+						},
+						
+						{
+							"type": "radio",
+							"name": "taxes",
+							"label": "Taxes",
+							"required": true,
+							"options": [{
+								"value": "CGST",
+								"label": "CGST",
+								"checked": "checked"
+							}, {
+								"value": "SGST",
+								"label": "SGST"
+							}],
+
+							"provider": {
+								"url": "",
+								"id":"",
+								"value":""
+							}
+						}]
+				},
+				{
+						"type": "group",
+						"name": "taxes1",
+						"label": "Taxes",
+						"cols": 2,
+						"fields": [
+							
+						{
+							"type": "text",
+							"name": "taxDocNo1",
+							"label": "Tax Doc No.2",
+							"placeHolder": "Tax Doc No.2"
+						},
+						{
+							"type": "checkbox",
+							"id": "taxExemptable",
+							"name": "taxExemptable",
+							"label": "Tax Exemptable",
+							"required": true,
+							"option":[],
+							"provider":{
+								"url":"",
+								"id":"",
+								"value":"",
+							
+							}
+							
+						}]
+				
+			},	
+			{
+				"type": "group",
+				"name": "document",
+				"label": "document",
+				"cols": 2,
+				"fields": [
+					
+					{
+						"type": "file",
+						"name": "file",
+						"label": "Non Disclosure Agreement Or Master Service Agreement"
+						
+					}]
+				
+		
+	}],
 			"actions": [{
 					"name": "save",
 					"type": "submit",
@@ -128,7 +372,7 @@
 						"type": "javascript",
 						"func": "submitForm(event)",
 						"method": "post",
-						"url": "http://localhost:8082/api/v1/user"
+						"url": ""
 					},
 					"cssClass": "btn-primary"
 				}, {
@@ -152,7 +396,7 @@
 			}
 		};
 </script>
-<%@include file="../theme/js_scripts.jsp" %>
+<%@include file="../theme/js_scripts.jsp"%>
 <jsp:include page="../template/form-template.jsp">
 	<jsp:param name="formContainerId" value="clientForm" />
 	<jsp:param name="formId" value="clientForm" />

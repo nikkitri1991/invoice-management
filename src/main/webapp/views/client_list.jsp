@@ -27,108 +27,48 @@ var form = {
 		"namespace" : "",
 		"enctype": "multipart/form-data",
 		"fields": [
-		{
-				"type": "group",
-				"name": "nameGroup",
-				"label": "name",
-				"cols": 1,
-				"fields": [
-				{
-					"type": "text",
-					"name": " name",
-					"label": "Name",
-					"required": true,
-					"placeHolder": "Name"
-				}, {
-					"type": "text",
-					"name": "bussinessName",
-					"label": "Bussiness Name",
-					"placeHolder": "Bussiness Name"
-				}, {
-					"type": "text",
-					"name": "companyName",
-					"label": "Company Name",
-					"required": true,
-					"placeHolder": "Company Name"
-				},{
-					"type": "text",
-					"name": "primaryBussiness",
-					"label": "Primary Bussiness",
-					"required": true,
-					"placeHolder": "Primary Bussiness"
-				}]
-			}, 
-		
 			{
-				"type": "date",
-				"name": "appliedDate",
-				"label": "Applied Date ",
-				"required": false
-			},
-			{
-				"type": "select",
-				"name": "recruitmentSourceId",
-				"label": "Recruitment Source",
-				"provider": {
-					"url": "http://localhost:9099/api/v1/recruitementSource",
-					"value": "id",
-					"label": "name"
-				},
-				"required": true
-			},
-			 {
-					"type": "select",
-					"name": "departmentId",
-					"label": "Department",
-					"provider": {
-						"url": "http://localhost:9098/jet/pis/department",
-						"value": "id",
-						"label": "name"
-					},
-					"required": true
-			},
-			{
-				"type": "select",
-				"name": "designationId",
-				"label": "Designation ",
-				"provider": {
-							"url": "http://localhost:9098/jet/pis/designation",
-							"value": "id",
-							"label": "name"
-						},
-						"required": true
-			},
-			{
-				"type": "select",
-				"name": "recruiterId",
-				"label": "Recruiter",
-				"provider": {
-							"url": "http://localhost:9099/api/v1/recruitementSource",
-									"value": "id",
-									"label": "name"
-							},
-				"required": true
-			},
-			{
-				"type": "select",
-				"name": "selectionPhaseId",
-				"label": "Designation ",
-				"provider": {
-							"url": "http://localhost:9098/jet/pis/designation",
-							"value": "id",
-							"label": "name"
-						},
-						"required": true
-			},
+				"type": "text",
+				"name": "id",	
+				"label": "#",
+				"required": true,
 				
-		
+			},
 			{
-				"type": "file",
-				"name": "aadhaar",
-				"label": "Aadhaar",
-				"accept": "image/png, image/jpeg"
-			}
-		],
+				"type": "text",
+				"name": "name",
+				"label": "Name",
+				"required": true,
+				
+			},
+			{
+				"type": "text",
+				"name": "bussinessName",
+				"label": "Bussiness Name",
+				"required": true,
+				
+			},
+			{
+				"type": "text",
+				"name": "bussinessAddress",
+				"label": "Bussiness Address",
+				"required": true,
+				
+			},
+			{
+				"type": "number",
+				"name": "mobile",
+				"label": "Mobile",
+				"required": true,
+				
+			},
+			{
+				"type": "email",
+				"name": "email",
+				"label": "Email",
+				"required": true,
+				
+			}],
 		"actions": [{
 				"name": "save",
 				"type": "submit",
@@ -138,7 +78,7 @@ var form = {
 					"type": "javascript",
 					"func": "submitForm(event)",
 					"method": "post",
-					"url": "http://localhost:8082/api/v1/user"
+					"url": ""
 				},
 				"cssClass": "btn-primary"
 			}, {
@@ -146,6 +86,10 @@ var form = {
 				"type": "button",
 				"label": "Cancel",
 				"applyTo": "form",
+				"handler": {
+					"type": "javascript",
+					"func": "alert('ok');"
+				},
 				"cssClass": "btn-secondary"
 			},
 			{
