@@ -131,6 +131,8 @@
 						<ul aria-expanded="false" class="mm-collapse mm-show left" style="">
 							<li class="mm-active"><a href="client_list" class="mm-active">Client</a></li>
 							
+							<li class="mm-active"><a href="purchase_order_list" class="mm-active">purchaseOrders</a></li>
+								<li class="mm-active"><a href="payments" class="mm-active">Payments</a></li>
 							
 							
 						</ul>

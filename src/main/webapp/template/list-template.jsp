@@ -128,20 +128,6 @@
 	</div>
 </script>
 
-<script id="jf-row-actions-template" type="text/x-handlebars-template">
-	{{#each []}}
-		{{#if_eq applyTo "row"}}
-			{{#if_eq handler.type "javascript"}}
-				<button name="{{name}}" id="{{name}}" type="{{type}}" applyto="{{applyTo}}" class="btn {{cssClass}}" onclick="{{handler.func}}">{{label}}</button>
-			{{/if_eq}}
-	
-			{{#if_ne handler.type "javascript"}}
-				<button name="{{name}}" id="{{name}}" type="{{type}}" applyto="{{applyTo}}" class="btn {{cssClass}}" onclick="{{name}}OnClick(event)">{{label}}</button>
-			{{/if_ne}}
-		{{/if_eq}}
-	{{/each}}
-</script>
-
 <script id="jf-button-template" type="text/x-handlebars-template">
   <button name="{{name}}" id="{{name}}" type="{{type}}" class="btn btn-primary" onclick="submitForm(event)">{{label}}</button>
 </script>

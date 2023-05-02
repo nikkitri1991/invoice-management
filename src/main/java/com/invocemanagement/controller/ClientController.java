@@ -19,5 +19,33 @@ public class ClientController {
 		
 	}
 	
+	@RequestMapping("/purchase_order_list")
+	public String getAllPurchaseOrders() {
+		System.out.println("purchase Orders");
+		return "purchase_order_list";
+		
+	}
+	
+	@RequestMapping("/purchase_order")
+	public String addNewPurchaseOrder() {
+		System.out.println("New purchase Order");
+		return "purchase_order";
+		
+	}
+	
+	@RequestMapping("/payments")
+	public String payments() {
+		System.out.println("Payments");
+		return "payments";
+		
+	}
+	
+	@RequestMapping("/receive_payment")
+	public String receivePayment() {
+		System.out.println("ReceivePayment");
+		return "receive_payment";
+		
+	}	
+	
 
 }

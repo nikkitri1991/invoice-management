@@ -1,20 +1,24 @@
 <!-- Modal -->
-<div class="modal fade" id="<%=request.getParameter("formId")%>Modal" tabindex="-1" aria-labelledby="<%=request.getParameter("formId")%>ModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="<%=request.getParameter("formId")%>ModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
+<div class="modal fade" id="<%=request.getParameter("formId")%>Modal"
+	tabindex="-1"
+	aria-labelledby="<%=request.getParameter("formId")%>ModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"
+					id="<%=request.getParameter("formId")%>ModalLabel">Modal title</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">...</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
 </div>
 <!-- templates  -->
 <script id="jf-form-template" type="text/x-handlebars-template">          
@@ -35,28 +39,46 @@
 <script id="jf-date-template" type="text/x-handlebars-template">
   <div class="form-group">
     <label for="{{name}}" class="form-label">{{label}}</label>
-    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}">
+    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}" {{#if required}}required{{/if}}>
+  </div>
+</script>
+
+<script id="jf-time-template" type="text/x-handlebars-template">
+  <div class="form-group">
+    <label for="{{name}}" class="form-label">{{label}}</label>
+    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" step = "{{step}}" value="{{value}}"{{#if required}} required{{/if}}>
+  </div>
+</script>
+
+<script id="jf-hidden-template" type="text/x-handlebars-template">
+  <input type="{{type}}" name="{{name}}" value="{{value}}" id="{{name}}">
+</script>
+
+<script id="jf-textarea-template" type="text/x-handlebars-template">
+  <div class="form-group">
+    <label for="{{name}}" class="form-label">{{label}}</label>
+    <textarea class="form-control" name="{{name}}" placeholder="{{placeHolder}}" id="{{name}}" rows="{{rows}}" cols="{{cols}}" {{#if required}}required{{/if}}>{{value}}</textarea>
   </div>
 </script>
 
 <script id="jf-email-template" type="text/x-handlebars-template">
   <div class="form-group">
     <label for="{{name}}" class="form-label">{{label}}</label>
-    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}">
+    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}" {{#if required}}required{{/if}}>
   </div>
 </script>
 
 <script id="jf-password-template" type="text/x-handlebars-template">
   <div class="form-group">
     <label for="{{name}}" class="form-label">{{label}}</label>
-    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}"  minlength="{{minLength}}">
+    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}"  {{#if required}}required{{/if}} minlength="{{minLength}}">
   </div>
 </script>
 
 <script id="jf-number-template" type="text/x-handlebars-template">
   <div class="form-group">
     <label for="{{name}}" class="form-label">{{label}}</label>
-    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}" maxlength="{{maxlength}}">
+    <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}" {{#if required}}required{{/if}} maxlength="{{maxlength}}">
   </div>
 </script>
 
@@ -182,6 +204,10 @@
     <input type="{{type}}" class="form-control" name="{{name}}" placeholder="{{placeHolder}}" id="{{name}}" value="{{value}}" {{#if required}}required{{/if}}>
 </script>
 
+<script id="list-textarea-template" type="text/x-handlebars-template">          
+    <input type="{{type}}" class="form-control" name="{{name}}" placeholder="{{placeHolder}}" id="{{name}}" value="{{value}}" {{#if required}}required{{/if}}>
+</script>
+
 <script id="list-date-template" type="text/x-handlebars-template">
     <input type="{{type}}" class="form-control" name="{{name}}" id="{{name}}" value="{{value}}">
 </script>
@@ -233,7 +259,9 @@ var formContainerId='<%=request.getParameter("formContainerId")%>';
 var formId='<%=request.getParameter("formId")%>';
 
 const templates = {            //object for mapping object to id
+	form : '#jf-form-template',
     text: '#jf-text-template',
+    textarea: '#jf-textarea-template',
     date: '#jf-date-template',
     submit: '#jf-button-template',
     email: '#jf-email-template',
@@ -244,7 +272,6 @@ const templates = {            //object for mapping object to id
     checkbox : '#jf-checkbox-template',
     file : '#jf-file-template',
     list : '#jf-list-template',
-    form : '#jf-form-template',
     list_text: '#list-text-template',
     list_date: '#list-date-template',
     list_email: '#list-email-template',
@@ -254,6 +281,7 @@ const templates = {            //object for mapping object to id
     list_radio: '#list-radio-template',
     list_checkbox : '#list-checkbox-template',
     list_file : '#list-file-template',
+    list_textarea : '#list-textarea-template',
     group : '#jf-field-group-template',
     button : '#jf-button-template',
     form_actions : '#jf-form-actions-template',
@@ -263,10 +291,14 @@ const templates = {            //object for mapping object to id
 $(document).ready(() => {
 	renderForm();
 	fillOptions();
+	bindEvents();
+	bindValidations();
 });
 
 function renderForm() {
-	renderFormObject()
+	if($('#'+form.id).length==0){
+		renderFormObject()
+	}
 	renderFormFields();
     renderFormGroups();
     renderFormLists();
@@ -362,16 +394,19 @@ function fillFieldOptions(field) {
     if (provider!=undefined && provider.url!=undefined && provider.url.length>0) {
     	$('#'+field.name).empty();
     	$("#" + field.name).append(new Option("Select "+field.label, "-1"));
-        var param=provider.param
-        if(param == undefined){
-        	param={};
-        }else{
-        	var keys=Object.keys(param);
-        	keys.forEach(key => {
-        		var value=param[key];
+    	var apiParams={};
+        var params=provider.params;
+        if(params != undefined){
+        	//var keys=Object.keys(params);
+        	params.forEach(param => {
+        		var value=param.value;
+        		
+        		//console.log ("type of value: "+(typeof value)+" -- "+value);
+        		//console.log(value);
+        		
         		if(value.startsWith('.') || value.startsWith('#')){
         			value=$(value).val();
-        			param[key]=value;
+        			apiParams[param.name]=value;
         		}
         	});
         }
@@ -379,7 +414,7 @@ function fillFieldOptions(field) {
              type: "GET",
              url: provider.url,
              dataType: "json",
-             data: param,
+             data: apiParams,
              contentType: "application/json"
          })
          .done(function(data) {
@@ -396,9 +431,9 @@ function fillFieldOptions(field) {
              	dataNode=data[provider.dataNode];
              }
              
-             console.log(dataNode);
+             //console.log(dataNode);
              $.each(dataNode, function(key, item) {
-             	console.log(key);
+             	//console.log(key);
 	             	
              	var value;
              	var label;
@@ -450,21 +485,21 @@ function findAction(event){
 	 var actionName=$(target).attr("name");
 	 var actionType=$(target).attr("type");
 	 var applyTo=$(target).attr("applyto");
-	 console.log(actionName+" - "+actionType+" - "+applyTo);
+	 //console.log(actionName+" - "+actionType+" - "+applyTo);
 	 var action;
 	 form.actions.forEach(a => {
 		 if(a.name==actionName && a.type==actionType && a.applyTo==applyTo){
 			 action=a;
 		 }
 	 });
-	 console.log(action);
+	 //console.log(action);
 	 return action;
 }
 
 function invokeUrl(action){
 	
 	var handler=action.handler;
-	console.log(handler);
+	//console.log(handler);
     $.ajax({
         url: handler.url,
         type: handler.method,
@@ -485,11 +520,11 @@ function submitForm(event) {
     var action=findAction(event);
     
     var handler=action.handler;
-    console.log(handler);
+    //console.log(handler);
     
     var formData = $('#'+form.id).toJSON();
     
-    console.log(formData);
+    //console.log(formData);
     
     // make AJAX request
     $.ajax({
@@ -542,8 +577,8 @@ Handlebars.registerHelper('if_ne', function(a, b, opts) {
 Handlebars.registerPartial('textField', Handlebars.compile('#jf-text-template'));
 
 function saveOnClick(event){
-	 event.preventDefault();
-	 submitForm(event);
+	 //event.preventDefault();
+	 //submitForm(event);
 }
 
 function cancelOnClick(event){
@@ -663,6 +698,116 @@ function findFieldByNameAndType(name, type){
 			field=f;
 		}
 	});
+	
+	if(field==undefined){
+		form.fields.forEach(f => {
+			if(f.type==group){
+				f.fields.forEach(f1 => {
+					if(f1.name==name && f1.type==type){
+						field=f1;
+					}
+				})
+			}
+		});
+	}
+	
 	return field;
 }
+
+function findFieldByName(name){
+	var field;
+	form.fields.forEach(f => {
+		if(f.name==name){
+			field=f;
+		}
+	});
+	if(field==undefined){
+		form.fields.forEach(f => {
+			if(f.type=="group"){
+				f.fields.forEach(f1 => {
+					if(f1.name==name){
+						field=f1;
+					}
+				})
+			}
+		});
+	}
+	return field;
+}
+
+function bindEvents(){
+	form.fields.forEach(field => {
+		var events=field.events;
+		if(events!=undefined){
+			var keys=Object.keys(events);
+			$.each(field.events, function(key, receivers) {
+				$('#'+field.name).bind(key, function(){
+					bindEventReceivers(field, receivers);
+				});
+			});
+		}
+	});
+}
+
+function bindEventReceivers(eventSource, receivers){
+	receivers.forEach(receiver => {
+		if(receiver.type="field"){
+			if(receiver.trigger=="refill"){
+				
+				refillField(receiver.receiver);
+			}else if(receiver.trigger=="hide"){
+				$('#'+receiver.receiver).closest("div").hide();
+			}else if(receiver.trigger=="show"){
+				$('#'+receiver.receiver).closest("div").show();
+			}else if(receiver.trigger=="enable"){
+				$('#'+receiver.receiver).prop("disabled", false);
+			}else if(receiver.trigger=="disable"){
+				$('#'+receiver.receiver).prop("disabled", true );
+			}
+		}else if(receiver.type="javascript"){
+			executeFunctionByName(receiver.name, window, eventSource);
+		}
+	});
+}
+
+function refillField(fieldName){
+	var field=findFieldByName(fieldName);
+	fillFieldOptions(field);
+}
+
+function executeFunctionByName(functionName, context /*, args */) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    var namespaces = functionName.split(".");
+    var func = namespaces.pop();
+    for (var i = 0; i < namespaces.length; i++) {
+        context = context[namespaces[i]];
+    }
+    return context[func].apply(context, args);
+}
+
+function bindValidations(){
+	if(form.validations!=undefined){
+		$("#"+form.id).validate(form.validations);
+	}else{
+		var rules={};
+		var messages={};
+		form.fields.forEach(field => {
+			if(field.type!="group"){
+				if(field.validations!=undefined){
+					rules[field.name]=field.validations.rules;
+					messages[field.name]=field.validations.messages;
+				}
+			}else{
+				field.fields.forEach(f => {
+					if(f.validations!=undefined){
+						rules[f.name]=f.validations.rules;
+						messages[f.name]=f.validations.messages;
+					}
+				});
+			}
+		});
+		$("#"+form.id).validate({"rules":rules, "messages":messages});
+	}
+}
+
 </script>
