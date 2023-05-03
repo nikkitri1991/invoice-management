@@ -42,8 +42,8 @@
 					},
 					{
 						"type": "select",
-						"name": "companyNameId",
-						"label": "Company Name",
+						"name": "companyType",
+						"label": "Company Type",
 						"provider": {
 							"url": "",
 							"value": "id",

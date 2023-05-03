@@ -13,9 +13,10 @@
 		</div>
 		<div class="col-md-9">
 			<!-- <h2 ></h2> -->
-			<form id="purchaseOrderForm">
-				<div class="container">
-					<div id="purchaseOrderFormContainer" style="margin-top: 8%"></div>
+
+			<div class="container">
+				<div id="purchaseOrderFormContainer" style="margin-top: 8%"></div>
+				<form id="purchaseOrderForm">
 					<div class="row">
 						<div class="col-md-7" id="pocustdetails">
 
@@ -26,15 +27,14 @@
 						</div>
 						<div class="col-md-5" id="podetails"></div>
 					</div>
-				</div>
-			</form>
-
+				</form>
 			<div id="poitemdetails"></div>
 			<div class="container">
 				<div class="row">
 					<div class="col-md-7" id="pocustinstructiondetails"></div>
 					<div class="col-md-5" id="poamountdetails"></div>
 				</div>
+			</div>
 			</div>
 		</div>
 	</div>
@@ -353,7 +353,7 @@
 <%@include file="../theme/js_scripts.jsp"%>
 <jsp:include page="../template/form-template.jsp">
 	<jsp:param name="formContainerId" value="purchaseOrderFormContainer" />
-	<jsp:param name="formId" value="purchaseOrderForm" />
+	<jsp:param name="formId" value="purchaseOrder" />
 	<jsp:param name="cancelPage" value="purchase_order_list" />
 	<jsp:param name="successPage" value="purchase_order_list" />
 </jsp:include>
