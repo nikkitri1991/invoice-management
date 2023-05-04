@@ -33,19 +33,19 @@ public class ClientController {
 		
 	}
 	
-	@RequestMapping("/payments")
+	@RequestMapping("/receive_payment")
 	public String payments() {
-		System.out.println("Payments");
-		return "payments";
+		System.out.println("receive Payments");
+		return "receive_payment";
 		
 	}
 	
-	@RequestMapping("/receive_payment")
-	public String receivePayment() {
-		System.out.println("ReceivePayment");
-		return "receive_payment";
-		
-	}	
+	@RequestMapping("/payments")
+	public String paymentsList() {
+		System.out.println("payment list");
+		return "payments";
+
+	} 
 	
 
 }

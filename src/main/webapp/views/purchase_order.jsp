@@ -48,14 +48,14 @@
 		"namespace" : "",
 		"enctype" : "multipart/form-data",
 		"fields" : [
-				{
+				/* {
 					"type" : "select",
 					"name" : "client",
 					"label" : "Client",
 					"listable" : false,
 					"searchable" : false,
 					"group" : "pocustdetails"
-				},
+				} ,*/
 				{
 					"type" : "text",
 					"name" : "pono",
@@ -104,7 +104,7 @@
 					"searchable" : false,
 					"group" : "podetails"
 				},
-				{
+				/* {
 					"type" : "select",
 					"name" : "billingType",
 					"label" : "Billing Type",
@@ -121,8 +121,8 @@
 					"searchable" : false,
 					"placeHolder" : "Billing Cycle",
 					"group" : "pocustinstructiondetails"
-				},
-				{
+				} ,*/
+				/* {
 					"type" : "select",
 					"name" : "currency",
 					"label" : "Currency",
@@ -130,7 +130,7 @@
 					"searchable" : false,
 					"placeHolder" : "",
 					"group" : "podetails"
-				},
+				}, */
 				{
 					"type" : "checkbox",
 					"name" : "checkbox",

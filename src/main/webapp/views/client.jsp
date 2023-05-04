@@ -26,10 +26,9 @@
 			"namespace" : "",
 			"enctype": "multipart/form-data",
 			"fields": [
-			
-					{
+								{
 						"type": "text",
-						"name": " name",
+						"name": "name",
 						"label": "Name",
 						"required": true,
 						"placeHolder": "Name"
@@ -39,8 +38,8 @@
 						"label": "Bussiness Name",
 						"required": true,
 						"placeHolder": "Bussiness Name"
-					},
-					{
+					}
+					/* {
 						"type": "select",
 						"name": "companyType",
 						"label": "Company Type",
@@ -346,23 +345,18 @@
 							
 						}]
 				
-			},	
+			},
 			{
-				"type": "group",
-				"name": "document",
-				"label": "document",
-				"cols": 2,
-				"fields": [
-					
-					{
-						"type": "file",
-						"name": "file",
-						"label": "Non Disclosure Agreement Or Master Service Agreement"
-						
-					}]
-				
-		
-	}],
+				"type": "drag_drop",
+				"name": "dropzone",
+				"label" : "Drag and Drop Files Here",
+				 "id": "drag-drop-files",
+				 "url" : ""
+			
+			
+	
+}
+ */			],
 			"actions": [{
 					"name": "save",
 					"type": "submit",
@@ -372,7 +366,7 @@
 						"type": "javascript",
 						"func": "submitForm(event)",
 						"method": "post",
-						"url": ""
+						"url": "http://localhost:9004/api/v1/client"
 					},
 					"cssClass": "btn-primary"
 				}, {

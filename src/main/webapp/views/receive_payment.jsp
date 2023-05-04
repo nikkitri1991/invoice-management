@@ -4,6 +4,8 @@
 <head>
 <title>Receive Payment</title>
 <%@include file="../theme/cdn.jsp"%>
+<script type="text/javascript" src="../js/form/receive-payment.js"></script>
+
 </head>
 <body>
 	<div class="row">
@@ -11,41 +13,25 @@
 			<%@include file="../theme/nav_header.jsp"%>
 			<%@include file="../theme/header.jsp"%>
 		</div>
-		<div class="col-md-9">
-			<!-- <h2 ></h2> -->
-			<div class ="container">
-			<div id="receivePaymentFormContainer" style="margin-top: 8%"><h2>ReceivePayment</h2></div>
-			</div>
-      <div class ="container">
-        	 <form id="receivepaymentform">
-			<div class="container">
-					<div class="row">
-						<div class="col-md-12" id="clientinvoicedetails"></div>
+			<div class="col-md-9" id="receivePaymentFormContainer" style="margin-top: 8%" >
+				<h3 id="employeeFormTitle"></h3>
+				<form id="receivePaymentForm" >
+					<div class="row" >
+					<div class="col-md-12" id="nameGroup"></div>
 					</div>
-				</div>
-				<div class="container">
 					<div class="row">
-						<div class="col-md-6" id="receivepaymentdetails">
-							<!-- <div class="row">
-										<div class="col-md-6" id="billingType"></div>
-										<div class="col-md-6" id="billingCycle"></div>
-									</div> -->
+						<div class="col-md-6" id="balance">
 						</div>
-						<div class="col-md-6" id="amountpaiddetails"></div>
+						<div class="col-md-6" id="amount">
+						</div>
 					</div>
-				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-md-12" id="transactiondetails"></div>
+					<div class="row" id="transaction">
 					</div>
-				</div>
-			
-			</form>	
-		</div>
-		</div>
+					</form>
+			</div>
 	</div>
 </body>
-
+<!-- 
 
 <script>
 	var form = {
@@ -162,14 +148,14 @@
 		}
 	};
 </script>
-<%@include file="../theme/js_scripts.jsp"%>
-<jsp:include page="../template/form-template.jsp">
-	<jsp:param name="formContainerId" value="receivePaymentFormContainer" />
-	<jsp:param name="formId" value="receivepaymentform" />
-	<jsp:param name="cancelPage" value="payments" />
-	<jsp:param name="successPage" value="payments" />
-</jsp:include>
+
+ -->
+ 
+ <%@include file="../theme/js_scripts.jsp"%>
+<jsp:include page="../template/jetform-template.jsp"/>
 <script>
-	
-</script>
-</html>
+	$(document).ready(() => {
+		var jetform=JetForm({"id":"receivePaymentForm", "parentId":"receivePaymentFormContainer", "form":receivePaymentForm});
+		jetform.render();
+	});
+</script></html>
