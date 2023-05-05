@@ -10,9 +10,11 @@ const templates = {            //object for mapping object to id
     checkbox : '#jf-checkbox-template',
     file : '#jf-file-template',
     list : '#jf-list-template',
+    datatable: '#jf-datatable-template',
     form : '#jf-form-template',
 	list_header : '#jf-list-header-template',
 	list_actions : '#jf-list-actions-template',
+	row_actions : '#jf-row-actions-template',
     list_text: '#list-text-template',
     list_date: '#list-date-template',
     list_email: '#list-email-template',
@@ -29,25 +31,37 @@ const templates = {            //object for mapping object to id
 };
 
 function JetForm (config) {
-  let jetForm = Object.create(JetForm.prototype)
-  jetForm.form = config.form;
-  jetForm.form.id=config.id;
-  jetForm.form.parentId=config.parentId;
+	let jetForm = Object.create(JetForm.prototype)
+	jetForm.form = config.form;
+	jetForm.form.id=config.id;
+	jetForm.form.parentId=config.parentId;
+	jetForm.form.data={};
+	
+  	if(config.data != undefined){
+		jetForm.form.data=config.data;
+	}
+	
+	if(config.redirections!=undefined){
+		jetForm.form.redirections=config.redirections;
+  	}
   
-  if(config.redirections!=undefined){
-	jetForm.form.redirections=config.redirections;
-  }
-  
-  window[config.id]=jetForm;
-  return jetForm
+  	window[config.id]=jetForm;
+  	return jetForm;
 }
 
 JetForm.prototype.render = function() {
 	var _this = this;
 	var form = _this.form;
+	var data = form.data;
+	
 	if($('#'+form.id).length==0){
-		_this.renderForm()
+		_this.renderForm();
 	}
+	
+	if(data.id !=undefined && data.id !=''){
+		_this.setFieldValues();
+	}
+	
 	_this.renderFields();
     _this.renderGroups();
     _this.renderLists();
@@ -57,12 +71,51 @@ JetForm.prototype.render = function() {
 	_this.bindValidations();
 }
 
+JetForm.prototype.setFieldValues = function() {
+	var form = this.form;
+	var provider = form.dataProvider.selector;
+	var url = (provider != undefined? provider.url:'');
+	if(provider.pathParam != undefined && url != undefined){
+		url = formatMessage(url, provider.pathParam);
+	}
+	
+	if(url != undefined){
+		$.ajax({
+	         url: url,
+	         type: (provider.method != undefined ? provider.method : "GET"),
+	         data: (provider.queryParam != undefined ? provider.queryParam : {}),
+	         dataType: "json",
+	         contentType: "application/json"
+	     }).done(function(response) {
+			var data;
+			if(provider.dataNode != undefined && provider.dataNode != ''){
+				data = response[provider.dataNode];
+			}else{
+				data = response;
+			}
+		
+			form.fields.forEach(field => {
+				if(field.type != 'group' && field.type != 'list'){
+					field.value = data[field.name];
+				}else if(field.type == 'group'){
+					field.fields.forEach(subfield => {
+						subfield.value = data[subfield.name];
+					});
+				}
+			});
+		
+		}).fail(function(error) {
+			console.log(error);
+		});
+     }
+}
+
 JetForm.prototype.renderForm = function() {
 	var form = this.form;
 	const template = $(templates['form']).html();
     const compiledTemplate = Handlebars.compile(template);
     const html = compiledTemplate(form);
-    $('#' + form.containerId).append(html);
+    $('#' + form.parentId).append(html);
 }
 
 JetForm.prototype.renderFields = function() {
@@ -182,6 +235,7 @@ JetForm.prototype.renderActions = function() {
 	    const template = $(templates['form_actions']).html();
 	    const compiledTemplate = Handlebars.compile(template);
 	    const html = compiledTemplate(form.actions);
+	    
 	    $('#' + form.id).append(html);
     }
 }
@@ -297,6 +351,12 @@ JetForm.prototype.fillFieldOptions = function(field) {
              console.log(data);
          });
     }
+}
+
+JetForm.prototype.getIdField = function(){
+	var _this = this;
+	var form = _this.form;
+	return findIdField(form);
 }
 
 function findAction (event){
@@ -712,8 +772,7 @@ JetForm.prototype.transientFields = function(){
 	
 function actionOnClick(event){
 	 event.preventDefault();
-	 var action=findAction(event);
-	 invokeUrl(action);
+	 invokeUrl(event);
 }
 
 function saveOnClick(event){
@@ -769,17 +828,33 @@ function cancelOnClick(event){
 	
 }
 
-function invokeUrl(action){
-	
+function invokeUrl(event){
+	var target = getEventTarget(event);
+	var _this=getTargetFormParent(target);
+	var form = _this.form;
+	var idField =findIdField(form);
+	var action = findAction(event)
+	var dataKey = $(target).attr('datakey');
 	var handler=action.handler;
 	//console.log(handler);
+	
+	var param = {};
+	if(dataKey != undefined){
+		param[idField.name] = dataKey;
+	}
+	
+	console.log(param);
 	if(handler.href != undefined && handler.href != ''){
-		window.location.href=handler.href;
+		var url = handler.href;
+		url = formatMessage(url, param);
+		url = appendQueryParam(url, param);
+		alert(url);
+		window.location.href=url;
 	}else if(handler.url !=undefined && handler.url != ''){
 	    $.ajax({
 	        url: handler.url,
 	        type: handler.method,
-	        data: JSON.stringify(formData),
+	        data: JSON.stringify(param),
 	        contentType: 'application/json',
 	        success: function(response) {
 	            alert('URL is called..');
@@ -894,9 +969,9 @@ JetList.prototype.renderList = function() {
 	var _this = this;
 	var form = _this.form;
 	
-	const template = $(templates['list']).html();
+	const template = $(templates['datatable']).html();
     const compiledTemplate = Handlebars.compile(template);
-    const html = compiledTemplate(this.form.fields);
+    const html = compiledTemplate(form);
     $('#'+form.parentId).append(html);
     
     var provider=form.dataProvider.collection;
@@ -928,7 +1003,7 @@ JetList.prototype.renderList = function() {
         	console.log(columns);
         	console.log(data);
         	
-        	var table= $('#'+dataTableId).DataTable({ 
+        	var table= $('#'+form.id).DataTable({ 
         		responsive: true,
         		data: data,
         		columns: columns,
@@ -938,7 +1013,7 @@ JetList.prototype.renderList = function() {
         		     'orderable': false,
         		     'className': 'dt-body-center dt-body-nowrap',
         		     'render': function (data, type, full, meta){
-        		        return renderRowActions();
+        		        return _this.renderRowActions(full);
         		    }
         		}]
         	});
@@ -947,6 +1022,50 @@ JetList.prototype.renderList = function() {
             alert('Error in fetching data');
         }
     });
+}
+
+JetList.prototype.renderRowActions = function(data) {
+	var _this = this;
+	var form = _this.form;
+	var html='';
+	var idField = findIdField(form);
+	if(form.actions.length>0){
+    	form.actions.forEach(action => {
+			
+			action['formId']=form.id;
+			//action['dataKey']="{'"+idField.name+"':"+"'"+data[idField.name]+"'}";
+			action['dataKey']=data[idField.name];
+    	});
+    	const template = $(templates['row_actions']).html();
+    	const compiledTemplate = Handlebars.compile(template);
+    	html=compiledTemplate(form.actions);
+    }
+    			
+
+    //console.log(html);
+	return html;
+}
+
+JetList.prototype.getIdField = function(){
+	var _this = this;
+	var form = _this.form;
+	return findIdField(form);
+}
+
+function findIdField (form) {
+	var idField;
+	form.fields.forEach(field => {
+		if(field.id != undefined && field.id == true){
+			idField = field;
+		}else if(field.type == 'group'){
+			field.fields.forEach(subfield => {
+				if(subfield.id != undefined && subfield.id == true){
+					idField = subfield;
+				}
+			});
+		}
+	});
+	return idField;
 }
 
 function addOnClick(event){
@@ -969,19 +1088,158 @@ function addOnClick(event){
 		}else if(handler.url != undefined){
 			$.ajax({
 		        url: handler.url,
-		        type: handler.method,
+		        type: (handler.method != undefined? handler.method: "GET"),
 		        contentType: 'application/json'
-		        })
-		        .done(function(response) {
-					console.log(response);
-		        })
-		        .fail(function(data) {
-             		console.log(data);
-         		});
+		    }).done(function(response) {
+				console.log(response);
+		    }).fail(function(error) {
+             	console.log(error);
+         	});
 		}else if(handler.script != undefined){
 			executeFunctionByName(handler.script, window, event);
 		}
 	}else{
 		executeFunctionByName('handleAddOnClick', window, event);
 	}
+}
+
+function formatMessage(message, params){
+	var tmp=message;
+	while(tmp.indexOf("{")>=0){
+		var si = tmp.indexOf("{");
+		var li = tmp.indexOf("}");
+		var key = tmp.substring (si+1, li);
+		var value=params[key];
+		tmp=tmp.replace(tmp.substring(si, li+1), value);
+	}
+	
+	return tmp;
+}
+
+function appendQueryParam(message, params){
+	var tmp = message+(message.indexOf("?")>0?"&":"?");
+	
+	$.each(params, function(key, item) {
+		tmp+= (key+"="+item+"&")
+	});
+	
+	return tmp;
+}
+
+
+function editOnClick(event){
+	event.preventDefault();
+	editData(event);
+}
+
+function deleteOnClick(event){
+	event.preventDefault();
+	if(confirm("Are you dure you want to delete the record!")){
+		deleteData(event);
+	}
+}
+
+function editData(event){
+	var target = getEventTarget(event);
+	var _this=getTargetFormParent(target);
+	var form = _this.form;
+	var idField =findIdField(form);
+	var action = findAction(event)
+	var dataKey = $(target).attr('datakey');
+	
+	var param = {};
+	param[idField.name] = dataKey;
+	
+	var handler=action.handler;
+	
+	var url;
+	
+	if(handler !=undefined){
+		if(handler.href != undefined){
+			url = handler.href;
+		}else if(handler.url != undefined){
+			url = handler.url;
+		}
+		
+		if(handler.pathParam != undefined){
+			url = formatMessage(url, param);
+		}else if(handler.queryParam != undefined){
+			url = appendQueryParam(url, param);
+		}
+		
+		alert(url);
+		window.location.href=url;
+	}
+}
+
+function deleteData(event){
+	var target = getEventTarget(event);
+	var _this=getTargetFormParent(target);
+	var form = _this.form;
+	var idField =findIdField(form);
+	
+	var dataKey = $(target).attr('datakey');
+	
+	var param = {};
+	param[idField.name] = dataKey;
+	
+	var provider;
+	
+	if(form.dataProvider !=undefined && form.dataProvider.delete !=undefined){
+		provider = form.dataProvider.delete;
+	}
+	
+	if(provider != undefined && provider.url != undefined){
+		var url = formatMessage(provider.url, param);
+		
+		$.ajax({
+	        url: url,
+	        type: provider.method != undefined? provider.method: "GET",
+	        contentType: 'application/json',
+	        success: function(response) {
+				alert('Success: Record deleted successfully!');
+	            _this.updateList();
+	        },
+	        error: function(error) {
+	            alert('Error: Delete operation failed!');
+	        }
+	    });
+	}
+	console.log(form);
+}
+
+function getEventTarget(event){
+	var target = $( event.target);
+	var nodeName = $(target).prop('nodeName').toLowerCase();
+	
+	if(nodeName!='a' && nodeName!='button'){
+		target=$(target).parent();
+	}
+	return target;
+}
+
+function getEventForm(event){
+	var target = getEventTarget(event);
+	var form = getTargetForm(target);
+	return form;
+}
+
+function getTargetForm(target){
+	var form = window[$(target).attr('formId')].form;
+	return form;
+}
+
+function getTargetFormParent(target){
+	var jet = window[$(target).attr('formId')];
+	return jet;
+}
+
+JetList.prototype.updateList = function() {
+	var _this = this;
+	var form = _this.form;
+	if ($.fn.dataTable.isDataTable('#'+form.id)) {
+        $('#'+form.id).DataTable().clear().destroy();
+    }
+    
+    _this.renderList();
 }

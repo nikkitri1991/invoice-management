@@ -2,6 +2,9 @@
 <html>
 <head>
 <%@include file="../theme/cdn.jsp"%>
+<script type="text/javascript" src="../js/form/client.js"></script>
+
+
 </head>
 
 <body>
@@ -11,14 +14,40 @@
 			<%@include file="../theme/header.jsp"%>
 		</div>
 		<div class="col-md-9">
-			<div class="container">
-				<div id="clientForm" style="margin-top: 8%"></div>
+			
+			<div class="row">
+			<div class="col-md-11">
+				<div id="clientFormContainer" style="margin-top: 8%"></div>
+				</div>
 			</div>
+					<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-6" id="address">
+						</div>
+						<!-- <div class="col-md-6" id="contact">
+						</div> -->
+					</div>
+					</div>
+					
+					<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-6" id="contact">
+						</div>
+				  </div>
+				  </div>
+				  <div class="col-md-12">
+				  <div class="row">	
+						<div class="col-md-6" id="taxes">
+						</div>
+					</div>
+					</div>
+					
+			
 		</div>
 	</div>
 </body>
 
-
+<!-- 
 <script>
 	var form =  {
 			"id": "client",
@@ -38,8 +67,8 @@
 						"label": "Bussiness Name",
 						"required": true,
 						"placeHolder": "Bussiness Name"
-					}
-					/* {
+					},
+					 {
 						"type": "select",
 						"name": "companyType",
 						"label": "Company Type",
@@ -356,7 +385,7 @@
 			
 	
 }
- */			],
+ 	],
 			"actions": [{
 					"name": "save",
 					"type": "submit",
@@ -389,13 +418,13 @@
 				"selector":{"url":""}
 			}
 		};
+</script> -->
+ <%@include file="../theme/js_scripts.jsp"%>
+<jsp:include page="../template/jetform-template.jsp"/>
+<script>
+	$(document).ready(() => {
+		var jetform=JetForm({"id":"clientForm", "parentId":"clientFormContainer", "form":clientForm});
+		jetform.render();
+	});
 </script>
-<%@include file="../theme/js_scripts.jsp"%>
-<jsp:include page="../template/form-template.jsp">
-	<jsp:param name="formContainerId" value="clientForm" />
-	<jsp:param name="formId" value="clientForm" />
-	<jsp:param name="cancelPage" value="client_list" />
-	<jsp:param name="successPage" value="client_list" />
-</jsp:include>
-
 </html>

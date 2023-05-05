@@ -2,6 +2,7 @@
 <html>
 <head>
 <%@include file="../theme/cdn.jsp" %>
+<script type="text/javascript" src="../js/form/client-list.js"></script>
 </head>
 
 
@@ -13,14 +14,14 @@
 		</div>
 		<div class="col-md-9">
 			<div class="container">
-			<div  id="client"  style="margin-top:8%"></div>
+			<div  id="clientListContainer"  style="margin-top:8%"></div>
 			</div>
 		</div>
 	</div>
 </body>
 
 
-<script>
+<!-- <script>
 var form = {
 		"id": "client",
 		"title" : "New Client",
@@ -105,12 +106,14 @@ var form = {
 			"selector":{"url":""}
 		}
 	};
-</script>
+</script> -->
 <%@include file="../theme/js_scripts.jsp" %>
-<jsp:include page="../template/list-template.jsp">
-	<jsp:param name="listContainerId" value="client"/>
-	<jsp:param name="listId" value="userDataTable"/>
-	<jsp:param name="addPage" value="client"/>
-</jsp:include>
+<jsp:include page="../template/jetform-template.jsp"/>
 
+<script>
+$(document).ready(() => {
+	var jetList=JetList({"id":"client", "parentId":"clientListContainer", "form":clientListForm});
+	jetList.render();
+});
+</script>
 </html>

@@ -11,7 +11,7 @@
 			"label": "name",
 			"col":12,
 			"fields": [{
-				"type": "text",
+				"type": "select",
 				"name": "client",
 				"label": "Client",
 				"required": true,

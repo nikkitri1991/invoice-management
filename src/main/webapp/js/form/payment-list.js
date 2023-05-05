@@ -102,7 +102,7 @@ var paymentListForm = {
 	],
 	"dataProvider": {
 		"collection": {
-			"url": "http://localhost:9098/api/v1/recruitementSource",
+			"url": "",
 			"method": "get",
 			"dataNode": "items"
 		},

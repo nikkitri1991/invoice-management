@@ -4,6 +4,7 @@
 <head>
 <title>PurchaseOrder Form</title>
 <%@include file="../theme/cdn.jsp"%>
+<script type="text/javascript" src="../js/form/purchase-order.js"></script>
 </head>
 <body>
 	<div class="row">
@@ -16,32 +17,34 @@
 
 			<div class="container">
 				<div id="purchaseOrderFormContainer" style="margin-top: 8%"></div>
-				<form id="purchaseOrderForm">
+				<form id="purchaseOrder">
 					<div class="row">
-						<div class="col-md-7" id="pocustdetails">
-
+					<div class="col-md-12">
+						<div class="col-md-6" id="nameGroup" >
+</div></div>
 							<!-- <div class="row">
 										<div class="col-md-6" id="billingType"></div>
 										<div class="col-md-6" id="billingCycle"></div>
 									</div> -->
 						</div>
-						<div class="col-md-5" id="podetails"></div>
-					</div>
+					<!-- </div>	
+						<div class="col-md-12" id="items" ></div>
+					</div> -->
 				</form>
-			<div id="poitemdetails"></div>
+		<!-- 	<div id="poitemdetails"></div>
 			<div class="container">
 				<div class="row">
 					<div class="col-md-7" id="pocustinstructiondetails"></div>
 					<div class="col-md-5" id="poamountdetails"></div>
 				</div>
-			</div>
+			</div> -->
 			</div>
 		</div>
 	</div>
 </body>
 
 
-<script>
+<!-- <script>
 	var form = {
 		"id" : "purchaseOrder",
 		"title" : "New Client Order",
@@ -349,15 +352,12 @@
 			}
 		}
 	};
-</script>
+</script> -->
 <%@include file="../theme/js_scripts.jsp"%>
-<jsp:include page="../template/form-template.jsp">
-	<jsp:param name="formContainerId" value="purchaseOrderFormContainer" />
-	<jsp:param name="formId" value="purchaseOrder" />
-	<jsp:param name="cancelPage" value="purchase_order_list" />
-	<jsp:param name="successPage" value="purchase_order_list" />
-</jsp:include>
+<jsp:include page="../template/jetform-template.jsp"/>
 <script>
-	
-</script>
-</html>
+	$(document).ready(() => {
+		var jetform=JetForm({"id":"purchaseOrder", "parentId":"purchaseOrderFormContainer", "form":purchaseOrderForm});
+		jetform.render();
+	});
+</script></html>

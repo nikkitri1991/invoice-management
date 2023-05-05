@@ -2,6 +2,7 @@
 <html>
 <head>
 <%@include file="../theme/cdn.jsp"%>
+<script type="text/javascript" src="../js/form/purchase-order-list.js"></script>
 </head>
 
 
@@ -13,13 +14,13 @@
 		</div>
 		<div class="col-md-9">
 			<div class="container">
-				<div id="purchase_order_list" style="margin-top: 8%"></div>
+				<div id="purchaseOrderListContainer" style="margin-top: 8%"></div>
 			</div>
 		</div>
 	</div>
 </body>
 
-
+<!-- 
 <script>
 var form = {
 		"id": "purchaseOrder",
@@ -82,7 +83,7 @@ var form = {
 						"cssClass": "btn-primary"
 					},  
 					
-					/* {
+					{
 						"name": "delete",
 						"type": "link",
 						"label": "Delete",
@@ -94,7 +95,7 @@ var form = {
 							"url": "http://localhost:8082/api/v1/user"
 						},
 						"cssClass": ""
-					}, */
+					}, 
 					 
 					{
 						"name": "cancel",
@@ -117,10 +118,14 @@ var form = {
 					    }
 			
 };
-</script>
-<%@include file="../theme/js_scripts.jsp"%>
-<jsp:include page="../template/list-template.jsp">
-	<jsp:param name="listContainerId" value="purchase_order_list" />
-	<jsp:param name="listId" value="purchaseOrdersList" />
-	<jsp:param name="addPage" value="purchase_order" />
-</jsp:include>
+</script> -->
+ <%@include file="../theme/js_scripts.jsp"%>
+<jsp:include page="../template/jetform-template.jsp"/>
+
+<script>
+$(document).ready(() => {
+	var jetList=JetList({"id":"purchaseOrderList", "parentId":"purchaseOrderListContainer", "form":purchaseOrderList});
+	jetList.render();
+});
+
+</script>	</html>
