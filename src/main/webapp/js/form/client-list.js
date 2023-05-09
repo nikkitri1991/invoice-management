@@ -87,7 +87,7 @@ var clientListForm = {
 	],
 	"dataProvider": {
 		"collection": {
-			"url": "",
+			"url": "http://localhost:9004/api/v1/client",
 			"method": "get",
 			"dataNode": "items"
 		},

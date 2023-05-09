@@ -30,7 +30,7 @@ const templates = {            //object for mapping object to id
     link : '#jf-link-template'
 };
 
-function JetForm (config) {
+function JetForm(config) {
 	let jetForm = Object.create(JetForm.prototype)
 	jetForm.form = config.form;
 	jetForm.form.id=config.id;
@@ -722,6 +722,7 @@ JetForm.prototype.refillField = function(fieldName){
 
 JetForm.prototype.bindValidations = function(){
 	var form = this.form;
+	console.log("Form"+form);
 	if(form.validations!=undefined){
 		$("#"+form.id).validate(form.validations);
 	}else{
@@ -995,13 +996,13 @@ JetList.prototype.renderList = function() {
         	var data;
         	
         	if(provider.dataNode != undefined && provider.dataNode != ''){
-				data = response[provider.dataNode];	
+				data = response;
+				/*data = response[provider.dataNode];	*/
 			}else{
 				data = response;
 			}
 			
         	console.log(columns);
-        	console.log(data);
         	
         	var table= $('#'+form.id).DataTable({ 
         		responsive: true,
@@ -1034,7 +1035,7 @@ JetList.prototype.renderRowActions = function(data) {
 			
 			action['formId']=form.id;
 			//action['dataKey']="{'"+idField.name+"':"+"'"+data[idField.name]+"'}";
-			action['dataKey']=data[idField.name];
+			action['dataKey']=idField;
     	});
     	const template = $(templates['row_actions']).html();
     	const compiledTemplate = Handlebars.compile(template);

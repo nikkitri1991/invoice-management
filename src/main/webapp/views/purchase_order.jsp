@@ -12,35 +12,49 @@
 			<%@include file="../theme/nav_header.jsp"%>
 			<%@include file="../theme/header.jsp"%>
 		</div>
-		<div class="col-md-9">
-			<!-- <h2 ></h2> -->
+		
+			<div class="col-md-9">
+			<div class="row">
+			<div class="col-md-11">
+				<div id="purchaseOrderFormContainer" style="margin-top: 8%"></div>
+				</div>
+			</div>
+		</div>
+		
+	<!-- 	<div class="col-md-9" id="purchaseOrderFormContainer" style="margin-top: 8%" >
+	 -->			<!-- <h3 id="employeeFormTitle"></h3>
+				<form id="purchaseOrder" >
+					 --><!-- <div class="row" >
+					<div class="col-md-12"  ></div>
+					</div> -->
+					<!-- <div class="row">
+						<div class="col-md-7" id="nameGroup">
+						</div> -->
+						<!-- <div class="col-md-6" id="amount">
+						</div> -->
+					<!-- </div> -->
+					<!-- <div class="row" id="transaction">
+					</div> -->
+					<!-- </form> -->
+			</div>
+		
+		
+		
+	<!-- 	<div class="col-md-9">
+			<h2 ></h2>
 
 			<div class="container">
 				<div id="purchaseOrderFormContainer" style="margin-top: 8%"></div>
-				<form id="purchaseOrder">
 					<div class="row">
-					<div class="col-md-12">
-						<div class="col-md-6" id="nameGroup" >
-</div></div>
-							<!-- <div class="row">
-										<div class="col-md-6" id="billingType"></div>
-										<div class="col-md-6" id="billingCycle"></div>
-									</div> -->
+						<div class="col-md-12">
 						</div>
-					<!-- </div>	
-						<div class="col-md-12" id="items" ></div>
-					</div> -->
-				</form>
-		<!-- 	<div id="poitemdetails"></div>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-7" id="pocustinstructiondetails"></div>
-					<div class="col-md-5" id="poamountdetails"></div>
-				</div>
-			</div> -->
-			</div>
+					</div>
+					</div>
 		</div>
-	</div>
+		 -->
+		
+		
+	<!-- </div> -->
 </body>
 
 

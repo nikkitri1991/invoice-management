@@ -194,9 +194,17 @@ var clientForm =  {
 								"name": "phone",
 								"label": "Phone",
 								"placeHolder": "Enter Phone Number",
-								"col":6
+								"col":4
 							},
+								
 									
+							{
+								"type": "text",
+								"name": "extn",
+								"label": "Extn",
+								"placeHolder": "",
+								"col":2
+							},
 								
 								{
 								"type": "text",

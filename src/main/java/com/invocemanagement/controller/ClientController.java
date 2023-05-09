@@ -46,6 +46,47 @@ public class ClientController {
 		return "payments";
 
 	} 
+	@RequestMapping("/billing_cycle_list")
+	public String billingCycleList() {
+		System.out.println("billingCycleList");
+		return "billing_cycle_list";
+
+	} 
+	
+	@RequestMapping("/billing_cycle")
+	public String billingCycle() {
+		System.out.println("billingCycle");
+		return "billing_cycle";
+
+	} 
+	
+	@RequestMapping("/billing_type_list")
+	public String billingTypeList() {
+		System.out.println("billingCycleList");
+		return "billing_type_list";
+
+	} 
+	
+	@RequestMapping("/billing_type")
+	public String billingType() {
+		System.out.println("billingtype");
+		return "billing_type";
+
+	} 
+	
+	@RequestMapping("/currency_list")
+	public String currencyList() {
+		System.out.println("currencyList");
+		return "currency_list";
+
+	} 
+	
+	@RequestMapping("/currency")
+	public String currency() {
+		System.out.println("currency");
+		return "currency";
+
+	} 
 	
 
 }
