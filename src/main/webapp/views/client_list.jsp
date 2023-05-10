@@ -19,8 +19,7 @@
 		</div>
 	</div>
 </body>
-<%@include file="../theme/js_scripts.jsp" %>
-<jsp:include page="../template/jetform-template.jsp"/>
+
 
 <script>
 $(document).ready(() => {
@@ -28,4 +27,6 @@ $(document).ready(() => {
 	jetList.render();
 });
 </script>
+<%@include file="../theme/js_scripts.jsp" %>
+<jsp:include page="../template/jetform-template.jsp"/>
 </html>

@@ -101,7 +101,30 @@ public class ClientController {
 		return "new_invoice";
 
 	} 
-	
+	@RequestMapping("/addressType")
+	public String addressType() {
+		System.out.println("addressType");
+		return "addressType";
+
+	} 
+	@RequestMapping("/addressType_list")
+	public String addressTypeList() {
+		System.out.println("addressType_list");
+		return "addressType_list";
+
+	} 
+	@RequestMapping("/company-type-list")
+	public String companyTypeList() {
+		System.out.println("companyType_list");
+		return "company-type-list";
+
+	} 
+	@RequestMapping("/company-type")
+	public String companyType(){
+		System.out.println("companyType");
+		return "company-type";
+
+	} 
 	
 	
 }
