@@ -25,7 +25,7 @@
 
 <script>
 	$(document).ready(() => {
-		var jetform=JetForm({"id":"billingCycle", "parentId":"billingCycleFormContainer", "form":billingTypeForm});
+		var jetform=JetForm({"id":"billingCycle", "parentId":"billingCycleFormContainer", "form":billingCycleForm});
 		jetform.render();
 	});
 </script>

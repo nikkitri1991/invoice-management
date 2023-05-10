@@ -55,7 +55,7 @@ var billingTypeForm = {
 		"applyTo": "list",
 		"cssClass": "btn-danger",
 		"handler": {
-			"href": ""
+			"href": "billing_type_list"
 		}
 	}
 ],

@@ -46,7 +46,7 @@ var currencyForm = {
 		"applyTo": "list",
 		"cssClass": "btn-danger",
 		"handler": {
-			"href": ""
+			"href": "currency_list"
 		}
 	}
 ],

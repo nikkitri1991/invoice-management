@@ -104,7 +104,7 @@
 <script id="jf-select-template" type="text/x-handlebars-template">
 	<div class="form-group">	
 		<label for="{{name}}" class="form-label">{{label}}</label>
-		<select name="{{name}}" id="{{name}}" class="form-select">
+		<select name="{{name}}" id="{{name}}" class="form-control">
 			<option value="-1">Select {{label}}</option>
 			{{#each options}}
             	<option value="{{value}}">{{label}}</option>

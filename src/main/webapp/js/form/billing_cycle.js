@@ -25,7 +25,7 @@ var billingCycleForm = {
 			"url": "http://localhost:9004/api/v1/billingCycle"
 		},
 		"redirects": {
-			"success": {"href":"billing-cycle-list"},
+			"success": {"href":"billing_cycle_list"},
 			"failure": {"href":""}
 		},
 		"cssClass": "btn-primary"
@@ -36,7 +36,7 @@ var billingCycleForm = {
 		"applyTo": "form",
 		"cssClass": "btn-secondary",
 		"redirects": {
-			"success": {"href":"billing-cycle-list"},
+			"success": {"href":"billing_cycle_list"},
 		}
 	},
 	{
@@ -46,7 +46,7 @@ var billingCycleForm = {
 		"applyTo": "list",
 		"cssClass": "btn-danger",
 		"handler": {
-			"href": ""
+			"href": "billing_cycle_list"
 		}
 	}
 ],

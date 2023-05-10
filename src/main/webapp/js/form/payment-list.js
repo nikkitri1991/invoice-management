@@ -1,125 +1,80 @@
 var paymentListForm = {
-		"id": "paymentListForm",
-        "parentId": "paymentListFormContainer",
-	    "title": "Payments",
-	    "subtitle": "",
+		"id": "paymentList",
+		"title" : "Payments",
+		 "parentId": "paymentListContainer",
 		"namespace" : "",
 		"enctype": "multipart/form-data",
 		"fields": [
 			{
 				"type": "text",
 				"name": "id",
-				"label": "#",
+				"label": "Payments Id",
 				"required": true,
-				"placeHolder": ""
+				"placeHolder": "Payment "
 			},
 			{
 				"type": "text",
-				"name": "invoiceno",
-				"label": "Invoice No",
-				"required": true,
-				"placeHolder": ""
+				"name": "name",
+				"label": "Payment",
+				"required": true
+				
+			}],
+			"actions": [{
+				"name": "save",
+				"type": "submit",
+				"label": "Save",
+				"applyTo": "form",
+				"handler": {
+					"type": "javascript",
+					"func": "submitForm(event)",
+					"method": "post",
+					"url": ""
+				},
+				"redirects": {
+					"success": {"href":"https://www.google.com"},
+					"failure": {"href":"https://www.yahoo.com"}
+				},
+				"cssClass": "btn-primary"
+			}, {
+				"name": "cancel",
+				"type": "button",
+				"label": "Cancel",
+				"applyTo": "form",
+				"cssClass": "btn-secondary",
+				"redirects": {
+					"success": {"href":""},
+				}
 			},
 			{
-				"type": "text",
-				"name": "client",
-				"label": "Client",
-				"required": true,
-				"placeHolder": ""
-			},
-			{
-				"type": "Date",
-				"name": "paymentdate",
-				"label": "Payment Date",
-				"required": true,
-				"placeHolder": ""
-			},
-			{
-				"type": "Date",
-				"name": "paymentdate",
-				"label": "Payment Date",
-				"required": true,
-				"placeHolder": ""
-			},
-			{
-				"type": "text",
-				"name": "modeofpayment",
-				"label": "Mode Of Payment",
-				"required": true,
-				"placeHolder": ""
-			},
-			{
-				"type": "text",
-				"name": "amount",
-				"label": "Amount",
-				"required": true,
-				"placeHolder": ""
-			},
-			{
-				"type": "text",
-				"name": "amountinr",
-				"label": "Amount (INR)",
-				"required": true,
-				"placeHolder": ""
+				"name": "add",
+				"type": "button",
+				"label": "Add Payments",
+				"applyTo": "list",
+				"cssClass": "btn-danger",
+				"handler": {
+					"href": "receive_payment"
+				}
 			}
-			],
-				"actions": [{
-			"name": "save",
-			"type": "submit",
-			"label": "Save",
-			"applyTo": "form",
-			"handler": {
-				"type": "javascript",
-				"func": "submitForm(event)",
-				"method": "post",
-				"url": "http://localhost:8082/api/v1/user"
+		],
+		"dataProvider": {
+			"collection": {
+				"url": "http://localhost:9004/api/v1/payment",
+				"method": "get",
+				"dataNode": "items"
 			},
-			"redirects": {
-				"success": {"href":"https://www.google.com"},
-				"failure": {"href":"https://www.yahoo.com"}
+			"selector": {
+				"url": ""
 			},
-			"cssClass": "btn-primary"
-		}, {
-			"name": "cancel",
-			"type": "button",
-			"label": "Cancel",
-			"applyTo": "form",
-			"cssClass": "btn-secondary",
-			"redirects": {
-				"success": {"href":"user-list.jsp"},
+			"create": {
+				"url": "",
+				"method": "post"
+			},
+			"update": {
+				"url": "",
+				"method": "post"
+			},
+			"delete": {
+				"url": "",
+				"method": "post"
 			}
-		},
-		{
-			"name": "add",
-			"type": "button",
-			"label": "Add Payment",
-			"applyTo": "list",
-			"cssClass": "btn-danger",
-			"handler": {
-				"href": "receive_payment"
-			}
-		}
-	],
-	"dataProvider": {
-		"collection": {
-			"url": "",
-			"method": "get",
-			"dataNode": "items"
-		},
-		"selector": {
-			"url": ""
-		},
-		"create": {
-			"url": "",
-			"method": "post"
-		},
-		"update": {
-			"url": "",
-			"method": "post"
-		},
-		"delete": {
-			"url": "",
-			"method": "post"
-		}
-	}
-	};
+		}	};

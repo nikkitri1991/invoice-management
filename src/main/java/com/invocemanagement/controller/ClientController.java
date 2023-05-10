@@ -88,5 +88,20 @@ public class ClientController {
 
 	} 
 	
+	@RequestMapping("/invoice_list")
+	public String invoiceList() {
+		System.out.println("invoice list");
+		return "new_invoice_list";
 
+	} 
+	
+	@RequestMapping("/invoice")
+	public String invoice() {
+		System.out.println("invoice");
+		return "new_invoice";
+
+	} 
+	
+	
+	
 }

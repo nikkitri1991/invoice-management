@@ -16,6 +16,7 @@ const templates = {            //object for mapping object to id
 	list_actions : '#jf-list-actions-template',
 	row_actions : '#jf-row-actions-template',
     list_text: '#list-text-template',
+    list_field : '#jf-list-field-template',
     list_date: '#list-date-template',
     list_email: '#list-email-template',
     list_password: '#list-password-template',
@@ -27,7 +28,9 @@ const templates = {            //object for mapping object to id
     group : '#jf-field-group-template',
     button : '#jf-button-template',
     form_actions : '#jf-form-actions-template',
-    link : '#jf-link-template'
+    link : '#jf-link-template',
+    hidden : '#jf-hidden-template',
+    textarea : '#jf-textarea-template'
 };
 
 function JetForm(config) {
@@ -830,6 +833,7 @@ function cancelOnClick(event){
 }
 
 function invokeUrl(event){
+	alert("demo");
 	var target = getEventTarget(event);
 	var _this=getTargetFormParent(target);
 	var form = _this.form;

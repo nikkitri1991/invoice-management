@@ -1,25 +1,74 @@
-var purchaseOrderListForm = {
-		"id": "purchaseOrder",
-		"title" : "PurchaseOrder",
-		 "parentId": "purchaseOrderListContainer",
+var newInvoiceListForm = {
+		"id": "newInvoice",
+		"title" : "Invoices",
+		 "parentId": "newInvoiceListContainer",
 		"namespace" : "",
 		"enctype": "multipart/form-data",
 		"fields": [
 			{
 				"type": "text",
 				"name": "id",
-				"label": "Purchase Order Id",
+				"label": "#",
 				"required": true,
-				"placeHolder": "Payment "
+				"placeHolder": ""
 			},
 			{
 				"type": "text",
-				"name": "name",
-				"label": "Purchase Order ",
+				"name": "invoiceNo",
+				"label": "Invoice No",
 				"required": true
 				
-			}],
-		"actions": [{
+			}/*,
+			{
+				"type": "date",
+				"name": "invoiceDate",
+				"label": "Invoice Date",
+				"required": true
+				
+			},
+			{
+				"type": "date",
+				"name": "dueDae",
+				"label": "Due Date",
+				"required": true
+				
+			},
+			{
+				"type": "text",
+				"name": "client",
+				"label": "Client",
+				"required": true
+				
+			},
+			{
+				"type": "text",
+				"name": "pono",
+				"label": "PO NO.",
+				"required": true
+				
+			},
+		
+			{
+				"type": "text",
+				"name": "amountPayable",
+				"label": "Amount Payable",
+				"required": true
+				
+			},
+			{
+				"type": "text",
+				"name": "taxAmount",
+				"label": "Tax Amount",
+				"required": true
+				
+			},
+			{
+				"type": "text",
+				"name": "amountReceived",
+				"label": "Amount Received",
+				"required": true	
+			}*/],
+			"actions": [{
 				"name": "save",
 				"type": "submit",
 				"label": "Save",
@@ -48,11 +97,11 @@ var purchaseOrderListForm = {
 			{
 				"name": "add",
 				"type": "button",
-				"label": "New PO",
+				"label": "New Invoice",
 				"applyTo": "list",
 				"cssClass": "btn-danger",
 				"handler": {
-					"href": "purchase_order"
+					"href": "invoice"
 				}
 			}
 		],

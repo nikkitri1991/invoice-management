@@ -19,7 +19,7 @@
 		</div>
 	</div>
 </body>
-<%-- <%@include file="../theme/js_scripts.jsp" %> --%>
+ <%@include file="../theme/js_scripts.jsp" %> 
 <jsp:include page="../template/jetform-template.jsp"/>
 
 <script>

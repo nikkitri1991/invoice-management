@@ -17,7 +17,8 @@ var purchaseOrderForm = {
 					"listable" : false,
 					"searchable" : false,
 					"col":7
-				} ,
+				},
+				
 				{
 					"type" : "text",
 					"name" : "pono",
@@ -34,6 +35,7 @@ var purchaseOrderForm = {
 					"searchable" : false,
 					"col":7
 				},
+				
 				{
 					"type" : "date",
 					"name" : "podate",
@@ -42,29 +44,23 @@ var purchaseOrderForm = {
 					"searchable" : false,
 					"col":5
 				},
-				{
-					"type" : "date",
-					"name" : "receivedDate",
-					"label" : "Received Date",
-					"listable" : false,
-					"searchable" : false,
-					"col":7
-				},
+				
 				{
 					"type" : "text",
 					"name" : "poTitle",
 					"label" : "PO Title",
 					"listable" : false,
 					"searchable" : false,
-                    "col":5
+                    "col":7
 				},
+				
 				{
 					"type" : "date",
-					"name" : "deliveryDate",
-					"label" : "DeliveryDate",
+					"name" : "receivedDate",
+					"label" : "Received Date",
 					"listable" : false,
 					"searchable" : false,
-					"col":7
+					"col":5
 				},
 				 {
 					"type" : "select",
@@ -73,7 +69,8 @@ var purchaseOrderForm = {
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "Billing Type",
-					"col":5				},
+					"col":4		
+				},
 				{
 					"type" : "select",
 					"name" : "billingCycle",
@@ -81,17 +78,20 @@ var purchaseOrderForm = {
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "Billing Cycle",
-					"col":7
-				} ,
-				 {
-					"type" : "select",
-					"name" : "currency",
-					"label" : "Currency",
+					"col":3
+				},
+				
+				{
+					"type" : "date",
+					"name" : "deliveryDate",
+					"label" : "DeliveryDate",
 					"listable" : false,
 					"searchable" : false,
-					"placeHolder" : "",
 					"col":5
-				}, 
+				},
+				
+				
+				
 				{
 					"type" : "checkbox",
 					"name" : "checkbox",
@@ -106,15 +106,20 @@ var purchaseOrderForm = {
 						"id" : "sow",
 						"value" : "Yes"
 					}
-				}, {
-					"type" : "text",
-					"name" : "hsn/sac",
-					"label" : "HSN/SAC",
+				},
+				
+					
+				{
+					"type" : "select",
+					"name" : "currency",
+					"label" : "Currency",
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "",
 					"col":5
-				}, {
+				},
+				
+				{
 					"type" : "textarea",
 					"name" : "billingAddress",
 					"label" : "Billing Address",
@@ -122,173 +127,259 @@ var purchaseOrderForm = {
 					"searchable" : false,
 					"placeHolder" : "",
 					"col":7
-				}, {
+				},
+				
+				
+					{
+					"type" : "text",
+					"name" : "hsn/sac",
+					"label" : "HSN/SAC",
+					"listable" : false,
+					"searchable" : false,
+					"placeHolder" : "",
+					"col":5
+				},
+			
+				{
 					"type" : "textarea",
 					"name" : "shippingAddress",
 					"label" : "Shipping Address",
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "",
-					"col":5
-				}, {
-					"type" : "list",
-					"name" : "items",
-					"label" : "",
-					"editMode" : "inline",
-					"col":12,
-					"fields" : [ {
-						"type" : "textarea",
-						"name" : "item",
-						"label" : "Item",
-						//"required": true,
-						"placeHolder" : "",
-						"showLabel" : false,
-						"col":3
+					"col":12
+				}
+				
+				]
+		 },
+		 
+		{
+			"type": "group",
+			"name": "middleGroup",
+			"label": "name",
+			"fields": [{
+					"type": "list",
+					"name": "qualifications",
+					"label": "Qualifications",
+					"editMode": "inline",
+					"col": 12,
+					"fields": [{
+						"type": "text",
+						"name": "item",
+						"label": "Item",
+						"placeHolder": "",
+						"showLabel": false
 					}, {
-						"type" : "textarea",
-						"name" : "description",
-						"label" : "Description",
-						"placeHolder" : "",
-						"showLabel" : false,
-						"col":3
-
+						"type": "text",
+						"name": "description",
+						"label": "Description",
+						"placeHolder": "",
+						"showLabel": false
 					}, {
-						"type" : "text",
-						"name" : "qty",
-						"label" : "Qty",
-						//"required": true,
-						"placeHolder" : "",
-						"showLabel" : false,
-						"col":2
+						"type": "number",
+						"name": "qty",
+						"label": "Qty",
+						"placeHolder": "",
+						"showLabel": false
 					}, {
-						"type" : "text",
-						"name" : "price",
-						"label" : "Price",
-						//"required": true,
-						"placeHolder" : "",
-						"showLabel" : false,
-						"col":2
-					}, {
-						"type" : "text",
-						"name" : "amount",
-						"label" : "Amount",
-						//"required": true,
-						"placeHolder" : "",
-						"showLabel" : false,
-						"col":2
+						"type": "number",
+						"name": "price",
+						"label": "Price",
+						"placeHolder": "",
+						"showLabel": false
+					},{
+						"type": "number",
+						"name": "amount",
+						"label": "Amoutn",
+						"placeHolder": "",
+						"showLabel": false
 					}
-
+					
+					
 					],
-					/*"actions" : [ {
-						"name" : "deleteRow",
-						"type" : "link",
-						"label" : "fa-minus-circle",
-						"applyTo" : "row",
-						"handler" : {
-							"type" : "javascript",
-							"func" : "deleteRow(event)",
-							"method" : "post",
-							"url" : "http://localhost:8082/api/v1/user"
+					"actions": [{
+							"name": "deleteRow",
+							"type": "link",
+							"label": "fa-minus-circle",
+							"applyTo": "row",
+							"handler": {
+								"type": "javascript",
+								"func": "deleteRow(event)",
+								"method": "post",
+								"url": "http://localhost:8082/api/v1/user"
+							},
+							"cssClass": ""
 						},
-						"cssClass" : ""
-					}, {
-						"name" : "editRow",
-						"type" : "link",
-						"label" : "fa-pencil",
-						"applyTo" : "row",
-						"handler" : {
-							"type" : "javascript",
-							"func" : "editRow(event)",
-							"method" : "post",
-							"url" : "http://localhost:8082/api/v1/user"
+						{
+							"name": "editRow",
+							"type": "link",
+							"label": "fa-pencil",
+							"applyTo": "row",
+							"handler": {
+								"type": "javascript",
+								"func": "editRow(event)",
+								"method": "post",
+								"url": "http://localhost:8082/api/v1/user"
+							},
+							"cssClass": ""
 						},
-						"cssClass" : ""
-					}, {
-						"name" : "addRow",
-						"type" : "link",
-						"label" : "fa-plus-circle",
-						"applyTo" : "list",
-						"handler" : {
-							"type" : "javascript",
-							"func" : "addRow(event)",
-							"method" : "post",
-							"url" : "http://localhost:8082/api/v1/user"
+						{
+							"name": "addRow",
+							"type": "link",
+							"label": "fa-plus-circle",
+							"applyTo": "list",
+							"handler": {
+								"type": "javascript",
+								"func": "addRow(event)",
+								"method": "post",
+								"url": ""
+							},
+							"cssClass": ""
+						}
+					]
+				}
+
+				
+			]
+		},
+		
+		
+		
+		{
+			"type": "group",
+			"name": "instructions",
+			"label": "name",
+			"col": 12,
+			"fields": [{
+					"type": "text",
+					"name": "comments",
+					"label": "Comments or Special Instructions",
+					"listable": false,
+					"searchable": false,
+					"col": 9
+				},
+				{
+					"type": "number",
+					"name": "subtotal",
+					"label": "Sub Total",
+					"required": false,
+					"col": 3
+				},
+				
+				
+				{
+					"type": "text",
+					"name": "terms",
+					"label": "Terms & Conditions",
+					"col": 9,
+					"validations": {
+						"rules": {
+							"required": true,
+							"email": true
 						},
-						"cssClass" : ""
-					} ]*/
-				}, {
-					"type" : "textarea",
-					"name" : "commentsorspecialInstructions",
-					"label" : "Comments or Special Instructions",
-					//"required": true,
-					"placeHolder" : "",
-					"showLabel" : false,
-					"group" : "pocustinstructiondetails"
-				}, {
-					"type" : "textarea",
-					"name" : "termsandconditions",
-					"label" : "Terms and Conditions",
-					//"required": true,
-					"placeHolder" : "",
-					"showLabel" : false,
-					"group" : "pocustinstructiondetails"
-				}, {
-					"type" : "file",
-					"name" : "chooseFile",
-					"label" : "ChooseFile",
-					"accept" : "image/png, image/jpeg",
-					"group" : "pocustinstructiondetails"
-				}, {
-					"type" : "text",
-					"name" : "subTotal",
-					"label" : "SubTotal",
-					//"required": true,
-					"placeHolder" : "0.00",
-					"showLabel" : false,
-					"group" : "poamountdetails"
-				}, {
-					"type" : "text",
+						"messages": {
+							"required": " Please enter a username",
+							"email": " Please enter a valid email address"
+						}
+					}
+				},
+				 {
+					"type" : "number",
 					"name" : "tax",
 					"label" : "Tax",
 					//"required": true,
 					"placeHolder" : "0.00",
 					"showLabel" : false,
-					"group" : "poamountdetails"
-				}, {
+					"col":3
+				}
+				
+				
+			]
+		},
+		{
+			"type": "group",
+			"name": "amount",
+			"label": "name",
+			"col": 12,
+			"fields": [
+				{
+					"type" : "hidden",
+					"name" : "test",
+					"col":9
+				},
+				{
 					"type" : "text",
 					"name" : "Others",
 					"label" : "Others",
 					//"required": true,
 					"placeHolder" : "0.00",
 					"showLabel" : false,
-					"group" : "poamountdetails"
-				}, {
+					"col":3
+					
+					
+				},
+				
+				{
+					"type" : "hidden",
+					"name" : "test1",
+					"col":9
+				},
+				 {
 					"type" : "text",
 					"name" : "grandTotal",
 					"label" : "Grand Total",
 					//"required": true,
 					"placeHolder" : "0.00",
 					"showLabel" : false,
-					"group" : "poamountdetails"
-				}, {
+					"col":3
+					
+				},
+				{
+					"type" : "hidden",
+					"name" : "test2",
+					"col":9
+				},
+				
+				
+				 {
 					"type" : "text",
 					"name" : "advancepaid",
 					"label" : "Advance Paid",
 					//"required": true,
 					"placeHolder" : "0.00",
 					"showLabel" : false,
-					"group" : "poamountdetails"
-				}, {
+					"col":3
+				  
+				},
+				{
+					"type" : "hidden",
+					"name" : "test3",
+					"col":9
+				},
+				
+				 {
 					"type" : "text",
 					"name" : "balancedue",
 					"label" : "BalanceDue",
 					//"required": true,
 					"placeHolder" : "0.00",
 					"showLabel" : false,
-					"group" : "poamountdetails"
-				} ],
-                    	
-             "actions": [{
+					"col":3
+					
+				}
+				
+				
+					]
+		},
+		
+		
+		
+		
+		
+		
+		
+		 ],
+		       "actions": [{
 			"name": "save",
 			"type": "submit",
 			"label": "Save",
@@ -347,7 +438,9 @@ var purchaseOrderForm = {
 			"method": "post"
 		}
 	}
-			
 	
-	}]
-	};
+			};
+			
+		   
+			     	
+      

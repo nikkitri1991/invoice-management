@@ -133,6 +133,7 @@
 							
 							<li class="mm-active"><a href="purchase_order_list" class="mm-active">purchaseOrders</a></li>
 								<li class="mm-active"><a href="payments" class="mm-active">Payments</a></li>
+								<li class="mm-active"><a href="invoice_list" class="mm-active">Invoices</a></li>
 							
 							
 						</ul>
