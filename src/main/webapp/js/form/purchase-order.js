@@ -69,6 +69,11 @@ var purchaseOrderForm = {
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "Billing Type",
+					"provider": {
+						"url": "http://localhost:9004/api/v1/billingCycle",
+						"value":"id",
+						"label":"name"
+					},
 					"col":4		
 				},
 				{
@@ -78,6 +83,11 @@ var purchaseOrderForm = {
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "Billing Cycle",
+					"provider": {
+						"url": "http://localhost:9004/api/v1/billingType",
+						"value":"id",
+						"label":"name"
+					},
 					"col":3
 				},
 				
@@ -116,7 +126,12 @@ var purchaseOrderForm = {
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "",
-					"col":5
+					"col":5,
+					"provider": {
+						"url": "http://localhost:9004/api/v1/currency",
+						"value":"id",
+						"label":"name"
+					},
 				},
 				
 				{
