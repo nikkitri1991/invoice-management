@@ -419,12 +419,14 @@
 			}
 		};
 </script> -->
- <%@include file="../theme/js_scripts.jsp"%>
-<jsp:include page="../template/jetform-template.jsp"/>
+
 <script>
 	$(document).ready(() => {
 		var jetform=JetForm({"id":"clientForm", "parentId":"clientFormContainer", "form":clientForm});
 		jetform.render();
 	});
 </script>
+
+ <%@include file="../theme/js_scripts.jsp"%>
+<jsp:include page="../template/jetform-template.jsp"/>
 </html>

@@ -24,7 +24,7 @@ var clientForm =  {
 						"name": "companyType",
 						"label": "Company Type",
 						"provider": {
-							"url": "",
+							"ajax": "",
 							"value": "id",
 							"label": "name"
 						},
@@ -56,17 +56,11 @@ var clientForm =  {
 									"name": "addressType",
 									"label": " AddressType",
 									"col":6,
-									"options": [{
-										"value": "",
-										"label": ""
-									}, {
-										"value": "",
-										"label": "",
-										"selected": "selected"
-									}, {
-										"value": "",
-										"label": ""
-									}],
+									"provider": {
+							               "ajax": "",
+							               "value": "id",
+							                "label": "name"
+						                        },
 									"required": true,
 									"placeHolder": "Select Address Type"
 								},
@@ -88,13 +82,7 @@ var clientForm =  {
 									"placeHolder": "Enter Mobile",
 									"col":6
 								},
-								
-								
-								
-									
-									
-									
-									{
+							{
 									"type": "text",
 									"name": "city",
 									"label": "City",
@@ -156,7 +144,7 @@ var clientForm =  {
 									"required": true,
 									"col":6,
 									"provider": {
-										"url": "",
+										"ajax": "",
 										"value": "id",
 										"label": "name"
 									}
@@ -316,174 +304,74 @@ var clientForm =  {
 								
 								]
 						}
-						/*{
-							"type": "group",
-							"name": "taxes",
-							"label": "name",
-							"cols": 6,
-							"fields": [	
-							
-								
-							]
-					},
-					{
-						"type": "group",
-						"name": "contactPerson",
-						"label": "Contact Person",
-						"cols": 2,
-						"fields": [
-							
-							
-							{
-								"type": "text",
-								"name": "extn",
-								"label": "Extn",
-								"placeHolder": ""
-							}]
-					},
-					{
-						"type": "group",
-						"name": "contactPerson1",
-						"label": "Contact Person",
-						"cols": 2,
-						"fields": [		
-							]
-					},
-					{
-						"type": "group",
-						"name": "contactPerson2",
-						"label": "Contact Person",
-						"cols": 2,
-						"fields": [
-						
-							,]
-					},
-					{
-						"type": "group",
-						"name": "contactPerson3",
-						"label": "Contact Person",
-						"cols": 2,
-						"fields": [
-							
-							,]
-					},
-	
-				{
-					"type": "group",
-					"name": "taxes",
-					"label": "Taxes",
-					"cols": 2,
-					"fields": [
-						,
-						
-						{
-							"type": "radio",
-							"name": "taxes",
-							"label": "Taxes",
-							"required": true,
-							"options": [{
-								"value": "CGST",
-								"label": "CGST",
-								"checked": "checked"
-							}, {
-								"value": "SGST",
-								"label": "SGST"
-							}],
-
-							"provider": {
-								"url": "",
-								"id":"",
-								"value":""
-							}
-						}]
-				},
-				{
-						"type": "group",
-						"name": "taxes1",
-						"label": "Taxes",
-						"cols": 2,
-						"fields": [
-							
-						
-						{
-							"type": "checkbox",
-							"id": "taxExemptable",
-							"name": "taxExemptable",
-							"label": "Tax Exemptable",
-							"required": true,
-							"option":[],
-							"provider":{
-								"url":"",
-								"id":"",
-								"value":"",
-							
-							}
-							
-						}]
-				
-			},
-*/	
  		],
-					
-				"actions": [{
-			"name": "save",
-			"type": "submit",
-			"label": "Save",
-			"applyTo": "form",
-			"handler": {
-				"type": "javascript",
-				"func": "submitForm(event)",
-				"method": "post",
-				"url": "http://localhost:8082/api/v1/user"
-			},
-			"redirects": {
-				"success": {"href":"https://www.google.com"},
-				"failure": {"href":"https://www.yahoo.com"}
-			},
-			"cssClass": "btn-primary"
-		}, {
-			"name": "cancel",
-			"type": "button",
-			"label": "Cancel",
-			"applyTo": "form",
-			"cssClass": "btn-secondary",
-			"redirects": {
-				"success": {"href":"client_list"},
-			}
-		},
-		{
-			"name": "add",
-			"type": "button",
-			"label": "Add",
-			"applyTo": "list",
-			"cssClass": "btn-danger",
-			"handler": {
-				"href": ""
-			}
-		}
-	],
-	"dataProvider": {
-		"collection": {
-			"url": "",
-			"method": "get",
-			"dataNode": "items"
-		},
-		"selector": {
+			"actions": [{
+		"name": "save",
+		"type": "submit",
+		"label": "Save",
+		"applyTo": "form",
+		"handler": {
+			"type": "javascript",
+			"func": "submitForm(event)",
+			"method": "post",
 			"url": ""
 		},
-		"create": {
-			"url": "",
-			"method": "post"
+		"redirects": {
+			"success": {"href":""},
+			"failure": {"href":""}
 		},
-		"update": {
-			"url": "",
-			"method": "post"
-		},
-		"delete": {
-			"url": "",
-			"method": "post"
+		"cssClass": "btn-primary"
+	}, {
+		"name": "cancel",
+		"type": "button",
+		"label": "Cancel",
+		"applyTo": "form",
+		"cssClass": "btn-secondary",
+		"redirects": {
+			"success": {"href":""},
+		}
+	},
+	{
+		"name": "add",
+		"type": "button",
+		"label": "client",
+		"applyTo": "list",
+		"cssClass": "btn-danger",
+		"handler": {
+			"href": ""
 		}
 	}
-			
+],
+ 	"providers": {
+		"collection": {
+			"ajax": "",
+			"method": "get",
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
 
-		};
+		},
+		"create": {
+			"ajax": "",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "",
+			"method": "put",
+			
+		},
+		"delete": {
+			"ajax": "",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
+	}
+		
+
+	};
