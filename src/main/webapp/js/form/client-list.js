@@ -16,10 +16,38 @@ var clientListForm = {
 			{
 				"type": "text",
 				"name": "name",
-				"label": "BillingType",
+				"label": "Name",
 				"required": true
 				
-			}],
+			},
+			{
+				"type": "text",
+				"name": "bussinessName",
+				"label": "BusinessName",
+				"required": true
+				
+			},{
+				"type": "text",
+				"name": "businessAddress",
+				"label": "Business Address",
+				"required": true
+				
+			},{
+				"type": "text",
+				"name": "mobile",
+				"label": "Mobile",
+				"required": true
+				
+			},
+			{
+				"type": "text",
+				"name": "email",
+				"label": "Email",
+				"required": true
+				
+			}
+			
+			],
 			
 				"actions": [{
 			"name": "save",
