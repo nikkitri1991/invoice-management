@@ -9,8 +9,7 @@ var newInvoiceListForm = {
 				"type": "text",
 				"name": "id",
 				"label": "#",
-				"required": true,
-				"placeHolder": ""
+				"id":true
 			},
 			{
 				"type": "text",
@@ -18,7 +17,7 @@ var newInvoiceListForm = {
 				"label": "Invoice No",
 				"required": true
 				
-			}/*,
+			},
 			{
 				"type": "date",
 				"name": "invoiceDate",
@@ -67,63 +66,91 @@ var newInvoiceListForm = {
 				"name": "amountReceived",
 				"label": "Amount Received",
 				"required": true	
-			}*/],
-			"actions": [{
-				"name": "save",
-				"type": "submit",
-				"label": "Save",
-				"applyTo": "form",
-				"handler": {
-					"type": "javascript",
-					"func": "submitForm(event)",
-					"method": "post",
-					"url": ""
-				},
-				"redirects": {
-					"success": {"href":"https://www.google.com"},
-					"failure": {"href":"https://www.yahoo.com"}
-				},
-				"cssClass": "btn-primary"
-			}, {
-				"name": "cancel",
-				"type": "button",
-				"label": "Cancel",
-				"applyTo": "form",
-				"cssClass": "btn-secondary",
-				"redirects": {
-					"success": {"href":"currency_list"},
-				}
+			}],
+			
+			
+					"actions": [{
+			"name": "save",
+			"type": "submit",
+			"label": "Save",
+			"applyTo": "form",
+			"handler": {
+				"script": "submitForm(event)",
 			},
-			{
-				"name": "add",
-				"type": "button",
-				"label": "New Invoice",
-				"applyTo": "list",
-				"cssClass": "btn-danger",
-				"handler": {
-					"href": "invoice"
-				}
+			"redirects": {
+				"success": {"href":""},
+				"failure": {"script":"alert('Saving operation failed')"}
+			},
+			"cssClass": "btn-primary"
+		}, {
+			"name": "cancel",
+			"type": "button",
+			"label": "Cancel",
+			"applyTo": "form",
+			"cssClass": "btn-secondary",
+			"redirects": {
+				"success": {"href":""},
 			}
-		],
-		"dataProvider": {
-			"collection": {
-				"url": "http://localhost:9004/api/v1/currency",
-				"method": "get",
-				"dataNode": " "
-			},
-			"selector": {
-				"url": ""
-			},
-			"create": {
-				"url": "",
-				"method": "post"
-			},
-			"update": {
-				"url": "",
-				"method": "post"
-			},
-			"delete": {
-				"url": "",
-				"method": "post"
+		},
+		{
+			"name": "add",
+			"type": "button",
+			"label": "New Invoice",
+			"applyTo": "list",
+			"cssClass": "btn-primary",
+			"handler": {
+				"href": "invoice"
 			}
-		}	};
+		},
+		{
+			"name": "edit",
+			"type": "button",
+			"label": "Edit",
+			"applyTo": "row",
+			"cssClass": "btn-primary",
+			"handler": {
+				"href": "invoice"
+			}
+		},
+		{
+			"name": "delete",
+			"type": "button",
+			"label": "Delete",
+			"applyTo": "row",
+			"cssClass": "btn-danger",
+			/*"handler": {
+				"script": "delete(event)"
+			}*/
+		}
+	],
+	"providers": {
+		"collection": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "get"
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
+
+		},
+		"create": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "put",
+			
+		},
+		"delete": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
+	}
+	};

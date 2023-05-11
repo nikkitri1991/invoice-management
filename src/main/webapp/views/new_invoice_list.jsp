@@ -18,14 +18,12 @@
 		</div>
 	</div>
 </body>
-<%@include file="../theme/js_scripts.jsp" %>
-<jsp:include page="../template/jetform-template.jsp"/>
-
-
 <script>
 $(document).ready(() => {
 	var jetList=JetList({"id":"newInvoice", "parentId":"newInvoiceListContainer", "form":newInvoiceListForm});
 	jetList.render();
 });
 </script>
+<%@include file="../theme/js_scripts.jsp" %>
+<jsp:include page="../template/jetform-template.jsp"/>
 </html>

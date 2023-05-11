@@ -1,7 +1,7 @@
 var clientListForm = {
 	"id": "client",
 	"parentId": "clientListContainer",
-	"title": "ClientList",
+	"title": "Clients",
 	"subtitle": "",
 	"namespace": "",
 	"enctype": "multipart/form-data",
@@ -75,9 +75,9 @@ var clientListForm = {
 		{
 			"name": "add",
 			"type": "button",
-			"label": "Add Client",
+			"label": "+ Add Client",
 			"applyTo": "list",
-			"cssClass": "btn-danger",
+			"cssClass": "btn-primary",
 			"handler": {
 				"href": "client"
 			}

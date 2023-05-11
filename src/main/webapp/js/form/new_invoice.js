@@ -256,66 +256,73 @@ var invoiceForm =  {
 				}
  		],
 					
-				"actions": [{
-			"name": "save",
-			"type": "submit",
-			"label": "Save",
-			"applyTo": "form",
-			"handler": {
-				"type": "javascript",
-				"func": "submitForm(event)",
-				"method": "post",
-				"url": "http://localhost:8082/api/v1/user"
-			},
-			"redirects": {
-				"success": {"href":"https://www.google.com"},
-				"failure": {"href":"https://www.yahoo.com"}
-			},
-			"cssClass": "btn-primary"
-		}, {
-			"name": "cancel",
-			"type": "button",
-			"label": "Cancel",
-			"applyTo": "form",
-			"cssClass": "btn-secondary",
-			"redirects": {
-				"success": {"href":"client_list"},
-			}
-		},
-		{
-			
-			"name": "add",
-			"type": "button",
-			"label": "Add",
-			"applyTo": "list",
-			"cssClass": "btn-danger",
-			"handler": {
-				"href": ""
-			}
-		}
-	],
-	"dataProvider": {
-		"collection": {
-			"url": "",
-			"method": "get",
-			"dataNode": "items"
-		},
-		"selector": {
+		"actions": [{
+		"name": "save",
+		"type": "submit",
+		"label": "Save",
+		"applyTo": "form",
+		"handler": {
+			"type": "javascript",
+			"func": "submitForm(event)",
+			"method": "post",
 			"url": ""
 		},
-		"create": {
-			"url": "",
-			"method": "post"
+		"redirects": {
+			"success": {"href":"invoice_list"},
+			"failure": {"href":""}
 		},
-		"update": {
-			"url": "",
-			"method": "post"
-		},
-		"delete": {
-			"url": "",
-			"method": "post"
+		"cssClass": "btn-primary"
+	}, {
+		"name": "cancel",
+		"type": "button",
+		"label": "Cancel",
+		"applyTo": "form",
+		"cssClass": "btn-secondary",
+		"redirects": {
+			"success": {"href":"invoice_list"},
+		}
+	},
+	{
+		"name": "add",
+		"type": "button",
+		"label": "client",
+		"applyTo": "list",
+		"cssClass": "btn-danger",
+		"handler": {
+			"href": ""
 		}
 	}
-			
+],
+ 	"providers": {
+		"collection": {
+			"ajax": "",
+			"method": "get",
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
 
-		};
+		},
+		"create": {
+			"ajax": "",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "",
+			"method": "put",
+			
+		},
+		"delete": {
+			"ajax": "",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
+	}
+		
+
+	};

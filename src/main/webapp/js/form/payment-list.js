@@ -1,6 +1,6 @@
 var paymentListForm = {
 		"id": "paymentList",
-		"title" : "Payments",
+		"title" : "Receive Payment",
 		 "parentId": "paymentListContainer",
 		"namespace" : "",
 		"enctype": "multipart/form-data",

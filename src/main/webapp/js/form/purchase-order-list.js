@@ -1,6 +1,6 @@
 var purchaseOrderListForm = {
 		"id": "purchaseOrder",
-		"title" : "PurchaseOrder",
+		"title" : "Purchase Orders",
 		 "parentId": "purchaseOrderListContainer",
 		"namespace" : "",
 		"enctype": "multipart/form-data",
