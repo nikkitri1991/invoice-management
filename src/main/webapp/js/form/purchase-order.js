@@ -1,7 +1,7 @@
 var purchaseOrderForm = {
 		"id" : "purchaseOrder",
 		"parentId": "purchaseOrderFormContainer",
-		"title" : "New Client Order",
+		"title" : "New PO",
 		"namespace" : "",
 		"enctype" : "multipart/form-data",
 		"fields": [{
@@ -386,76 +386,75 @@ var purchaseOrderForm = {
 				
 					]
 		},
-		
-		
-		
-		
-		
-		
-		
+
 		 ],
-		       "actions": [{
-			"name": "save",
-			"type": "submit",
-			"label": "Save",
-			"applyTo": "form",
-			"handler": {
-				"type": "javascript",
-				"func": "submitForm(event)",
-				"method": "post",
-				"url": "http://localhost:8082/api/v1/user"
-			},
-			"redirects": {
-				"success": {"href":"https://www.google.com"},
-				"failure": {"href":"https://www.yahoo.com"}
-			},
-			"cssClass": "btn-primary"
-		}, {
-			"name": "cancel",
-			"type": "button",
-			"label": "Cancel",
-			"applyTo": "form",
-			"cssClass": "btn-secondary",
-			"redirects": {
-				"success": {"href":"client_list"},
-			}
+		 "actions": [{
+		"name": "save",
+		"type": "submit",
+		"label": "Save",
+		"applyTo": "form",
+		"handler": {
+			"type": "javascript",
+			"func": "submitForm(event)",
+			"method": "post",
+			"url": "http://localhost:9004/api/v1/billingType"
 		},
-		{
-			"name": "add",
-			"type": "button",
-			"label": "Add",
-			"applyTo": "list",
-			"cssClass": "btn-danger",
-			"handler": {
-				"href": ""
-			}
+		"redirects": {
+			"success": {"href":"purchase_order_list"},
+			"failure": {"href":""}
+		},
+		"cssClass": "btn-primary"
+	}, {
+		"name": "cancel",
+		"type": "button",
+		"label": "Cancel",
+		"applyTo": "form",
+		"cssClass": "btn-secondary",
+		"redirects": {
+			"success": {"href":"purchase_order_list"},
 		}
-	],
-	"dataProvider": {
-		"collection": {
-			"url": "",
-			"method": "get",
-			"dataNode": "items"
-		},
-		"selector": {
-			"url": ""
-		},
-		"create": {
-			"url": "",
-			"method": "post"
-		},
-		"update": {
-			"url": "",
-			"method": "post"
-		},
-		"delete": {
-			"url": "",
-			"method": "post"
+	},
+	{
+		"name": "add",
+		"type": "button",
+		"label": "Add",
+		"applyTo": "list",
+		"cssClass": "btn-danger",
+		"handler": {
+			"href": ""
 		}
 	}
-	
-			};
+],
+ 	"providers": {
+		"collection": {
+			"ajax": "",
+			"method": "get",
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
+
+		},
+		"create": {
+			"ajax": "",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "put",
 			
-		   
-			     	
-      
+		},
+		"delete": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
+	}
+		
+
+	};

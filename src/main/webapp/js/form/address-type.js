@@ -3,7 +3,6 @@ var addressType = {
 	"id": "addressType",
 	"parentId" :"addressTypeContainer",
 	"title": "AddressType ",
-	
 	"namespace": "",
 	"enctype": "multipart/form-data",
 	"fields": [ 
@@ -19,63 +18,72 @@ var addressType = {
 				}
 			],
 	"actions": [{
-			"name": "save",
-			"type": "submit",
-			"label": "Save",
-			"applyTo": "form",
-			"handler": {
-				"type": "javascript",
-				"func": "submitForm(event)",
-				"method": "post",
-				"url": ""
-			},
-			"redirects": {
-				"success": {"href":"addressType_list"},
-				"failure": {"href":"addressType_list"}
-			},
-			"cssClass": "btn-primary"
-		}, {
-			"name": "cancel",
-			"type": "button",
-			"label": "Cancel",
-			"applyTo": "form",
-			"cssClass": "btn-secondary",
-			"redirects": {
-				"success": {"href":"addressType"},
-			}
+		"name": "save",
+		"type": "submit",
+		"label": "Save",
+		"applyTo": "form",
+		"handler": {
+			"type": "javascript",
+			"func": "submitForm(event)",
+			"method": "post",
+			"url": "http://localhost:9004/api/v1/addressType"
 		},
-		{
-			"name": "add",
-			"type": "button",
-			"label": "Add",
-			"applyTo": "list",
-			"cssClass": "btn-danger",
-			"handler": {
-				"href": "addressType"
-			}
+		"redirects": {
+			"success": {"href":"addressType_list"},
+			"failure": {"href":""}
+		},
+		"cssClass": "btn-primary"
+	}, {
+		"name": "cancel",
+		"type": "button",
+		"label": "Cancel",
+		"applyTo": "form",
+		"cssClass": "btn-secondary",
+		"redirects": {
+			"success": {"href":"addressType_list"},
 		}
-	],
-	"dataProvider": {
-		"collection": {
-			"url": "http://localhost:9098/api/v1/recruitementSource",
-			"method": "get",
-			"dataNode": " "
-		},
-		"selector": {
-			"url": ""
-		},
-		"create": {
-			"url": "http://localhost:9004/api/v1/addressType",
-			"method": "post"
-		},
-		"update": {
-			"url": "",
-			"method": "post"
-		},
-		"delete": {
-			"url": "",
-			"method": "post"
+	},
+	{
+		"name": "add",
+		"type": "button",
+		"label": "Add",
+		"applyTo": "list",
+		"cssClass": "btn-danger",
+		"handler": {
+			"href": ""
 		}
 	}
-};
- 
+],
+ 	"providers": {
+		"collection": {
+			"ajax": "http://localhost:9004/api/v1/addressType",
+			"method": "get",
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
+
+		},
+		"create": {
+			"ajax": "http://localhost:9004/api/v1/addressType",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "http://localhost:9004/api/v1/addressType",
+			"method": "put",
+			
+		},
+		"delete": {
+			"ajax": "http://localhost:9004/api/v1/addressType",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
+	}
+		
+
+	};

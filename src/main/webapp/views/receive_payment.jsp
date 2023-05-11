@@ -13,22 +13,18 @@
 			<%@include file="../theme/nav_header.jsp"%>
 			<%@include file="../theme/header.jsp"%>
 		</div>
-			<div class="col-md-9" id="receivePaymentFormContainer" style="margin-top: 8%" >
-				<h3 id="employeeFormTitle"></h3>
-				<form id="receivePaymentForm" >
-					<div class="row" >
-					<div class="col-md-12" id="nameGroup"></div>
-					</div>
-					<div class="row">
-						<div class="col-md-6" id="balance">
-						</div>
-						<div class="col-md-6" id="amount">
-						</div>
-					</div>
-					<div class="row" id="transaction">
-					</div>
-					</form>
+		<div class="col-md-9">
+			<div class="row">
+				<div class="col-md-11">
+					<div id="receivePaymentFormContainer" style="margin-top: 8%"></div>
+				</div>
 			</div>
+			<div class="col-md-12" id="nameGroup"></div>
+			    <div class="row" id="balance">
+			    </div>
+			<div class="row" id="payment"></div>
+			<div class="row" id="transactions"></div>
+		</div>
 	</div>
 </body>
 <!-- 
@@ -150,12 +146,14 @@
 </script>
 
  -->
- 
- <%@include file="../theme/js_scripts.jsp"%>
-<jsp:include page="../template/jetform-template.jsp"/>
+
+
 <script>
 	$(document).ready(() => {
 		var jetform=JetForm({"id":"receivePaymentForm", "parentId":"receivePaymentFormContainer", "form":receivePaymentForm});
 		jetform.render();
 	});
-</script></html>
+</script>
+ <%@include file="../theme/js_scripts.jsp"%>
+ <jsp:include page="../template/jetform-template.jsp"/>
+</html>

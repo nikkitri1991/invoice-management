@@ -5,21 +5,14 @@ var billingTypeForm = {
 	"namespace" : "",
 	"enctype": "multipart/form-data",
 	"fields": [ 
+		
 		{
 			"type": "text",
 			"name": "name",
 			"label": "BillingType",
 			"listable":false,
 			"searchable": false,
-			"validations": {
-						"rules": {
-							"minlength": 5
-						},
-						"messages": {
-							"minlength": " Your SKUNumber must consist of at least 2 characters"
-						}
-					}
-			
+		
 		}
 	],
 	"actions": [{
@@ -59,28 +52,36 @@ var billingTypeForm = {
 		}
 	}
 ],
-"dataProvider": {
-	"collection": {
-		"url": "",
-		"method": "get",
-		"dataNode": ""
-	},
-	"selector": {
-		"url": ""
-	},
-	"create": {
-		"url": "http://localhost:9004/api/v1/billingType",
-		"method": "post"
-	},
-	"update": {
-		"url": "",
-		"method": "post"
-	},
-	"delete": {
-		"url": "",
-		"method": "post"
+ 	"providers": {
+		"collection": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "get",
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
+
+		},
+		"create": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "put",
+			
+		},
+		"delete": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
 	}
-}
 		
 
 	};

@@ -6,11 +6,11 @@ var billingTypeListForm = {
 		"enctype": "multipart/form-data",
 		"fields": [
 			{
-				"type": "text",
+				"type": "hidden",
 				"name": "id",
-				"label": "Billing Type Id",
-				"required": true,
-				"placeHolder": "Billing Type"
+				"id": true,
+				"required": true
+				
 			},
 			{
 				"type": "text",
@@ -19,62 +19,89 @@ var billingTypeListForm = {
 				"required": true
 				
 			}],
-			"actions": [{
-				"name": "save",
-				"type": "submit",
-				"label": "Save",
-				"applyTo": "form",
-				"handler": {
-					"type": "javascript",
-					"func": "submitForm(event)",
-					"method": "post",
-					"url": ""
-				},
-				"redirects": {
-					"success": {"href":"https://www.google.com"},
-					"failure": {"href":"https://www.yahoo.com"}
-				},
-				"cssClass": "btn-primary"
-			}, {
-				"name": "cancel",
-				"type": "button",
-				"label": "Cancel",
-				"applyTo": "form",
-				"cssClass": "btn-secondary",
-				"redirects": {
-					"success": {"href":""},
-				}
+			
+				"actions": [{
+			"name": "save",
+			"type": "submit",
+			"label": "Save",
+			"applyTo": "form",
+			"handler": {
+				"script": "submitForm(event)",
 			},
-			{
-				"name": "add",
-				"type": "button",
-				"label": "Add BillingType",
-				"applyTo": "list",
-				"cssClass": "btn-danger",
-				"handler": {
-					"href": "billing_type"
-				}
+			"redirects": {
+				"success": {"href":"billing_type"},
+				"failure": {"script":"alert('Saving operation failed')"}
+			},
+			"cssClass": "btn-primary"
+		}, {
+			"name": "cancel",
+			"type": "button",
+			"label": "Cancel",
+			"applyTo": "form",
+			"cssClass": "btn-secondary",
+			"redirects": {
+				"success": {"href":"billing_type"},
 			}
-		],
-		"dataProvider": {
-			"collection": {
-				"url": "http://localhost:9004/api/v1/billingType",
-				"method": "get",
-				"dataNode": " "
-			},
-			"selector": {
-				"url": ""
-			},
-			"create": {
-				"url": "",
-				"method": "post"
-			},
-			"update": {
-				"url": "",
-				"method": "post"
-			},
-			"delete": {
-				"url": "",
-				"method": "post"
+		},
+		{
+			"name": "add",
+			"type": "button",
+			"label": "Add BillingType",
+			"applyTo": "list",
+			"cssClass": "btn-danger",
+			"handler": {
+				"href": "billing_type"
 			}
-		}	};
+		},
+		{
+			"name": "edit",
+			"type": "button",
+			"label": "Edit",
+			"applyTo": "row",
+			"cssClass": "btn-primary",
+			"handler": {
+				"href": "billing_type"
+			}
+		},
+		{
+			"name": "delete",
+			"type": "button",
+			"label": "Delete",
+			"applyTo": "row",
+			"cssClass": "btn-danger",
+			/*"handler": {
+				"script": "delete(event)"
+			}*/
+		}
+	],
+	"providers": {
+		"collection": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "get"
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
+
+		},
+		"create": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "put",
+			
+		},
+		"delete": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
+	}
+	};

@@ -50,28 +50,36 @@ var billingCycleForm = {
 		}
 	}
 ],
-"dataProvider": {
-	"collection": {
-		"url": "",
-		"method": "get",
-		"dataNode": ""
-	},
-	"selector": {
-		"url": ""
-	},
-	"create": {
-		"url": "http://localhost:9004/api/v1/billingCycle",
-		"method": "post"
-	},
-	"update": {
-		"url": "",
-		"method": "post"
-	},
-	"delete": {
-		"url": "",
-		"method": "post"
+ 	"providers": {
+		"collection": {
+			"ajax": "http://localhost:9004/api/v1/billingCycle",
+			"method": "get",
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
+
+		},
+		"create": {
+			"ajax": "http://localhost:9004/api/v1/billingCycle",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "http://localhost:9004/api/v1/billingCycle",
+			"method": "put",
+			
+		},
+		"delete": {
+			"ajax": "http://localhost:9004/api/v1/billingCycle",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
 	}
-}
 		
 
 	};

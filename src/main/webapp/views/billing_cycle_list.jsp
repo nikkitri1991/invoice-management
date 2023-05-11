@@ -1,7 +1,6 @@
  <!DOCTYPE html>
 <html>
 <head>
-<title>Billing Cycle List</title>
 <%@include file="../theme/cdn.jsp" %>
 <script type="text/javascript" src="../js/form/billing_cycle_list.js"></script>
 </head>
@@ -18,14 +17,12 @@
 		</div>
 	</div>
 </body>
-<%@include file="../theme/js_scripts.jsp" %>
-<jsp:include page="../template/jetform-template.jsp"/>
-
-
 <script>
 $(document).ready(() => {
 	var jetList=JetList({"id":"billingCycle", "parentId":"billingCycleListContainer", "form":billingCycleListForm});
 	jetList.render();
 });
 </script>
+<jsp:include page="../template/jetform-template.jsp"/>
+<%@include file="../theme/js_scripts.jsp" %>
 </html>

@@ -90,7 +90,12 @@ var invoiceForm =  {
 									"label": "Currrency",
 									"col":4,
 									"required": true,
-									"placeHolder": "Please Select a Currency"
+									"placeHolder": "Please Select a Currency",
+									"provider": {
+					                   	"ajax": "http://localhost:9004/api/v1/currency",
+						                       "value":"id",
+						                       "label":"name"
+					                            },
 								}]
 								
 						},	

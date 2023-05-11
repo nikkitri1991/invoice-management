@@ -8,10 +8,9 @@ var addressType = {
 	"enctype": "multipart/form-data",
 	"fields": [ 
 				{
-					"type": "text",
+					"type": "hidden",
 					"name": "id",
-					"label": "Id",
-					"placeHolder": "Candidate Id"
+					"id":true
 				},
 				{
 					"type": "text",
@@ -22,20 +21,17 @@ var addressType = {
 			
 				}
 			],
-	"actions": [{
+		"actions": [{
 			"name": "save",
 			"type": "submit",
 			"label": "Save",
 			"applyTo": "form",
 			"handler": {
-				"type": "javascript",
-				"func": "submitForm(event)",
-				"method": "post",
-				"url": ""
+				"script": "submitForm(event)",
 			},
 			"redirects": {
-				"success": {"href":"addressType_list"},
-				"failure": {"href":"addressType_list"}
+				"success": {"href":"addressType"},
+				"failure": {"script":"alert('Saving operation failed')"}
 			},
 			"cssClass": "btn-primary"
 		}, {
@@ -45,7 +41,7 @@ var addressType = {
 			"applyTo": "form",
 			"cssClass": "btn-secondary",
 			"redirects": {
-				"success": {"href":"addressType_list"},
+				"success": {"href":"addressType"},
 			}
 		},
 		{
@@ -57,29 +53,56 @@ var addressType = {
 			"handler": {
 				"href": "addressType"
 			}
+		},
+		{
+			"name": "edit",
+			"type": "button",
+			"label": "Edit",
+			"applyTo": "row",
+			"cssClass": "btn-primary",
+			"handler": {
+				"href": "addressType"
+			}
+		},
+		{
+			"name": "delete",
+			"type": "button",
+			"label": "Delete",
+			"applyTo": "row",
+			"cssClass": "btn-danger",
+			/*"handler": {
+				"script": "delete(event)"
+			}*/
 		}
 	],
-	"dataProvider": {
+	"providers": {
 		"collection": {
-			"url": "http://localhost:9004/api/v1/addressType",
-			"method": "get",
-			"dataNode": " "
+			"ajax": "http://localhost:9004/api/v1/addressType",
+			"method": "get"
 		},
 		"selector": {
-			"url": ""
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
+
 		},
 		"create": {
-			"url": "",
-			"method": "post"
+			"ajax": "http://localhost:9004/api/v1/addressType",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
 		},
 		"update": {
-			"url": "",
-			"method": "post"
+			"ajax": "http://localhost:9004/api/v1/addressType",
+			"method": "put",
+			
 		},
 		"delete": {
-			"url": "",
-			"method": "post"
+			"ajax": "http://localhost:9004/api/v1/addressType",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
 		}
 	}
-};
- 
+	};

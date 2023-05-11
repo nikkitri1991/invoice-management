@@ -368,11 +368,14 @@
 		}
 	};
 </script> -->
-<%@include file="../theme/js_scripts.jsp"%>
-<jsp:include page="../template/jetform-template.jsp"/>
+
 <script>
 	$(document).ready(() => {
 		var jetform=JetForm({"id":"purchaseOrder", "parentId":"purchaseOrderFormContainer", "form":purchaseOrderForm});
 		jetform.render();
 	});
-</script></html>
+</script>
+<%@include file="../theme/js_scripts.jsp"%>
+<jsp:include page="../template/jetform-template.jsp"/>
+
+</html>

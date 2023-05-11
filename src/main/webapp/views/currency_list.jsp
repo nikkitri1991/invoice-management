@@ -18,14 +18,14 @@
 		</div>
 	</div>
 </body>
-<%@include file="../theme/js_scripts.jsp" %>
-<jsp:include page="../template/jetform-template.jsp"/>
-
-
 <script>
 $(document).ready(() => {
 	var jetList=JetList({"id":"currency", "parentId":"currencyListContainer", "form":currencyListForm});
 	jetList.render();
 });
 </script>
+
+
+<jsp:include page="../template/jetform-template.jsp"/>
+<%@include file="../theme/js_scripts.jsp" %>
 </html>

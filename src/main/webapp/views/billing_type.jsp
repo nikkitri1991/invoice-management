@@ -19,9 +19,8 @@
 		</div>
 	</div>
 </body>
-<jsp:include page="../template/jetform-template.jsp"/>
 
-<%@include file="../theme/js_scripts.jsp" %>
+
 
 <script>
 	$(document).ready(() => {
@@ -29,4 +28,6 @@
 		jetform.render();
 	});
 </script>
+<jsp:include page="../template/jetform-template.jsp"/>
+<%@include file="../theme/js_scripts.jsp" %>
 </html> 

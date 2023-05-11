@@ -34,20 +34,35 @@
 				"col" : 12
 			}]
 		},
-
 		{
 			"type": "group",
 			"name": "balance",
 			"label": "name",
-			"col": 6,
+			"col": 12,
 			"fields": [{
 					"type": "text",
 					"name": "payabletotal",
 					"label": "Payable Total",
 					"listable": false,
 					"searchable": false,
-					"col": 12
+					"col": 6
 				},
+				{
+					"type": "text",
+					"name": "amountPaid",
+					"label": "Amount Paid",
+					"required": false,
+					"col": 6
+				}
+				
+				]
+			},		
+			{
+			    "type": "group",
+			    "name": "payment",
+			    "label": "name",
+			    "col": 6,
+			    "fields": [
 				{
 					"type": "text",
 					"name": "balanceDue",
@@ -96,20 +111,6 @@
 			]
 		},
 		{
-			"type": "group",
-			"name": "amount",
-			"label": "name",
-			"col": 6,
-			"fields": [{
-					"type": "text",
-					"name": "amountPaid",
-					"label": "Amount Paid",
-					"required": false,
-					"col": 12
-				}
-					]
-		},
-		{
 			"type": "group",			
 			"name": "transactions",
 			"label": "",
@@ -123,71 +124,74 @@
 					}
 					]
 		}],			
-				"actions": [{
-			"name": "save",
-			"type": "submit",
-			"label": "Save",
-			"applyTo": "form",
-			"handler": {
-				"type": "javascript",
-				"func": "submitForm(event)",
-				"method": "post",
-				"url": "http://localhost:8082/api/v1/user"
-			},
-			"redirects": {
-				"success": {"href":"https://www.google.com"},
-				"failure": {"href":"https://www.yahoo.com"}
-			},
-			"cssClass": "btn-primary"
-		}, {
-			"name": "cancel",
-			"type": "button",
-			"label": "Cancel",
-			"applyTo": "form",
-			"cssClass": "btn-secondary",
-			"redirects": {
-				"success": {"href":"user-list.jsp"},
-			}
+			
+		"actions": [{
+		"name": "save",
+		"type": "submit",
+		"label": "Save",
+		"applyTo": "form",
+		"handler": {
+			"type": "javascript",
+			"func": "submitForm(event)",
+			"method": "post",
+			"url": "http://localhost:9004/api/v1/billingType"
 		},
-		{
-			"name": "add",
-			"type": "button",
-			"label": "Add",
-			"applyTo": "list",
-			"cssClass": "btn-danger",
-			"handler": {
-				"href": "user-form.jsp"
-			}
+		"redirects": {
+			"success": {"href":"payments"},
+			"failure": {"href":""}
+		},
+		"cssClass": "btn-primary"
+	}, {
+		"name": "cancel",
+		"type": "button",
+		"label": "Cancel",
+		"applyTo": "form",
+		"cssClass": "btn-secondary",
+		"redirects": {
+			"success": {"href":"payments"},
 		}
-	],
-	"dataProvider": {
-		"collection": {
-			"url": "http://localhost:9098/api/v1/recruitementSource",
-			"method": "get",
-			"dataNode": "items"
-		},
-		"selector": {
-			"url": ""
-		},
-		"create": {
-			"url": "",
-			"method": "post"
-		},
-		"update": {
-			"url": "",
-			"method": "post"
-		},
-		"delete": {
-			"url": "",
-			"method": "post"
+	},
+	{
+		"name": "add",
+		"type": "button",
+		"label": "Add",
+		"applyTo": "list",
+		"cssClass": "btn-danger",
+		"handler": {
+			"href": "payments"
 		}
 	}
+],
+ 	"providers": {
+		"collection": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "get",
+		},
+		"selector": {
+			"ajax": "",
+			"method": "get",
+			"pathParams":{},
+			"queryParams":{}
+
+		},
+		"create": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "post",
+			"pathParams":{},
+			"queryParams":{},
+			"requestParams":{}
+		},
+		"update": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "put",
 			
+		},
+		"delete": {
+			"ajax": "http://localhost:9004/api/v1/billingType",
+			"method": "delete",
+			"requestParams":{"id":"{id}"}
+		}
+	}
+		
 
-			};
-		
-		
-		
-		
-		
-
+	};

@@ -99,11 +99,8 @@ var clientForm =  {
 									"col":6
 								},
 								
-								
-								
 								{
-									
-									
+								
 									"type": "text",
 									"name": "state",
 									"label": "State",
