@@ -266,9 +266,25 @@ var clientForm =  {
 									"placeHolder": "Tax Doc No.2",
 									"col": 6
 								},
+								
+								{
+							"type": "checkbox",
+							"name": "taxexemptable",
+							"label": "Tax Exemptable",
+							"required": true,
+							"col":6,
+							"options": [{
+								"checked": "checked"
+							}],
+							"provider": {
+								"url": "",
+								"id":"",
+								"value":""
+							}
+						},
 						{
 							"type": "radio",
-							"name": "taxes",
+							"name": "tax",
 							"label": "Taxes",
 							"required": true,
 							"col":6,
@@ -291,7 +307,7 @@ var clientForm =  {
 							{
 									"type": "file",
 									"name": "nonDiscloser",
-									"label": "Non Discloser",
+									"label": "Non Discloser Agreement",
 									"placeHolder": "Choose File",
 									"col": 6
 								}
