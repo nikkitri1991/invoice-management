@@ -1,27 +1,28 @@
 
 var addressType = {
-	"id": "addressTypeList",
-	"parentId" :"addressTypeListContainer",
+	"id": "addressType",
+	"parentId" :"addressTypeContainer",
 	"title": "AddressType ",
-	
 	"namespace": "",
 	"enctype": "multipart/form-data",
 	"fields": [ 
 				{
 					"type": "hidden",
 					"name": "id",
-					"id":true
+					"id":true,
+					"required" : true,
 				},
 				{
 					"type": "text",
 					"name": "name",
 					"label": "AddressType",
-					"listable":false,
+					"required" : true,
+					"listable":true,
 					"searchable": true
 			
 				}
 			],
-		"actions": [{
+	"actions": [{
 			"name": "save",
 			"type": "submit",
 			"label": "Save",
@@ -30,7 +31,7 @@ var addressType = {
 				"script": "submitForm(event)",
 			},
 			"redirects": {
-				"success": {"href":"addressType"},
+				"success": {"href":"address_type_list"},
 				"failure": {"script":"alert('Saving operation failed')"}
 			},
 			"cssClass": "btn-primary"
@@ -41,17 +42,17 @@ var addressType = {
 			"applyTo": "form",
 			"cssClass": "btn-secondary",
 			"redirects": {
-				"success": {"href":"addressType"},
+				"success": {"href":"address_type_list"},
 			}
 		},
 		{
 			"name": "add",
 			"type": "button",
-			"label": "Add AddressType",
+			"label": "Add Address Type",
 			"applyTo": "list",
 			"cssClass": "btn-danger",
 			"handler": {
-				"href": "addressType"
+				"href": "address_type"
 			}
 		},
 		{
@@ -59,9 +60,9 @@ var addressType = {
 			"type": "button",
 			"label": "Edit",
 			"applyTo": "row",
-			"cssClass": "btn-primary",
+			"cssClass": "btn-danger",
 			"handler": {
-				"href": "addressType"
+				"href": "address_type"
 			}
 		},
 		{
@@ -75,16 +76,17 @@ var addressType = {
 			}*/
 		}
 	],
-	"providers": {
+ 	"providers": {
 		"collection": {
 			"ajax": "http://localhost:9004/api/v1/addressType",
 			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/addressType/{id}",
 			"method": "get",
-			"pathParams":{},
-			"queryParams":{}
+			"pathParams":{"id":"#id"},
+			"queryParams":{},
+			
 
 		},
 		"create": {
@@ -96,13 +98,15 @@ var addressType = {
 		},
 		"update": {
 			"ajax": "http://localhost:9004/api/v1/addressType",
-			"method": "put",
+			"method": "put"
 			
 		},
 		"delete": {
 			"ajax": "http://localhost:9004/api/v1/addressType",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"method": "delete"
+			
 		}
 	}
+		
+
 	};

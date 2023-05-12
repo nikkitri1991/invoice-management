@@ -1,7 +1,6 @@
 const templates = {            //object for mapping object to id
     text: '#jf-text-template',
-    hidden:'#jf-hidden-template',
-	textarea :'#jf-textarea-template',
+    hidden: '#jf-hidden-template',
     date: '#jf-date-template',
     submit: '#jf-button-template',
     email: '#jf-email-template',
@@ -38,7 +37,7 @@ function JetForm (config) {
 	jetForm.form.id=config.id;
 	jetForm.form.parentId=config.parentId;
 	jetForm.form.data={};
-	
+	jetForm.form.idField = findIdField(jetForm.form);
   	if(config.data != undefined){
 		jetForm.form.data=config.data;
 	}
@@ -51,53 +50,75 @@ function JetForm (config) {
   	return jetForm;
 }
 
+JetForm.prototype.setDataKey = function(value) {
+	var form = this.form;
+	setDataKey(form, value);
+}
+
 JetForm.prototype.render = function() {
 	var _this = this;
 	var form = _this.form;
-	var data = form.data;
+	//var data = form.data;
 	
 	if($('#'+form.id).length==0){
 		_this.renderForm();
 	}
 	
-	if(data.id !=undefined && data.id !=''){
+	if(form.idField != undefined && form.idField.value != undefined && form.idField.value != ''){
 		_this.readObjectValues();
+	}else{
+		_this.renderFields();
+		_this.renderGroups();
+	    _this.renderLists();
+	    _this.renderActions();
+		_this.loadOptionsFields();
+		_this.bindEvents();
+		_this.bindValidations();
 	}
-	
+    
+}
+
+JetForm.prototype.readObjectValues = function() {
+	var field;
+	var target;
+
+	var form = this.form;
+	var provider = form.providers.selector;
+	if(provider != undefined && provider.ajax != undefined){
+		callAjax(form, field, target, provider, setFieldValues, console.log);
+    }else if(provider != undefined && provider.script != undefined){
+		var scriptParams = (provider.scriptParams != undefined? provider.scriptParams: {});
+		var data = executeFunctionByName(provider.script, window, scriptParams);
+		this.setFieldValues(form, field, target, data);
+	}
+}
+
+//JetForm.prototype.
+function setFieldValues(form, field, action, data){
+	//var _this = this;
+	//var form = _this.form;
+	//console.log(data);
+	//console.log(form);
+	form.fields.forEach(fld => {
+		if(fld.type != 'group' && fld.type != 'list'){
+			//console.log(fld.name + " -- "+ data[fld.name]);
+			fld.value = data[fld.name];
+		}else if(fld.type == 'group'){
+			fld.fields.forEach(subfield => {
+				subfield.value = data[subfield.name];
+			});
+		}
+	});
+	//console.log(form);
+	var _this = window[form.id];
 	_this.renderFields();
-    _this.renderGroups();
+	_this.renderGroups();
     _this.renderLists();
     _this.renderActions();
 	_this.loadOptionsFields();
 	_this.bindEvents();
 	_this.bindValidations();
-}
-
-JetForm.prototype.readObjectValues = function() {
-	var form = this.form;
-	var provider = form.providers.selector;
-	var field;
-	var target;
-	if(provider != undefined && provider.ajax != undefined){
-		callAjax(field, target, provider, this.setFieldValues, console.log);
-    }else if(provider != undefined && provider.script != undefined){
-		var params = (provider.params != undefined? provider.params: {});
-		var data = executeFunctionByName(provider.script, window, params);
-		this.setFieldValues(data);
-	}
-}
-
-JetForm.prototype.setFieldValues = function(data){
-	var form = this.form;
-	form.fields.forEach(field => {
-		if(field.type != 'group' && field.type != 'list'){
-			field.value = data[field.name];
-		}else if(field.type == 'group'){
-			field.fields.forEach(subfield => {
-				subfield.value = data[subfield.name];
-			});
-		}
-	});
+	
 }
 
 JetForm.prototype.renderForm = function() {
@@ -113,20 +134,21 @@ JetForm.prototype.renderFields = function() {
 	// Loop through fields array
     form.fields.forEach(field => {
         if (!(field.group && field.group != '')) {
-			var generate=true;
+			var autoWidth=true;
 			if(field.type=='group'){
 				if(field.auto==undefined || field.auto==true){
 					if(field.col==undefined){
 						field.col="12";
 					}
 				}else{
-					generate=false;
+					autoWidth=false;
 				}
 			}
-			if(generate){
+			if(autoWidth){
 	            const template = $(templates[field.type]).html();
 	            const compiledTemplate = Handlebars.compile(template);
 	            const html = compiledTemplate(field);
+	            //console.log(html);
 	            $('#' + form.id).append(html);
             }
         }
@@ -134,7 +156,7 @@ JetForm.prototype.renderFields = function() {
 
     // Loop through fields array
     form.fields.forEach(field => {
-        if (field.group && field.group != '') {
+        if (field.group != undefined && field.group != '') {
             const template = $(templates[field.type]).html();
             const compiledTemplate = Handlebars.compile(template);
             $('<div />', {class:'col'}).append(compiledTemplate(field)).appendTo($('#' + field.group));
@@ -250,16 +272,17 @@ JetForm.prototype.loadOptionsFields = function() {
 JetForm.prototype.loadOptionsField = function(field) {
 	console.log(field.name);
 	console.log(field.provider);
+	var form = this.form;
 	var target;
 	$('#'+field.name).empty();
 	$("#" + field.name).append(new Option("Select "+field.label, "-1"));
 
     if (field.provider != undefined && field.provider.ajax !=undefined) {
-    	callAjax(field, target, field.provider, this.populateOptions, console.log);
+    	callAjax(form, field, target, field.provider, this.populateOptions, console.log);
     }
 }
 
-JetForm.prototype.populateOptions = function(field, action ,data){
+JetForm.prototype.populateOptions = function(form, field, target, data){
 	
 	var provider = field.provider;
 	var select=(field.type == "select");
@@ -306,11 +329,12 @@ JetForm.prototype.populateOptions = function(field, action ,data){
 	});
 }
 
-JetForm.prototype.getIdField = function(){
+/*JetForm.prototype.getIdField = function(){
 	var _this = this;
 	var form = _this.form;
-	return findIdField(form);
-}
+	return form.idField;
+	//return findIdField(form);
+}*/
 
 function findAction (event){
 	 var target = getEventTarget(event);
@@ -433,12 +457,10 @@ function deleteRow(event){
 			$(target).closest('tr').remove();
 
 			if($(tbody).find('tr').length==1){
-				alert("1");
 				var td=$(tbody).find('tr').find('td').last();
 				$(td).children('a[name="deleteRow"]').hide();
 				$(td).children('a[name="addRow"]').show();
 			}else{
-				alert("1");
 				var td=$(tbody).find('tr').last().find('td').last();
 				$(td).children('a[name="deleteRow"]').show();
 				$(td).children('a[name="addRow"]').show();
@@ -615,7 +637,7 @@ JetForm.prototype.bindEventReceivers = function(eventSource, receivers){
 JetForm.prototype.refillField = function(fieldName){
 	var _this = this;
 	var field=_this.findFieldByName(fieldName);
-	_this.loadOptionsField(field);
+	_this.fillFieldOptions(field);
 }
 
 JetForm.prototype.bindValidations = function(){
@@ -678,7 +700,7 @@ function saveOnClick(event){
 	submitForm(event);
 }
 
-function onSaveSuccess(field, data, redirect){
+function onSaveSuccess(form, field, data, redirect){
 	console.log(data);
 	
 	alert("Success! Record saved successfully.");
@@ -692,8 +714,8 @@ function onSaveSuccess(field, data, redirect){
 	}
 }
 
-function onSaveFailure(field, error, redirect){
-	console.log(data);
+function onSaveFailure(form, field, error, redirect){
+	console.log(error);
 	
 	alert("Error! Record could not be saved.");
 	
@@ -758,7 +780,8 @@ function invokeUrl(event){
 	var target = getEventTarget(event);
 	var _this=getTargetFormParent(target);
 	var form = _this.form;
-	var idField =findIdField(form);
+	//var idField =findIdField(form);
+	var idField =form.idField;
 	var action = findAction(event)
 	var dataKey = $(target).attr('datakey');
 	var handler=action.handler;
@@ -899,9 +922,17 @@ function JetList (config) {
   jetList.form = config.form;
   jetList.form.id = config.id;
   jetList.form.parentId = config.parentId;
+  jetList.form.idField=findIdField(jetList.form);
+  jetList.showIndex =  config.showIndex;
+  jetList.selectable =  config.selectable;
   window[config.id]=jetList;
   
   return jetList;
+}
+
+JetList.prototype.setDataKey = function(value) {
+	var form = this.form;
+	setDataKey(form, value);
 }
 
 JetList.prototype.render = function(){
@@ -954,62 +985,110 @@ JetList.prototype.renderList = function() {
         success: function(response) {
         	//console.log(response);
         	var columns=[];
-        	var ctr=0;
-        	columns[ctr++]= { "title":''};
-			form.fields.forEach(field => {
-				if(field.type!='group'){
-					if(field.type!='hidden'){
-						columns[ctr++]= { "data": field.name, "title":field.label};
-					}
-				}else{
-					field.fields.forEach(grpfield => {
-						if(field.type!='hidden'){
-							columns[ctr++]= { "data": grpfield.name, "title":grpfield.label};
+        	var colCtr=0;
+        	var colDefCtr=0;
+        	var columnDefs =[];
+			var selectable = {};
+        	columns[colCtr++]= { "title":''};
+
+        	if(_this.selectable != undefined && _this.selectable == true){
+	        	columnDefs[colDefCtr++] = {
+		            orderable: false,
+		            className: 'select-checkbox',
+		            targets:   0
+	        	};
+	        	
+	        	selectable = {
+		            style: 'multi',
+		            selector: 'td:first-child'
+		        };
+			}else{
+				_this.showIndex = true;
+			}
+
+        	form.fields.forEach(field => {
+        		if(field.type!='hidden'){
+
+					if(field.view != undefined){
+						if(field.type == 'file'){
+							if(field.view == 'thumbnail'){
+								columnDefs[colDefCtr++] = {
+									'targets': colCtr,
+				        		    'searchable': false,
+				        		    'orderable': false,
+				        		    'className': 'dt-body-nowrap',
+				        		    'render': function (data, type, full, meta){
+				        		        return _this.renderThumbnailView(data, type, full, meta);
+				        		    }
+								}
+							}else if(field.view == 'download'){
+								columnDefs[colDefCtr++] = {
+									'targets': colCtr,
+				        		    'searchable': false,
+				        		    'orderable': false,
+				        		    'className': 'dt-body-nowrap',
+				        		    'render': function (data, type, full, meta){
+				        		        return _this.renderDownloadView(data, type, full, meta);
+				        		    }
+								}
+							}
+						}else if(field.type == 'text'){
+							if(field.view == 'folder'){
+								columnDefs[colDefCtr++] = {
+									'targets': colCtr,
+				        		    'searchable': false,
+				        		    'orderable': false,
+				        		    'className': 'dt-body-nowrap',
+				        		    'render': function (data, type, full, meta){
+				        		        return _this.renderFolderView(data, type, full, meta);
+				        		    }
+								}
+							}
 						}
-					});
+					}
+					columns[colCtr++]= { "data": field.name, "title":field.label};
 				}
-		   });
-        	// form.fields.forEach(field => {
-        	// 	if(field.type!='hidden'){
-        	// 		columns[ctr++]= { "data": field.name, "title":field.label};
-        	// 	}
-        	// });
+        		
+        	});
+        	columnDefs[colDefCtr]={
+    		    'targets': colCtr,
+    		    'title': 'Actions',
+    		    'searchable': false,
+    		    'orderable': false,
+    		    'className': 'dt-body-center dt-body-nowrap',
+    		    'render': function (data, type, full, meta){
+    		        return _this.renderRowActions(full);
+    		    }
+			};
         	
+        	console.log(columnDefs);
         	var data;
         	
         	if(provider.dataNode != undefined && provider.dataNode != ''){
-				
 				data = response[provider.dataNode];	
 			}else{
 				data = response;
 			}
 			
-        	//console.log(columns);
+        	console.log(columns);
         	//console.log(data);
         	
         	var table= $('#'+form.id).DataTable({ 
         		responsive: true,
         		data: data,
         		columns: columns,
-        		'columnDefs': [{
-		            orderable: false,
-		            className: 'select-checkbox',
-		            targets:   0
-		        	},{
-        		     'targets': columns.length,
-        		     'title': 'Actions',
-        		     'searchable': false,
-        		     'orderable': false,
-        		     'className': 'dt-body-center dt-body-nowrap',
-        		     'render': function (data, type, full, meta){
-        		        return _this.renderRowActions(full);
-        		    }
-        		}],
-        		select: {
-		            style: 'multi',
-		            selector: 'td:first-child'
-		        }
+        		columnDefs: columnDefs,
+        		select: selectable,
         	});
+        	if(_this.showIndex != undefined && _this.showIndex == true){
+	        	table.on('order.dt search.dt', function () {
+			        let i = 1;
+			 
+			        table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+			            this.data(i++);
+			        });
+	    		}).draw();
+    		}
         },
         error: function(error) {
             alert('Error in fetching data');
@@ -1017,13 +1096,28 @@ JetList.prototype.renderList = function() {
     });
 }
 
+JetList.prototype.renderThumbnailView = function(data, type, full, meta) {
+	return "<img src='"+data+"'>";
+}
+
+JetList.prototype.renderDownloadView = function(data, type, full, meta) {
+	return "<a href='"+data+"' target='_blank'><i class='fa fa-cloud-download' aria-hidden='true'></i></a>";
+}
+
+JetList.prototype.renderFolderView = function(data, type, full, meta) {
+	return "<i class='fa fa-folder-o' aria-hidden='true'></i>&nbsp;"+data;
+}
+
+
 JetList.prototype.renderRowActions = function(data) {
 	var _this = this;
 	var form = _this.form;
 	var html='';
-	var idField = findIdField(form);
+	//var idField = findIdField(form);
+	var idField = form.idField;
 	if(form.actions.length>0){
     	form.actions.forEach(action => {
+			
 			action['formId']=form.id;
 			//action['dataKey']="{'"+idField.name+"':"+"'"+data[idField.name]+"'}";
 			action['dataKey']=data[idField.name];
@@ -1038,11 +1132,13 @@ JetList.prototype.renderRowActions = function(data) {
 	return html;
 }
 
-JetList.prototype.getIdField = function(){
+/*JetList.prototype.getIdField = function(){
 	var _this = this;
 	var form = _this.form;
-	return findIdField(form);
-}
+	var idField = form.idField;
+	//return findIdField(form);
+	return idField;
+}*/
 
 function findIdField (form) {
 	var idField;
@@ -1057,6 +1153,7 @@ function findIdField (form) {
 			});
 		}
 	});
+	form.idField = idField;
 	return idField;
 }
 
@@ -1108,14 +1205,10 @@ function formatMessage(message, params){
 
 function appendQueryParam(message, params){
 	var tmp = message+(message.indexOf("?")>0?"&":"?");
-	console.log("tmp1");
-	console.log(tmp);
 	
 	$.each(params, function(key, item) {
 		tmp+= (key+"="+item+"&")
 	});
-	console.log("tmp2");
-	console.log(tmp);
 	
 	return tmp;
 }
@@ -1138,9 +1231,8 @@ function editData(event){
 	var action = findAction(event);
 		
 	if(action.handler !=undefined && action.handler.href != undefined){
-		
 		var handler = action.handler;
-		console.log();
+		
 		redirectUrl(target, handler);
 
 	}
@@ -1157,14 +1249,14 @@ function deleteData(event){
 		if(provider.ajax != undefined){
 			
 			var field; //For delete data undefined field to be declared
-			console.log(field);
-			callAjax(field, target, provider, onDeleteSuccess, onDeleteFailure);
+			
+			callAjax(form, field, target, provider, onDeleteSuccess, onDeleteFailure);
 		}
 	}
 	//console.log(form);
 }
 
-function onDeleteSuccess(field, target, data){
+function onDeleteSuccess(form, field, target, data){
 	alert("Success! Record deleted successfully.");
 	
 	var _this=getTargetFormParent(target);
@@ -1172,7 +1264,7 @@ function onDeleteSuccess(field, target, data){
 	_this.updateList(field, data);
 }
 
-function onDeleteFailure(field, target, error){
+function onDeleteFailure(form, field, target, error){
 	alert("Error! Record deletion failed.");
 	console.log(error);
 }
@@ -1214,15 +1306,24 @@ JetList.prototype.updateList = function() {
     _this.renderList();
 }
 
-function callAjax(field, action, provider, successFunc, failureFunc){
-	var form;
-	var idField;
+function callAjax(form, field, action, provider, successFunc, failureFunc){
 	var dataKey;
+
+	var idField = form.idField;	
+	/*console.log("Entering callAjax.........");
+	console.log(field);
+	console.log(action);
+	console.log(provider);
+	console.log(successFunc);
+	console.log(failureFunc);
+	console.log(idField);*/
+	
 	if(action != undefined){
-		var _this=getTargetFormParent(action);
-		form = _this.form;
-		idField =findIdField(form);
-		dataKey = $(action).attr('datakey');	
+		//var _this=getTargetFormParent(action);
+		
+		dataKey = $(action).attr('datakey');
+	}else{
+		dataKey = idField.value;
 	}
 	
 	if(provider != undefined && provider.ajax != undefined){
@@ -1232,6 +1333,7 @@ function callAjax(field, action, provider, successFunc, failureFunc){
 		var contentType = (provider.contentType != undefined ? provider.contentType : "application/json");
 		
     	var pathParams = {};
+		
 		if(provider.pathParams != undefined){
         	//var keys=Object.keys(params);
         	$(provider.pathParams).each(function(key,param){
@@ -1242,30 +1344,36 @@ function callAjax(field, action, provider, successFunc, failureFunc){
         		//console.log(param)
         		if(value != undefined){
 					if(value.startsWith('.') || value.startsWith('#')){
-	        			value=$(value).val();
+						if($(value).length>0){
+	        				value=$(value).val();
+	        			}else{
+							value='';
+						}
     	    		}
 					pathParams[param.name]=value;
-					
 				}
         	});
         }
 
 		if(idField != undefined && dataKey != undefined && dataKey !=''){
 			pathParams[idField.name] = dataKey;
-		
 		}
 
         var queryParams={};
 		
-        if(provider.queryParams!= undefined){
-		
+        if(provider.queryParams != undefined){
         	//var keys=Object.keys(params);
         	$(provider.queryParams).each(function(key,param){
         		var value=param.value;
+        		
         		console.log ("key -- "+key+" typeof value: "+(typeof value)+" -- "+value);
         		if(value != undefined){
 	        		if(value.startsWith('.') || value.startsWith('#')){
-	        			value=$(value).val();
+	        			if($(value).length>0){
+	        				value=$(value).val();
+	        			}else{
+							value='';
+						}
 	        		}
 	       			queryParams[param.name]=value;
        			}
@@ -1275,10 +1383,10 @@ function callAjax(field, action, provider, successFunc, failureFunc){
         
         if(idField != undefined && queryParams[idField.name] != undefined && dataKey != undefined && dataKey !=''){
 			queryParams[idField.name] = dataKey;
-			
 		}
 		
 		var requestParams={};
+		
         if(provider.requestParams != undefined){
         	//var keys=Object.keys(params);
         	$(provider.requestParams).each(function(key,param){
@@ -1287,10 +1395,13 @@ function callAjax(field, action, provider, successFunc, failureFunc){
         		console.log ("key -- "+key+" typeof value: "+(typeof value)+" -- "+value);
         		if(value != undefined){
 	        		if(value.startsWith('.') || value.startsWith('#')){
-	        			value=$(value).val();
+	        			if($(value).length>0){
+	        				value=$(value).val();
+	        			}else{
+							value='';
+						}
 	        		}
 	        		requestParams[param.name]=value;
-	        	
 				}
         	});
         } 
@@ -1303,10 +1414,10 @@ function callAjax(field, action, provider, successFunc, failureFunc){
 			url = formatMessage(url, pathParams);
 		}else{
 			url = appendQueryParam(url, pathParams);
-			
 		}
 		
 		url = appendQueryParam(url, queryParams);
+		
 		$.ajax({
 	         url: url,
 	         type: method,
@@ -1315,10 +1426,10 @@ function callAjax(field, action, provider, successFunc, failureFunc){
 	         contentType: contentType
 	     }).done(function(response) {
 			var data = (provider.dataNode == undefined? response: response[provider.dataNode] );
-			successFunc(field, action, data);
+			successFunc(form, field, action, data);
 		
 		}).fail(function(error) {
-			failureFunc(field, action, error);
+			failureFunc(form, field, action, error);
 		});
 	}else{
 		console.log("Provider is undefined or provider.ajax is undefined.");
@@ -1358,6 +1469,31 @@ function redirectUrl(action, handler){
 		url = appendQueryParam(url, handler.queryParams);
 	}
 	
-	
+	alert(url);
 	window.location.href=url;
+}
+
+function setDataKey(form, value){
+	if(form.idField == undefined){
+		form.idField = findIdField(form);
+	}
+	
+	if(form.idField != undefined){
+		form.idField.value = value;
+		if(form.providers == undefined){
+			form.providers = {};
+		}
+		
+		if(form.providers.selector == undefined){
+			form.providers.selector = {};
+		}
+		
+		if(form.providers.selector.pathParams == undefined){
+			form.providers.selector.pathParams = {};
+		}
+		
+		form.providers.selector.pathParams[form.idField.name]=form.idField.value;
+	}else{
+		console.log("No id field defined for the form");
+	}
 }

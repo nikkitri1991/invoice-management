@@ -70,7 +70,7 @@
 						<ul aria-expanded="false" class="mm-collapse mm-show left" style="">
 							<li class="mm-active"><a href="billing_type_list" class="mm-active">BillingType</a></li>
 							<li class="mm-active"><a href="billing_cycle_list" class="mm-active">BillyingCycle</a></li>
-							<li class="mm-active"><a href="addressType_list" class="mm-active">AddressType</a></li>
+							<li class="mm-active"><a href="address_type_list" class="mm-active">AddressType</a></li>
 							<li class="mm-active"><a href="company-type-list" class="mm-active">CompanyType</a></li>
 							<li class="mm-active"><a href="currency_list" class="mm-active">Currency</a></li>
 							

@@ -101,16 +101,16 @@ public class ClientController {
 		return "new_invoice";
 
 	} 
-	@RequestMapping("/addressType")
+	@RequestMapping("/address_type")
 	public String addressType() {
 		System.out.println("addressType");
-		return "addressType";
+		return "address_type";
 
 	} 
-	@RequestMapping("/addressType_list")
+	@RequestMapping("/address_type_list")
 	public String addressTypeList() {
 		System.out.println("addressType_list");
-		return "addressType_list";
+		return "address_type_list";
 
 	} 
 	@RequestMapping("/company-type-list")
