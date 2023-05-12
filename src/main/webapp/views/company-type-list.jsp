@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CompanyType Form</title>
 <%@include file="../theme/cdn.jsp"%>
-
 <script type="text/javascript" src="../js/form/company-type.js"></script>
 </head>
 <!-- body  -->

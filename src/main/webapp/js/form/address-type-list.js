@@ -2,15 +2,15 @@
 var addressType = {
 	"id": "addressType",
 	"parentId" :"addressTypeContainer",
-	"title": "AddressType ",
+	"title": "AddressType",
 	"namespace": "",
 	"enctype": "multipart/form-data",
 	"fields": [ 
-				{
+				{	
 					"type": "hidden",
 					"name": "id",
 					"id":true,
-					"required" : true,
+					"required" : true
 				},
 				{
 					"type": "text",
@@ -84,8 +84,8 @@ var addressType = {
 		"selector": {
 			"ajax": "http://localhost:9004/api/v1/addressType/{id}",
 			"method": "get",
-			"pathParams":{"id":"#id"},
-			"queryParams":{},
+			"requestParams":{"id":"#id"},
+			"queryParams":{}
 			
 
 		},
