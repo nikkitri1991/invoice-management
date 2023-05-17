@@ -1,8 +1,9 @@
 
 var addressType = {
+	
 	"id": "addressType",
-	"parentId" :"addressTypeContainer",
 	"title": "AddressType",
+	"parentId" :"addressTypeContainer",
 	"namespace": "",
 	"enctype": "multipart/form-data",
 	"fields": [ 
