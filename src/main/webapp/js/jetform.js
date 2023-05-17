@@ -28,7 +28,9 @@ const templates = {            //object for mapping object to id
     group : '#jf-field-group-template',
     button : '#jf-button-template',
     form_actions : '#jf-form-actions-template',
-    link : '#jf-link-template'
+    link : '#jf-link-template',
+    textarea:"#jf-textarea-template"
+    
 };
 
 function JetForm (config) {
