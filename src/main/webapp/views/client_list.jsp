@@ -4,8 +4,6 @@
 <%@include file="../theme/cdn.jsp" %>
 <script type="text/javascript" src="../js/form/client-list.js"></script>
 </head>
-
-
 <body>
 	<div class="row">
 		<div class="col-md-3">
@@ -23,8 +21,10 @@
 
 
 <script>
+var id="<%=request.getParameter("id")!=null? request.getParameter("id"):""%>";
 $(document).ready(() => {
 	var jetList=JetList({"id":"client", "parentId":"clientListContainer", "form":clientListForm});
+	jetList.setDataKey(id);
 	jetList.render();
 });
 </script>
