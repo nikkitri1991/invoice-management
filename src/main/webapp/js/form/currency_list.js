@@ -71,17 +71,19 @@ var currencyListForm = {
 			}*/
 		}
 	],
-	"providers": {
+	 	"providers": {
 		"collection": {
 			"ajax": "http://localhost:9004/api/v1/currency",
 			"method": "get"
+			//"dataNode": "data"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/currency/{id}",
 			"method": "get",
-			"pathParams":{},
-			"queryParams":{}
-
+			"pathParams":{"id":"#id"}
+			//"dataNode": "data"
+			/*"requestParams":{"id":"#id"},
+			"queryParams":{}*/
 		},
 		"create": {
 			"ajax": "http://localhost:9004/api/v1/currency",
@@ -92,13 +94,14 @@ var currencyListForm = {
 		},
 		"update": {
 			"ajax": "http://localhost:9004/api/v1/currency",
-			"method": "put",
+			"method": "put"
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/currency",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/currency/{id}",
+			"method": "delete"
 		}
 	}
+		
+
 	};

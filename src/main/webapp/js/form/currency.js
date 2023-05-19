@@ -5,6 +5,13 @@ var currencyForm = {
 	"namespace" : "",
 	"enctype": "multipart/form-data",
 	"fields": [ 
+		
+		{
+			"type": "hidden",
+			"name": "id",
+			"id":true,
+			"required": true
+		},
 		{
 			"type": "text",
 			"name": "name",
@@ -14,20 +21,17 @@ var currencyForm = {
 			
 		}
 	],
-	"actions": [{
+      "actions": [{
 		"name": "save",
 		"type": "submit",
 		"label": "Save",
 		"applyTo": "form",
 		"handler": {
-			"type": "javascript",
-			"func": "submitForm(event)",
-			"method": "post",
-			"url": "http://localhost:9004/api/v1/currency"
+				"script": "submitForm(event)",
 		},
 		"redirects": {
 			"success": {"href":"currency_list"},
-			"failure": {"href":""}
+			"failure": {"href":"alert('Saving operation failed')"}
 		},
 		"cssClass": "btn-primary"
 	}, {
@@ -49,19 +53,41 @@ var currencyForm = {
 		"handler": {
 			"href": "currency_list"
 		}
-	}
+	},
+	{
+			"name": "edit",
+			"type": "button",
+			"label": "Edit",
+			"applyTo": "row",
+			"cssClass": "btn-danger",
+			"handler": {
+				"href": "currency_list"
+			}
+		},
+	{
+			"name": "delete",
+			"type": "button",
+			"label": "Delete",
+			"applyTo": "row",
+			"cssClass": "btn-danger",
+			/*"handler": {
+				"script": "delete(event)"
+			}*/
+		}
 ],
  	"providers": {
 		"collection": {
 			"ajax": "http://localhost:9004/api/v1/currency",
-			"method": "get",
+			"method": "get"
+			//"dataNode": "data"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/currency/{id}",
 			"method": "get",
-			"pathParams":{},
-			"queryParams":{}
-
+			"pathParams":{"id":"#id"}
+			//"dataNode": "data"
+			/*"requestParams":{"id":"#id"},
+			"queryParams":{}*/
 		},
 		"create": {
 			"ajax": "http://localhost:9004/api/v1/currency",
@@ -71,14 +97,13 @@ var currencyForm = {
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "put",
+			"ajax": "http://localhost:9004/api/v1/currency",
+			"method": "put"
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/currency/{id}",
+			"method": "delete"
 		}
 	}
 		

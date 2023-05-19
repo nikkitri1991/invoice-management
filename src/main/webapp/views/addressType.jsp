@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<%@include file="../theme/cdn.jsp"%>
 <script type="text/javascript" src="../js/form/address-type.js"></script>
+<%@include file="../theme/cdn.jsp"%>
+
 </head>
 
 <body>
@@ -13,24 +13,21 @@
 			<%@include file="../theme/header.jsp"%>
 		</div>
 		<div class="col-md-9">
-			<div class="container m-2">
-				<div class="row">
-					<div class="col" id="addressTypeContainer" style="margin-top: 8%">
-						<h3>AddressType Form</h3>
-						<form id="addressType"></form>
-					</div>
-				</div>
+			<div class="container">
+			<div  id="addressTypeContainer"  style="margin-top:8%"></div>
 			</div>
 		</div>
 	</div>
-
-<jsp:include page="../template/jetform-template.jsp" />
+</body>
 <script>
+var id="<%=request.getParameter("id")!=null? request.getParameter("id"):""%>";
 	$(document).ready(() => {
 		var jetform=JetForm({"id":"addressType", "parentId":"addressTypeContainer", "form":addressType});
+		jetform.setDataKey(id);
 		jetform.render();
 	});
 </script>
- <%@include file="../theme/js_scripts.jsp"%>
-</body>
+ <jsp:include page="../template/jetform-template.jsp"/>
+<%@include file="../theme/js_scripts.jsp" %>
+
 </html>

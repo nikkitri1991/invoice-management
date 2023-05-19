@@ -15,28 +15,28 @@ var purchaseOrderListForm = {
 			},
 			{
 				"type": "text",
-				"name": "name",
+				"name": "poNumber",
 				"label": "PO Number",
 				"required": true
 				
 			},
 			{
 				"type": "date",
-				"name": "purchaseOrderDate",
+				"name": "poDate",
 				"label": "Purchase Order Date",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "client",
+				"name": "clientId",
 				"label": "Client",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "amount",
+				"name": "clientPurchaseOrderItem.amount",
 				"label": "Amount",
 				"required": true	
 			}
@@ -75,16 +75,6 @@ var purchaseOrderListForm = {
 			}
 		},
 		{
-			"name": "edit",
-			"type": "button",
-			"label": "Edit",
-			"applyTo": "row",
-			"cssClass": "btn-primary",
-			"handler": {
-				"href": "purchase_order"
-			}
-		},
-		{
 			"name": "delete",
 			"type": "button",
 			"label": "Delete",
@@ -97,32 +87,31 @@ var purchaseOrderListForm = {
 	],
 	"providers": {
 		"collection": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
 			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder/{id}",
 			"method": "get",
-			"pathParams":{},
+			"pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
 		"create": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
 			"method": "put",
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder/{id}",
+			"method": "delete"
 		}
 	}
 	};

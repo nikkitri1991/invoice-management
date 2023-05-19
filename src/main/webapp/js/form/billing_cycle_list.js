@@ -14,7 +14,7 @@ var billingCycleListForm = {
 		},
 			{
 				"type": "text",
-				"name": "name",
+				"name": "billingCycleName",
 				"label": "BillingCycle",
 				"required": true
 				
@@ -60,7 +60,7 @@ var billingCycleListForm = {
 			"applyTo": "row",
 			"cssClass": "btn-primary",
 			"handler": {
-				"href": "candidate"
+				"href": "billing_cycle"
 			}
 		},
 		{
@@ -78,12 +78,15 @@ var billingCycleListForm = {
 		"collection": {
 			"ajax": "http://localhost:9004/api/v1/billingCycle",
 			"method": "get"
+			//"dataNode": "data"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/billingCycle/{id}",
 			"method": "get",
-			"pathParams":{},
+			"pathParams":{"id":"#id"},
 			"queryParams":{}
+			//"queryParams":{}
+			//"dataNode": "data"
 
 		},
 		"create": {
@@ -95,13 +98,14 @@ var billingCycleListForm = {
 		},
 		"update": {
 			"ajax": "http://localhost:9004/api/v1/billingCycle",
-			"method": "put",
-			
+			"method": "put"
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingCycle",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/billingCycle/{id}",
+			"method": "delete"
+			
 		}
 	}
-	};
+};
+	
+	

@@ -19,8 +19,10 @@
 	</div>
 </body>
 <script>
+var id="<%=request.getParameter("id")!=null? request.getParameter("id"):""%>";
 $(document).ready(() => {
 	var jetList=JetList({"id":"billingType", "parentId":"billingTypeListContainer", "form":billingTypeListForm});
+	jetList.setDataKey(id);
 	jetList.render();
 });
 </script>

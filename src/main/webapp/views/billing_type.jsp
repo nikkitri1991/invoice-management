@@ -23,8 +23,10 @@
 
 
 <script>
+var id="<%=request.getParameter("id")!=null? request.getParameter("id"):""%>";
 	$(document).ready(() => {
 		var jetform=JetForm({"id":"billingType", "parentId":"billingTypeFormContainer", "form":billingTypeForm});
+		jetform.setDataKey(id);
 		jetform.render();
 	});
 </script>

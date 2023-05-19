@@ -6,7 +6,13 @@ var invoiceForm =  {
 			"namespace" : "",
 			"enctype": "multipart/form-data",
 			"fields": [
-						{
+				{
+				"type": "hidden",
+				"name": "id",
+				"label": "#",
+				"id":true
+			     },
+				{
 							"type": "group",
 							"name": "invoice",
 							"label": "name",
@@ -106,7 +112,7 @@ var invoiceForm =  {
 			"fields": [{
 					"type": "list",
 					"name": "item",
-					"label": "",
+					"label": "Item",
 					"editMode": "inline",
 					"col": 12,
 					"fields": [{
@@ -116,13 +122,13 @@ var invoiceForm =  {
 						"placeHolder": "",
 						"showLabel": false
 					}, {
-						"type": "text",
-						"name": "itempo",
+						"type": "select",
+						"name": "item",
 						"label": "Item/PO.Ref",
 						"placeHolder": "",
 						"showLabel": false
 					}, {
-						"type": "text",
+						"type": "textarea",
 						"name": "description",
 						"label": "Description",
 						"placeHolder": "",
@@ -149,10 +155,7 @@ var invoiceForm =  {
 							"label": "fa-minus-circle",
 							"applyTo": "row",
 							"handler": {
-								"type": "javascript",
-								"func": "deleteRow(event)",
-								"method": "post",
-								"url": "http://localhost:8082/api/v1/user"
+								"script": "deleteRow(event)"
 							},
 							"cssClass": ""
 						},
@@ -162,10 +165,7 @@ var invoiceForm =  {
 							"label": "fa-pencil",
 							"applyTo": "row",
 							"handler": {
-								"type": "javascript",
-								"func": "editRow(event)",
-								"method": "post",
-								"url": "http://localhost:8082/api/v1/user"
+								"script": "editRow(event)"
 							},
 							"cssClass": ""
 						},
@@ -175,10 +175,7 @@ var invoiceForm =  {
 							"label": "fa-plus-circle",
 							"applyTo": "list",
 							"handler": {
-								"type": "javascript",
-								"func": "addRow(event)",
-								"method": "post",
-								"url": ""
+								"script": "addRow(event)"
 							},
 							"cssClass": ""
 						}

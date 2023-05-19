@@ -10,18 +10,44 @@ var purchaseOrderForm = {
 			"label": "name",
 			"col":12,
 			"fields": [
-       		 {
+				{
+				    "type": "hidden",
+			         "name": "id",
+			         "id":true,
+			         "required": true
+				},
+       		    {
 					"type" : "select",
-					"name" : "client",
+					"name" : "clientId",
 					"label" : "Client",
 					"listable" : false,
 					"searchable" : false,
-					"col":7
+					"col":7,
+						"options": [{
+						"value": "1",
+						"label": "Tata"
+					}, {
+						"value": "2",
+						"label": "Mark Jukarbarge"
+					}, {
+						"value": "3",
+						"label": "Jeff Bajos"
+					},
+					 {
+						"value": "4",
+						"label": "Tim Cook"
+					},
+					 {
+						"value": "5",
+						"label": "Elon Mask"
+					}
+					
+					]
 				},
 				
 				{
 					"type" : "text",
-					"name" : "pono",
+					"name" : "poNumber",
 					"label" : "PO. No",
 					"listable" : false,
 					"searchable" : false,
@@ -30,7 +56,7 @@ var purchaseOrderForm = {
 				{
 					"type" : "text",
 					"name" : "address",
-					"label" : "",
+					"label" : "Address",
 					"listable" : false,
 					"searchable" : false,
 					"col":7
@@ -38,7 +64,7 @@ var purchaseOrderForm = {
 				
 				{
 					"type" : "date",
-					"name" : "podate",
+					"name" : "poDate",
 					"label" : "PO. Date",
 					"listable" : false,
 					"searchable" : false,
@@ -47,7 +73,7 @@ var purchaseOrderForm = {
 				
 				{
 					"type" : "text",
-					"name" : "poTitle",
+					"name" : "title",
 					"label" : "PO Title",
 					"listable" : false,
 					"searchable" : false,
@@ -64,29 +90,29 @@ var purchaseOrderForm = {
 				},
 				 {
 					"type" : "select",
-					"name" : "billingType",
+					"name" : "billingTypeName",
 					"label" : "Billing Type",
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "Billing Type",
 					"provider": {
-						"url": "http://localhost:9004/api/v1/billingCycle",
+						"ajax": "http://localhost:9004/api/v1/billingType",
 						"value":"id",
-						"label":"name"
+						"label":"billingTypeName"
 					},
 					"col":4		
 				},
 				{
 					"type" : "select",
-					"name" : "billingCycle",
+					"name" : "billingCycleName",
 					"label" : "Billing Cycle",
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "Billing Cycle",
 					"provider": {
-						"url": "http://localhost:9004/api/v1/billingType",
+						"ajax": "http://localhost:9004/api/v1/billingCycle",
 						"value":"id",
-						"label":"name"
+						"label":"billingCycleName"
 					},
 					"col":3
 				},
@@ -104,34 +130,32 @@ var purchaseOrderForm = {
 				
 				{
 					"type" : "checkbox",
-					"name" : "checkbox",
+					"name" : "sow",
 					"label" : "SOW",
-					"id" : "sow",
-					"group" : "pocustdetails",
 					"required" : true,
 					"col":7,
-					"provider" : {
-						"url" : "https://mocki.io/v1/e6d53dc0-3cab-4c21-a915-b2b9433ff945",
-						"options" : [],
-						"id" : "sow",
-						"value" : "Yes"
-					}
+				    "options": [{
+								"checked": "checked"
+							}],
+						
 				},
 				
 					
 				{
 					"type" : "select",
-					"name" : "currency",
+					"name" : "name",
 					"label" : "Currency",
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "",
 					"col":5,
 					"provider": {
-						"url": "http://localhost:9004/api/v1/currency",
+						"ajax": "http://localhost:9004/api/v1/currency",
 						"value":"id",
 						"label":"name"
 					},
+					"required": true
+
 				},
 				
 				{
@@ -142,12 +166,13 @@ var purchaseOrderForm = {
 					"searchable" : false,
 					"placeHolder" : "",
 					"col":7
+					
 				},
 				
 				
 					{
 					"type" : "text",
-					"name" : "hsn/sac",
+					"name" : "hsnSac",
 					"label" : "HSN/SAC",
 					"listable" : false,
 					"searchable" : false,
@@ -155,6 +180,29 @@ var purchaseOrderForm = {
 					"col":5
 				},
 			
+			{
+					"type" : "select",
+					"name" : "name",
+					"label" : "Payment Term",
+					"listable" : false,
+					"searchable" : false,
+					"placeHolder" : "",
+					"options": [{
+						"value": "1",
+						"label": "15 Days"
+					}, {
+						"value": "2",
+						"label": "30 Days"
+					},
+					{  "value": "3",
+						"label": "45 Days"
+					},
+					{
+					  "value": "2",
+					   "label": "60 Days"}
+					],
+					"col":7
+				},
 				{
 					"type" : "textarea",
 					"name" : "shippingAddress",
@@ -162,7 +210,7 @@ var purchaseOrderForm = {
 					"listable" : false,
 					"searchable" : false,
 					"placeHolder" : "",
-					"col":12
+					"col":5
 				}
 				
 				]
@@ -170,42 +218,42 @@ var purchaseOrderForm = {
 		 
 		{
 			"type": "group",
-			"name": "middleGroup",
+			"name": "clientPurchaseOrderItem",
 			"label": "name",
 			"fields": [{
 					"type": "list",
-					"name": "qualifications",
+					"name": "clientPurchaseOrderItem",
 					"label": "Qualifications",
 					"editMode": "inline",
 					"col": 12,
 					"fields": [{
-						"type": "text",
-						"name": "item",
+						"type": "textarea",
+						"name": "itemName",
 						"label": "Item",
 						"placeHolder": "",
 						"showLabel": false
 					}, {
-						"type": "text",
-						"name": "description",
+						"type": "textarea",
+						"name": "itemDescription",
 						"label": "Description",
 						"placeHolder": "",
 						"showLabel": false
 					}, {
-						"type": "number",
+						"type": "text",
 						"name": "qty",
 						"label": "Qty",
 						"placeHolder": "",
 						"showLabel": false
 					}, {
-						"type": "number",
+						"type": "text",
 						"name": "price",
 						"label": "Price",
 						"placeHolder": "",
 						"showLabel": false
 					},{
-						"type": "number",
+						"type": "text",
 						"name": "amount",
-						"label": "Amoutn",
+						"label": "Amount",
 						"placeHolder": "",
 						"showLabel": false
 					}
@@ -218,10 +266,7 @@ var purchaseOrderForm = {
 							"label": "fa-minus-circle",
 							"applyTo": "row",
 							"handler": {
-								"type": "javascript",
-								"func": "deleteRow(event)",
-								"method": "post",
-								"url": "http://localhost:8082/api/v1/user"
+								"script": "deleteRow(event)",
 							},
 							"cssClass": ""
 						},
@@ -231,10 +276,7 @@ var purchaseOrderForm = {
 							"label": "fa-pencil",
 							"applyTo": "row",
 							"handler": {
-								"type": "javascript",
-								"func": "editRow(event)",
-								"method": "post",
-								"url": "http://localhost:8082/api/v1/user"
+							   "script": "editRow(event)",
 							},
 							"cssClass": ""
 						},
@@ -244,10 +286,7 @@ var purchaseOrderForm = {
 							"label": "fa-plus-circle",
 							"applyTo": "list",
 							"handler": {
-								"type": "javascript",
-								"func": "addRow(event)",
-								"method": "post",
-								"url": ""
+								"script": "addRow(event)",
 							},
 							"cssClass": ""
 						}
@@ -257,25 +296,22 @@ var purchaseOrderForm = {
 				
 			]
 		},
-		
-		
-		
 		{
 			"type": "group",
-			"name": "instructions",
+			"name": "instructions1",
 			"label": "name",
 			"col": 12,
 			"fields": [{
-					"type": "text",
-					"name": "comments",
+					"type": "textarea",
+					"name": "instructions",
 					"label": "Comments or Special Instructions",
 					"listable": false,
 					"searchable": false,
 					"col": 9
 				},
 				{
-					"type": "number",
-					"name": "subtotal",
+					"type": "text",
+					"name": "subTotal",
 					"label": "Sub Total",
 					"required": false,
 					"col": 3
@@ -283,11 +319,11 @@ var purchaseOrderForm = {
 				
 				
 				{
-					"type": "text",
-					"name": "terms",
+					"type": "textarea",
+					"name": "termsConditions",
 					"label": "Terms & Conditions",
-					"col": 9,
-					"validations": {
+					"col": 9
+				/*	"validations": {
 						"rules": {
 							"required": true,
 							"email": true
@@ -296,11 +332,11 @@ var purchaseOrderForm = {
 							"required": " Please enter a username",
 							"email": " Please enter a valid email address"
 						}
-					}
+					}*/
 				},
 				 {
-					"type" : "number",
-					"name" : "tax",
+					"type" : "text",
+					"name" : "taxAmount",
 					"label" : "Tax",
 					//"required": true,
 					"placeHolder" : "0.00",
@@ -313,7 +349,7 @@ var purchaseOrderForm = {
 		},
 		{
 			"type": "group",
-			"name": "amount",
+			"name": "amount1",
 			"label": "name",
 			"col": 12,
 			"fields": [
@@ -324,7 +360,7 @@ var purchaseOrderForm = {
 				},
 				{
 					"type" : "text",
-					"name" : "Others",
+					"name" : "otherAmount",
 					"label" : "Others",
 					//"required": true,
 					"placeHolder" : "0.00",
@@ -358,7 +394,7 @@ var purchaseOrderForm = {
 				
 				 {
 					"type" : "text",
-					"name" : "advancepaid",
+					"name" : "advancePaid",
 					"label" : "Advance Paid",
 					//"required": true,
 					"placeHolder" : "0.00",
@@ -374,14 +410,21 @@ var purchaseOrderForm = {
 				
 				 {
 					"type" : "text",
-					"name" : "balancedue",
+					"name" : "balanceDue",
 					"label" : "BalanceDue",
 					//"required": true,
 					"placeHolder" : "0.00",
 					"showLabel" : false,
 					"col":3
 					
-				}
+				},
+				{
+									"type": "file",
+									"name": "poFileUrl",
+									"label": "",
+									"placeHolder": "Choose File",
+									"col": 7
+								}
 				
 				
 					]
@@ -394,10 +437,7 @@ var purchaseOrderForm = {
 		"label": "Save",
 		"applyTo": "form",
 		"handler": {
-			"type": "javascript",
-			"func": "submitForm(event)",
-			"method": "post",
-			"url": "http://localhost:9004/api/v1/billingType"
+			"script": "submitForm(event)",
 		},
 		"redirects": {
 			"success": {"href":"purchase_order_list"},
@@ -427,32 +467,31 @@ var purchaseOrderForm = {
 ],
  	"providers": {
 		"collection": {
-			"ajax": "",
-			"method": "get",
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
+			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder/{id}",
 			"method": "get",
-			"pathParams":{},
+			"pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
 		"create": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "put",
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
+			"method": "put"
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/purchaseOrder/{id}",
+			"method": "delete"
 		}
 	}
 		

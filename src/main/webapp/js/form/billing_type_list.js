@@ -14,7 +14,7 @@ var billingTypeListForm = {
 			},
 			{
 				"type": "text",
-				"name": "name",
+				"name": "billingTypeName",
 				"label": "BillingType",
 				"required": true
 				
@@ -80,9 +80,9 @@ var billingTypeListForm = {
 			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/billingType/{id}",
 			"method": "get",
-			"pathParams":{},
+			"pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
@@ -95,13 +95,12 @@ var billingTypeListForm = {
 		},
 		"update": {
 			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "put",
+			"method": "put"
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/billingType/{id}",
+			"method": "delete"
 		}
 	}
 	};

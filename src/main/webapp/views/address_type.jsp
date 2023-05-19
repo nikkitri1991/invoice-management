@@ -13,16 +13,13 @@
 			<%@include file="../theme/header.jsp"%>
 		</div>
 		<div class="col-md-9">
-			<div class="container m-2">
-				<div class="row">
-					<div class="col" id="addressTypeContainer" style="margin-top: 8%">
-						<form id="addressType"></form>
-					</div>
-				</div>
+			<div class="container">
+				<div id="addressTypeContainer" style="margin-top: 8%"></div>
 			</div>
 		</div>
 	</div>
 </body>
+
 <script>
 var id="<%=request.getParameter("id")!=null? request.getParameter("id"):""%>";
 console.log("id"+id);
@@ -35,6 +32,4 @@ console.log("id"+id);
 
 <jsp:include page="../template/jetform-template.jsp" />
  <%@include file="../theme/js_scripts.jsp"%>
- 
-
 </html>

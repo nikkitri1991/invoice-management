@@ -5,8 +5,14 @@ var billingCycleForm = {
 	"enctype": "multipart/form-data",
 	"fields": [ 
 		{
+			"type": "hidden",
+			"name": "id",
+			"id":true,
+			"required": true
+		},
+		{
 			"type": "text",
-			"name": "name",
+			"name": "billingCycleName",
 			"label": "BillingCycle",
 			"listable":false,
 			"searchable": false
@@ -19,10 +25,7 @@ var billingCycleForm = {
 		"label": "Save",
 		"applyTo": "form",
 		"handler": {
-			"type": "javascript",
-			"func": "submitForm(event)",
-			"method": "post",
-			"url": "http://localhost:9004/api/v1/billingCycle"
+			"script": "submitForm(event)"
 		},
 		"redirects": {
 			"success": {"href":"billing_cycle_list"},
@@ -53,13 +56,15 @@ var billingCycleForm = {
  	"providers": {
 		"collection": {
 			"ajax": "http://localhost:9004/api/v1/billingCycle",
-			"method": "get",
+			"method": "get"
+			//"dataNode": "data"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/billingCycle/{id}",
 			"method": "get",
-			"pathParams":{},
-			"queryParams":{}
+			"pathParams":{"id":"#id"},
+			//"queryParams":{}
+			//"dataNode": "data"
 
 		},
 		"create": {
@@ -71,15 +76,16 @@ var billingCycleForm = {
 		},
 		"update": {
 			"ajax": "http://localhost:9004/api/v1/billingCycle",
-			"method": "put",
-			
+			"method": "put"
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingCycle",
+			"ajax": "http://localhost:9004/api/v1/billingCycle/{id}",
 			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			
 		}
 	}
-		
-
-	};
+};
+	
+ 
+	
+	

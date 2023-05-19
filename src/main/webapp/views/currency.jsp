@@ -22,11 +22,14 @@
 
 
 <script>
+var id="<%=request.getParameter("id")!=null? request.getParameter("id"):""%>";
 	$(document).ready(() => {
 		var jetform=JetForm({"id":"currency", "parentId":"currencyFormContainer", "form":currencyForm});
+		jetform.setDataKey(id);
 		jetform.render();
 	});
 </script>
  <%@include file="../theme/js_scripts.jsp" %>
-<jsp:include page="../template/jetform-template.jsp"/> 
+ <jsp:include page="../template/jetform-template.jsp"/> 
+
 </html> 

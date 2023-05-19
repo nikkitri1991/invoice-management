@@ -7,8 +7,14 @@ var billingTypeForm = {
 	"fields": [ 
 		
 		{
+			"type": "hidden",
+			"name": "id",
+			"id":true,
+			"required": true
+		},
+		{
 			"type": "text",
-			"name": "name",
+			"name": "billingTypeName",
 			"label": "BillingType",
 			"listable":false,
 			"searchable": false,
@@ -21,10 +27,7 @@ var billingTypeForm = {
 		"label": "Save",
 		"applyTo": "form",
 		"handler": {
-			"type": "javascript",
-			"func": "submitForm(event)",
-			"method": "post",
-			"url": "http://localhost:9004/api/v1/billingType"
+			"script": "submitForm(event)"
 		},
 		"redirects": {
 			"success": {"href":"billing_type_list"},
@@ -50,17 +53,37 @@ var billingTypeForm = {
 		"handler": {
 			"href": "billing_type_list"
 		}
-	}
+	},
+	{
+			"name": "edit",
+			"type": "button",
+			"label": "Edit",
+			"applyTo": "row",
+			"cssClass": "btn-danger",
+			"handler": {
+				"href": "currency_list"
+			}
+		},
+	{
+			"name": "delete",
+			"type": "button",
+			"label": "Delete",
+			"applyTo": "row",
+			"cssClass": "btn-danger",
+			/*"handler": {
+				"script": "delete(event)"
+			}*/
+		}
 ],
  	"providers": {
 		"collection": {
 			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "get",
+			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/billingType/{id}",
 			"method": "get",
-			"pathParams":{},
+			"pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
@@ -73,13 +96,12 @@ var billingTypeForm = {
 		},
 		"update": {
 			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "put",
+			"method": "put"
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/billingType/{id}",
+			"method": "delete"
 		}
 	}
 		

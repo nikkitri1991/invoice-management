@@ -1,6 +1,5 @@
 
 var addressType = {
-	
 	"id": "addressType",
 	"title": "AddressType",
 	"parentId" :"addressTypeContainer",
