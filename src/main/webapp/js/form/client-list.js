@@ -49,7 +49,7 @@ var clientListForm = {
 			
 			],
 			
-				"actions": [{
+			"actions": [{
 			"name": "save",
 			"type": "submit",
 			"label": "Save",
@@ -105,32 +105,30 @@ var clientListForm = {
 	],
 	"providers": {
 		"collection": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/client",
 			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
-			"method": "get",
-			"pathParams":{},
-			"queryParams":{}
+			"ajax": "http://localhost:9004/api/v1/client/{id}",
+			"method": "get"
 
 		},
 		"create": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/client",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/client",
 			"method": "put",
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/client",
+			"method": "delete"
+			
 		}
 	}
 	};

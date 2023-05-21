@@ -1,8 +1,8 @@
 
-var addressType = {
-	"id": "addressType",
-	"parentId" :"addressTypeContainer",
-	"title": "AddressType",
+var taxForm = {
+	"id": "taxForm",
+	"parentId" :"taxFormContainer",
+	"title": "Tax Form ",
 	"namespace": "",
 	"enctype": "multipart/form-data",
 	"fields": [ 
@@ -14,12 +14,32 @@ var addressType = {
 				},
 				{
 					"type": "text",
-					"name": "aname",
-					"label": "AddressType",
+					"name": "name",
+					"label": "Tax",
 					"required" : true,
 					"searchable": true
 			
-				}
+				},
+				{
+						"type": "select",
+						"name": "type",
+						"label": "Type",
+						"options": [{
+							"value": "Percentage",
+							"label": "Percentage"
+						}, {
+							"value": "Float",
+							"label": "Float"
+							
+						}],
+						"required": true
+					},
+					{
+					"type": "date",
+					"name": "effectiveDate",
+					"label": "Effective Date",
+					"required": false
+					},
 			],
 	"actions": [{
 			"name": "save",
@@ -30,7 +50,7 @@ var addressType = {
 				"script": "submitForm(event)",
 			},
 			"redirects": {
-				"success": {"href":"address_type_list"},
+				"success": {"href":"tax_list"},
 				"failure": {"script":"alert('Saving operation failed')"}
 			},
 			"cssClass": "btn-primary"
@@ -41,17 +61,17 @@ var addressType = {
 			"applyTo": "form",
 			"cssClass": "btn-secondary",
 			"redirects": {
-				"success": {"href":"address_type_list"},
+				"success": {"href":"tax"},
 			}
 		},
 		{
 			"name": "add",
 			"type": "button",
-			"label": "Add Address Type",
+			"label": "Add Tax",
 			"applyTo": "list",
 			"cssClass": "btn-danger",
 			"handler": {
-				"href": "address_type"
+				"href": "tax"
 			}
 		},
 		{
@@ -61,7 +81,7 @@ var addressType = {
 			"applyTo": "row",
 			"cssClass": "btn-danger",
 			"handler": {
-				"href": "address_type"
+				"href": "tax"
 			}
 		},
 		{
@@ -77,31 +97,26 @@ var addressType = {
 	],
  	"providers": {
 		"collection": {
-			"ajax": "http://localhost:9004/api/v1/addressType",
+			"ajax": "http://localhost:9004/api/v1/tax",
 			"method": "get"
 		},
 		"selector": {
-			"ajax": "http://localhost:9004/api/v1/addressType/{id}",
-			"method": "get",
-			"requestParams":{"id":"#id"},
-			"queryParams":{}
-			
-
+			"ajax": "http://localhost:9004/api/v1/tax/{id}"
 		},
 		"create": {
-			"ajax": "http://localhost:9004/api/v1/addressType",
+			"ajax": "http://localhost:9004/api/v1/tax",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/addressType",
+			"ajax": "http://localhost:9004/api/v1/tax",
 			"method": "put"
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/addressType",
+			"ajax": "http://localhost:9004/api/v1/tax",
 			"method": "delete"
 			
 		}

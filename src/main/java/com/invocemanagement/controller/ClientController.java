@@ -125,6 +125,18 @@ public class ClientController {
 		return "company-type";
 
 	} 
+	@RequestMapping("/tax")
+	public String taxForm(){
+		System.out.println("tax-form");
+		return "tax";
+
+	} 
+	@RequestMapping("/tax_list")
+	public String viewTaxList(){
+		System.out.println("tax-list");
+		return "tax_list";
+
+	} 
 	
 	
 }

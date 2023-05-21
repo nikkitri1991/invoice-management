@@ -14,7 +14,7 @@ var companyType = {
 				},
 				{
 					"type": "text",
-					"name": "name",
+					"name": "cname",
 					"label": "Company Type",
 					"required" : true,
 					"listable":true,
@@ -48,7 +48,7 @@ var companyType = {
 		{
 			"name": "add",
 			"type": "button",
-			"label": "Add Address Type",
+			"label": "Add Company Type",
 			"applyTo": "list",
 			"cssClass": "btn-danger",
 			"handler": {

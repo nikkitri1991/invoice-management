@@ -73,6 +73,7 @@
 							<li class="mm-active"><a href="address_type_list" class="mm-active">AddressType</a></li>
 							<li class="mm-active"><a href="company-type-list" class="mm-active">CompanyType</a></li>
 							<li class="mm-active"><a href="currency_list" class="mm-active">Currency</a></li>
+							<li class="mm-active"><a href="tax_list" class="mm-active">Tax</a></li>
 							
 							
 						</ul>

@@ -6,17 +6,22 @@ var clientForm =  {
 			"namespace" : "",
 			"enctype": "multipart/form-data",
 			"fields": [
-								{
+					{	
+						"type": "hidden",
+						"name": "id",
+						"id":true,
+						"required" : true
+					},
+					{
 						"type": "text",
 						"name": "name",
 						"label": "Name",
-						"required": true,
+						
 						"placeHolder": "Name"
 					}, {
 						"type": "text",
 						"name": "bussinessName",
 						"label": "Bussiness Name",
-						"required": true,
 						"placeHolder": "Bussiness Name"
 					},
 					 {
@@ -24,20 +29,19 @@ var clientForm =  {
 						"name": "companyType",
 						"label": "Company Type",
 						"provider": {
-							"ajax": "",
+							"ajax": "http://localhost:9004/api/v1/companyType",
 							"value": "id",
-							"label": "name"
-						},
-						"required": true
+							"label": "cname"
+						}
+					
 					},{
 						"type": "text",
 						"name": "primaryBussiness",
 						"label": "Primary Bussiness",
-						"required": true,
 						"placeHolder": "Primary Bussiness"
 					},
 				
-						{
+					{
 							"type": "group",
 							"name": "address",
 							"label": "name",
@@ -47,7 +51,7 @@ var clientForm =  {
 									"type": "text",
 									"name": "address1",
 									"label": "Address1",
-									"required": true,
+									
 									"placeHolder": "Enter Address",
 									"col":6
 								},
@@ -57,11 +61,11 @@ var clientForm =  {
 									"label": " AddressType",
 									"col":6,
 									"provider": {
-							               "ajax": "",
+							               "ajax": "http://localhost:9004/api/v1/addressType",
 							               "value": "id",
-							                "label": "name"
+							                "label": "aname"
 						                        },
-									"required": true,
+									
 									"placeHolder": "Select Address Type"
 								},
 								
@@ -73,7 +77,6 @@ var clientForm =  {
 									"col":6
 											
 									}, 
-									
 									
 									{
 									"type": "number",
@@ -133,20 +136,6 @@ var clientForm =  {
 									"placeHolder": "Enter website",
 									"col":6
 								},
-								
-							{
-									"type": "select",
-									"name": "country",
-									"label": "Country",
-									"required": true,
-									"col":6,
-									"provider": {
-										"ajax": "",
-										"value": "id",
-										"label": "name"
-									}
-								},	
-								
 								{
 									"type": "number",
 									"name": "phone",
@@ -168,13 +157,10 @@ var clientForm =  {
 								"type": "text",
 								"name": "firstName",
 								"label": "First Name",
-								"required": true,
 								"placeHolder": "Enter First Name",
 								"col":6
 							},	
-							
-								
-									{
+							{
 								"type": "number",
 								"name": "phone",
 								"label": "Phone",
@@ -195,7 +181,7 @@ var clientForm =  {
 								"type": "text",
 								"name": "lastName",
 								"label": "Last Name",
-								"required": true,
+								
 								"placeHolder": "Enter Last Name",
 								"col":6
 							},
@@ -220,7 +206,7 @@ var clientForm =  {
 								
 							{
 								"type": "text",
-								"name": "profileURl",
+								"name": "profileUrl",
 								"label": "Profile URL",
 								"placeHolder": "Enter Profile URL",
 								"col":6
@@ -253,40 +239,39 @@ var clientForm =  {
 							"fields": [
 
 								{
-									"type": "text",
+									"type": "number",
 									"name": "taxDocNo1",
 									"label": "Tax Doc No.1",
 									"placeHolder": "Tax Doc No.1",
 									"col": 6
 								},
 								{
-									"type": "text",
+									"type": "number",
 									"name": "taxDocNo2",
 									"label": "Tax Doc No.2",
 									"placeHolder": "Tax Doc No.2",
 									"col": 6
 								},
+								/*{
+								"type": "checkbox",
+								"name": "enabled",
+								"label": "Tax Exemptable",
 								
-								{
-							"type": "checkbox",
-							"name": "taxexemptable",
-							"label": "Tax Exemptable",
-							"required": true,
-							"col":6,
-							"options": [{
-								"checked": "checked"
-							}],
-							"provider": {
-								"url": "",
-								"id":"",
-								"value":""
-							}
-						},
+								"col":6,
+								"options": [{
+									"checked": "checked"
+								}],
+								"provider": {
+									"url": "",
+									"id":"",
+									"value":""
+								}
+						},*/
 						{
-							"type": "radio",
+							"type": "checkbox",
 							"name": "tax",
 							"label": "Taxes",
-							"required": true,
+							
 							"col":6,
 							"options": [{
 								"value": "CGST",
@@ -298,93 +283,100 @@ var clientForm =  {
 							}],
 
 							"provider": {
-								"url": "",
+								"ajax": "",
 								"id":"",
 								"value":""
 							}
-						},
-						
-							{
-									"type": "file",
-									"name": "nonDiscloser",
-									"label": "Non Discloser Agreement",
-									"placeHolder": "Choose File",
-									"col": 6
-								}
-					
-						
-
-								
-								]
+						}/*,{
+								"type": "file",
+								"name": "nonDiscloser",
+								"label": "Non Discloser Agreement",
+								"placeHolder": "Choose File",
+								"col": 6
+							}*/]
 						}
- 		],
-			"actions": [{
-		"name": "save",
-		"type": "submit",
-		"label": "Save",
-		"applyTo": "form",
-		"handler": {
-			"type": "javascript",
-			"func": "submitForm(event)",
-			"method": "post",
-			"url": ""
+ 				],
+	"actions": [{
+			"name": "save",
+			"type": "submit",
+			"label": "Save",
+			"applyTo": "form",
+			"handler": {
+				"script": "submitForm(event)",
+			},
+			"redirects": {
+				"success": {"href":"client_list"},
+				"failure": {"script":"alert('Saving operation failed')"}
+			},
+			"cssClass": "btn-primary"
+		}, {
+			"name": "cancel",
+			"type": "button",
+			"label": "Cancel",
+			"applyTo": "form",
+			"cssClass": "btn-secondary",
+			"redirects": {
+				"success": {"href":"client"},
+			}
 		},
-		"redirects": {
-			"success": {"href":""},
-			"failure": {"href":""}
+		{
+			"name": "add",
+			"type": "button",
+			"label": "+ Add Client",
+			"applyTo": "list",
+			"cssClass": "btn-primary",
+			"handler": {
+				"href": "client"
+			}
 		},
-		"cssClass": "btn-primary"
-	}, {
-		"name": "cancel",
-		"type": "button",
-		"label": "Cancel",
-		"applyTo": "form",
-		"cssClass": "btn-secondary",
-		"redirects": {
-			"success": {"href":""},
+		{
+			"name": "edit",
+			"type": "button",
+			"label": "Edit",
+			"applyTo": "row",
+			"cssClass": "btn-primary",
+			"handler": {
+				"href": "client"
+			}
+		},
+		{
+			"name": "delete",
+			"type": "button",
+			"label": "Delete",
+			"applyTo": "row",
+			"cssClass": "btn-danger",
+			/*"handler": {
+				"script": "delete(event)"
+			}*/
 		}
-	},
-	{
-		"name": "add",
-		"type": "button",
-		"label": "client",
-		"applyTo": "list",
-		"cssClass": "btn-danger",
-		"handler": {
-			"href": ""
-		}
-	}
-],
- 	"providers": {
+	],
+	"providers": {
 		"collection": {
-			"ajax": "",
-			"method": "get",
+			"ajax": "http://localhost:9004/api/v1/client",
+			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
-			"method": "get",
-			"pathParams":{},
-			"queryParams":{}
+			"ajax": "http://localhost:9004/api/v1/client/{id}",
+			"method": "get"
 
 		},
 		"create": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/client",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/client",
 			"method": "put",
 			
 		},
 		"delete": {
-			"ajax": "",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/client",
+			"method": "delete"
+			
 		}
 	}
-		
 
 	};
