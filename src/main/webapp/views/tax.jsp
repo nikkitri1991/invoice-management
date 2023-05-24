@@ -4,7 +4,6 @@
 <%@include file="../theme/cdn.jsp"%>
 <script type="text/javascript" src="../js/form/tax.js"></script>
 </head>
-
 <body>
 	<div class="row">
 		<div class="col-md-3">
@@ -12,8 +11,10 @@
 			<%@include file="../theme/header.jsp"%>
 		</div>
 		<div class="col-md-9" >
+		<div class="col-md-11">
 			<div class="container">
 				<div id="taxContainer" style="margin-top: 8%"></div>
+			</div>
 			</div>
 		</div>
 	</div>

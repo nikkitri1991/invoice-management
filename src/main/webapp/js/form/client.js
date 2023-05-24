@@ -13,21 +13,30 @@ var clientForm =  {
 						"required" : true
 					},
 					{
+						"type": "group",
+						"name": "clientFields",
+						"cols": 12,
+						"fields": [
+					{
 						"type": "text",
 						"name": "name",
 						"label": "Name",
-						
-						"placeHolder": "Name"
+						"placeHolder": "Name",
+						"col":6
 					}, {
 						"type": "text",
 						"name": "bussinessName",
 						"label": "Bussiness Name",
-						"placeHolder": "Bussiness Name"
+						"placeHolder": "Bussiness Name",
+						"col":6
 					},
 					 {
 						"type": "select",
 						"name": "companyType",
 						"label": "Company Type",
+						"required" : true,
+						"col":6,
+						
 						"provider": {
 							"ajax": "http://localhost:9004/api/v1/companyType",
 							"value": "id",
@@ -38,13 +47,15 @@ var clientForm =  {
 						"type": "text",
 						"name": "primaryBussiness",
 						"label": "Primary Bussiness",
-						"placeHolder": "Primary Bussiness"
+						"placeHolder": "Primary Bussiness",
+						"col":6
+					}]
 					},
 				
 					{
 							"type": "group",
 							"name": "address",
-							"label": "name",
+							
 							"cols": 12,
 							"fields": [
 								{
@@ -142,15 +153,12 @@ var clientForm =  {
 									"label": "Phone",
 									"placeHolder": "Enter Phone Number",
 									"col":6
-								},
-								
-									
-								]
+								}]
 						},
 						{
 						"type": "group",
 						"name": "contact",
-						"label": "name",
+					
 						"col": 12,
 						"fields": [	
 								{
@@ -212,29 +220,26 @@ var clientForm =  {
 								"col":6
 							},
 							
-							{
+							/*{
 								"type": "email",
 								"name": "email",
 								"label": "Email",
 								"placeHolder": "Enter Email",
 								"col":6
-							},
+							},*/
 								{
 								"type": "text",
 								"name": "messageChannel",
 								"label": "Message Channel",
 								"placeHolder": "Enter Message Channel",
 								"col":6
-							}
-								
-								
-								]
+							}]
 						},
 						
 						{
 							"type": "group",
 							"name": "taxes",
-							"label": "name",
+							
 							"cols": 12,
 							"fields": [
 
@@ -252,21 +257,21 @@ var clientForm =  {
 									"placeHolder": "Tax Doc No.2",
 									"col": 6
 								},
-								/*{
+								{
 								"type": "checkbox",
 								"name": "enabled",
 								"label": "Tax Exemptable",
 								
 								"col":6,
 								"options": [{
-									"checked": "checked"
-								}],
+									"value": "true"
+									}],
 								"provider": {
 									"url": "",
 									"id":"",
 									"value":""
 								}
-						},*/
+						},
 						{
 							"type": "checkbox",
 							"name": "tax",
@@ -281,19 +286,20 @@ var clientForm =  {
 								"value": "SGST",
 								"label": "SGST"
 							}],
-
-							"provider": {
-								"ajax": "",
-								"id":"",
-								"value":""
-							}
-						}/*,{
-								"type": "file",
+							}]
+						},
+						{
+						"type": "group",
+						"name": "document",
+						"cols": 12,
+						"fields": [
+							{
+								"type": "drag_drop",
 								"name": "nonDiscloser",
 								"label": "Non Discloser Agreement",
 								"placeHolder": "Choose File",
 								"col": 6
-							}*/]
+							}]
 						}
  				],
 	"actions": [{

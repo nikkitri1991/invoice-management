@@ -1,3 +1,30 @@
+css - <style>
+.dropzone-wrapper {
+	width: 100%;
+	height: 100%;
+	border: 2px dashed black;
+	margin: 0px;
+	padding: 10px;
+}
+
+.button {
+	display: inline-block;
+	padding: 10px;
+	background: #ccc;
+	cursor: pointer;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
+.button:hover {
+	background: #ddd;
+}
+
+#fileElem {
+	display: none;
+}
+</style>
+
 <!-- templates  -->
 
 <script id="jf-modal-template" type="text/x-handlebars-template"> 
@@ -357,3 +384,21 @@
 		</div>
 	</div>
 </script>
+
+<script id="jf-file-drag-drop-template"
+	type="text/x-handlebars-template">
+ 		<div class="dropzone-wrapper">	
+			<div class="row">
+				<div class="col" id="addFile" >
+				</div>
+			<div id="browseId" class="text-center">
+				<label for="{{name}}" class="form-label">{{label}}</label>
+				<h6>or</h6>
+ 				<input type="file" id="fileElem" multiple onchange="handleFiles(this.files)" hidden>
+   				<label class="button" for="fileElem">Browse files</label>
+			</div>
+
+			</div>
+		</div>
+</script>
+

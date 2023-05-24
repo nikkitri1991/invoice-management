@@ -40,6 +40,27 @@ var taxForm = {
 					"label": "Effective Date",
 					"required": false
 					},
+					{
+					"type": "date",
+					"name": "inEffectiveDate",
+					"label": "Ineffective Date",
+					"required": false
+					},
+					{
+					"type": "checkbox",
+					"name": "active",
+					"label": "Click To Active",
+					"required": false,
+					 "options": [{
+								"value": "true"
+							}]
+					},
+					{
+					"type": "date",
+					"name": "createOn",
+					"label": "Create Date",
+					"required": false
+					},
 			],
 	"actions": [{
 			"name": "save",

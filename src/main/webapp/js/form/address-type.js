@@ -14,7 +14,7 @@ var addressType = {
 				},
 				{
 					"type": "text",
-					"name": "name",
+					"name": "aname",
 					"label": "AddressType",
 					"required" : true,
 					"listable":true,

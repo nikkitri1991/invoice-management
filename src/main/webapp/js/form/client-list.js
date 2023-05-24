@@ -28,7 +28,7 @@ var clientListForm = {
 				
 			},{
 				"type": "text",
-				"name": "businessAddress",
+				"name": "primaryBussiness",
 				"label": "Business Address",
 				"required": true
 				
@@ -38,6 +38,14 @@ var clientListForm = {
 				"label": "Mobile",
 				"required": true
 				
+			},
+			{
+						"type": "text",
+						"name": "companyType.name",
+						"label": "Company Type",
+						"required" : true,
+						
+					
 			},
 			{
 				"type": "text",
