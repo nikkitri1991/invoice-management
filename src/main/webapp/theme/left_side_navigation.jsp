@@ -74,7 +74,7 @@
 							<li class="mm-active"><a href="company-type-list" class="mm-active">CompanyType</a></li>
 							<li class="mm-active"><a href="currency_list" class="mm-active">Currency</a></li>
 							<li class="mm-active"><a href="tax_list" class="mm-active">Tax</a></li>
-							
+							<li class="mm-active"><a href="payment_mode_list" class="mm-active">PaymentMode</a></li>
 							
 						</ul>
 					</li>

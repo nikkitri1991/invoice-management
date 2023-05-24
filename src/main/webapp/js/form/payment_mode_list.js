@@ -1,48 +1,26 @@
-var purchaseOrderListForm = {
-		"id": "purchaseOrder",
-		"title" : "Purchase Orders",
-		 "parentId": "purchaseOrderListContainer",
+var paymentModeListForm = {
+		"id": "paymentModeList",
+		"title" : "Payment Mode List",
+		 "parentId": "paymentModeListContainer",
 		"namespace" : "",
 		"enctype": "multipart/form-data",
 		"fields": [
 			{
-				"type": "text",
+				"type": "hidden",
 				"name": "id",
-				"label": "#",
-				"id":true,
+				"id": true,
 				"required": true
+				
+			},
+			{
+				"type": "text",
+				"name": "name",
+				"label": "PaymentMode",
+				"required": true
+				
+			}],
 			
-			},
-			{
-				"type": "text",
-				"name": "poNumber",
-				"label": "PO Number",
-				"required": true
-				
-			},
-			{
-				"type": "date",
-				"name": "poDate",
-				"label": "Purchase Order Date",
-				"required": true
-				
-			},
-			{
-				"type": "text",
-				"name": "clientId",
-				"label": "Client",
-				"required": true
-				
-			},
-			{
-				"type": "text",
-				"parentNode":"clientPurchaseOrder",
-				"name": "amount",
-				"label": "Amount",
-				"required": true	
-			}
-			],
-			"actions": [{
+				"actions": [{
 			"name": "save",
 			"type": "submit",
 			"label": "Save",
@@ -51,7 +29,7 @@ var purchaseOrderListForm = {
 				"script": "submitForm(event)",
 			},
 			"redirects": {
-				"success": {"href":""},
+				"success": {"href":"payment_mode"},
 				"failure": {"script":"alert('Saving operation failed')"}
 			},
 			"cssClass": "btn-primary"
@@ -62,17 +40,27 @@ var purchaseOrderListForm = {
 			"applyTo": "form",
 			"cssClass": "btn-secondary",
 			"redirects": {
-				"success": {"href":""},
+				"success": {"href":"payment_mode"},
 			}
 		},
 		{
 			"name": "add",
 			"type": "button",
-			"label": "+Purchase Order",
+			"label": "Add PaymentMode",
 			"applyTo": "list",
+			"cssClass": "btn-danger",
+			"handler": {
+				"href": "payment_mode"
+			}
+		},
+		{
+			"name": "edit",
+			"type": "button",
+			"label": "Edit",
+			"applyTo": "row",
 			"cssClass": "btn-primary",
 			"handler": {
-				"href": "purchase_order"
+				"href": "payment_mode"
 			}
 		},
 		{
@@ -88,30 +76,30 @@ var purchaseOrderListForm = {
 	],
 	"providers": {
 		"collection": {
-			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
+			"ajax": "http://localhost:9004/api/v1/paymentMode",
 			"method": "get"
 		},
 		"selector": {
-			"ajax": "http://localhost:9004/api/v1/purchaseOrder/{id}",
+			"ajax": "http://localhost:9004/api/v1/paymentMode/{id}",
 			"method": "get",
 			"pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
 		"create": {
-			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
+			"ajax": "http://localhost:9004/api/v1/paymentMode",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/purchaseOrder",
-			"method": "put",
+			"ajax": "http://localhost:9004/api/v1/paymentMode",
+			"method": "put"
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/purchaseOrder/{id}",
+			"ajax": "http://localhost:9004/api/v1/paymentMode/{id}",
 			"method": "delete"
 		}
 	}

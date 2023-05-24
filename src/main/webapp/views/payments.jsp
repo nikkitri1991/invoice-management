@@ -19,12 +19,11 @@
 	</div>
 </body>
 
-
-
-
 <script>
+var id="<%=request.getParameter("id")!=null? request.getParameter("id"):""%>";
 $(document).ready(() => {
 	var jetList=JetList({"id":"paymentList", "parentId":"paymentListContainer", "form":paymentListForm});
+	jetList.setDataKey(id);
 	jetList.render();
 });
 </script>

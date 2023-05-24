@@ -135,7 +135,7 @@ var purchaseOrderForm = {
 					"required" : true,
 					"col":7,
 				    "options": [{
-								"checked": "checked"
+								"value": "true"
 							}],
 						
 				},
@@ -223,11 +223,12 @@ var purchaseOrderForm = {
 			"fields": [{
 					"type": "list",
 					"name": "clientPurchaseOrderItem",
-					"label": "Qualifications",
+					"label": "ClientPurchaseOrderItem",
 					"editMode": "inline",
-					"col": 12,
+					
 					"fields": [{
 						"type": "textarea",
+						"parentNode":"clientPurchaseOrderItem",
 						"name": "itemName",
 						"label": "Item",
 						"placeHolder": "",
@@ -235,24 +236,28 @@ var purchaseOrderForm = {
 					}, {
 						"type": "textarea",
 						"name": "itemDescription",
+						"parentNode":"clientPurchaseOrderItem",
 						"label": "Description",
 						"placeHolder": "",
 						"showLabel": false
 					}, {
 						"type": "text",
 						"name": "qty",
+						"parentNode":"clientPurchaseOrderItem",
 						"label": "Qty",
 						"placeHolder": "",
 						"showLabel": false
 					}, {
 						"type": "text",
 						"name": "price",
+						"parentNode":"clientPurchaseOrderItem",
 						"label": "Price",
 						"placeHolder": "",
 						"showLabel": false
 					},{
 						"type": "text",
 						"name": "amount",
+						"parentNode":"clientPurchaseOrderItem",
 						"label": "Amount",
 						"placeHolder": "",
 						"showLabel": false

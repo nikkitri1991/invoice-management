@@ -138,5 +138,19 @@ public class ClientController {
 
 	} 
 	
+	@RequestMapping("/payment_mode")
+	public String paymentMode(){
+		System.out.println("payment_mode");
+		return "payment_mode";
+
+	} 
+	@RequestMapping("/payment_mode_list")
+	public String paymentModeList(){
+		System.out.println("tax-list");
+		return "payment_mode_list";
+
+	} 
+	
+	
 	
 }

@@ -5,23 +5,23 @@ var paymentListForm = {
 		"namespace" : "",
 		"enctype": "multipart/form-data",
 		"fields": [
+			
 			{
 				"type": "text",
 				"name": "id",
-                "id":true,
 				"label": "#",
-				"required": true
+				"id":true
 			},
 			{
 				"type": "text",
-				"name": "name",
+				"name": "invoiceId",
 				"label": "Invoice No",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "client",
+				"name": "clientId",
 				"label": "Client",
 				"required": true
 				
@@ -96,7 +96,7 @@ var paymentListForm = {
 	],
 	"providers": {
 		"collection": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/receivePayment",
 			"method": "get"
 		},
 		"selector": {
@@ -107,19 +107,19 @@ var paymentListForm = {
 
 		},
 		"create": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/receivePayment",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/receivePayment",
 			"method": "put",
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/receivePayment",
 			"method": "delete",
 			"requestParams":{"id":"{id}"}
 		}
