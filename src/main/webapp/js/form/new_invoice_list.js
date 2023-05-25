@@ -6,7 +6,7 @@ var newInvoiceListForm = {
 		"enctype": "multipart/form-data",
 		"fields": [
 			{
-				"type": "text",
+				"type": "hidden",
 				"name": "id",
 				"label": "#",
 				"id":true
@@ -27,21 +27,21 @@ var newInvoiceListForm = {
 			},
 			{
 				"type": "date",
-				"name": "dueDae",
+				"name": "dueDate",
 				"label": "Due Date",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "client",
+				"name": "clientId",
 				"label": "Client",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "pono",
+				"name": "purchaseOrder.poNumber",
 				"label": "PO NO.",
 				"required": true
 				
@@ -49,14 +49,14 @@ var newInvoiceListForm = {
 		
 			{
 				"type": "text",
-				"name": "amountPayable",
+				"name": "grandTotal",
 				"label": "Amount Payable",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "taxAmount",
+				"name": "purchaseOrder.taxAmount",
 				"label": "Tax Amount",
 				"required": true
 				
@@ -125,32 +125,31 @@ var newInvoiceListForm = {
 	],
 	"providers": {
 		"collection": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/invoice",
 			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/invoice/{id}",
 			"method": "get",
-			"pathParams":{},
+	         "pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
 		"create": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/invoice",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "put",
+			"ajax": "http://localhost:9004/api/v1/invoice",
+			"method": "put"
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
-			"method": "delete",
-			"requestParams":{"id":"{id}"}
+			"ajax": "http://localhost:9004/api/v1/invoice/{id}",
+			"method": "delete"
 		}
 	}
 	};

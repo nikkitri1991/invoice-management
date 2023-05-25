@@ -6,7 +6,7 @@ var purchaseOrderListForm = {
 		"enctype": "multipart/form-data",
 		"fields": [
 			{
-				"type": "text",
+				"type": "hidden",
 				"name": "id",
 				"label": "#",
 				"id":true,
@@ -36,12 +36,10 @@ var purchaseOrderListForm = {
 			},
 			{
 				"type": "text",
-				"parentNode":"clientPurchaseOrder",
-				"name": "amount",
+				"name": "otherAmount",
 				"label": "Amount",
 				"required": true	
-			}
-			],
+			}],
 			"actions": [{
 			"name": "save",
 			"type": "submit",

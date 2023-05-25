@@ -16,46 +16,48 @@ var invoiceForm =  {
 							"type": "group",
 							"name": "invoice",
 							"label": "name",
-							"cols": 12,
+							"col": 12,
 							"fields": [
 								{
 									"type": "select",
-									"name": "client",
+									"name": "clientId",
 									"label": "Client",
 									"required": true,
 									"placeHolder": "Select a Client",
-									"col":8
+									"col":8,
+									"options": [{
+										"value": "1",
+										"label": "ZOHO"
+									}, {
+										"value": "2",
+										"label": "Royal"
+									}, {
+										"value": "3",
+										"label": "TATA"
+									}],
+									
 								},
 								{
 									"type": "text",
-									"name": "invoiceno",
+									"name": "invoiceNo",
 									"label": "Invoice No",
-									"col":4,
-									"options": [{
-										"value": "",
-										"label": ""
-									}, {
-										"value": "",
-										"label": "",
-										"selected": "selected"
-									}, {
-										"value": "",
-										"label": ""
-									}],
-									"required": true,
-									"placeHolder": "Select Address Type"
+									"col":4
+									
 								},
 								
 								{
 									"type": "select",
-									"name": "purchaseOrder",
+									"name": "poNumber",
 									"label": "Purchase Order",
-									"placeHolder": "Select Purchase Order",
-									"col":8
-											
-									}, 
+									"col":8,
+									"provider": {
+					                   	"ajax": "http://localhost:9004/api/v1/purchaseOrder",
+						                       "value":"id",
+						                       "label":"poNumber"
+					                            },
 									
-									
+									"placeHolder": "Select Purchase Order"
+								},
 									{
 									"type": "date",
 									"name": "invoiceDate",
@@ -68,7 +70,7 @@ var invoiceForm =  {
 							"type": "group",
 							"name": "date",
 							"label": "name",
-							"cols": 12,
+							"col": 12,
 							"fields": [
 								
 								{
@@ -107,17 +109,18 @@ var invoiceForm =  {
 						},	
 						{
 			"type": "group",
-			"name": "item",
+			"name": "invoiceItems",
 			"label": "name",
 			"fields": [{
 					"type": "list",
-					"name": "item",
+					"name": "invoiceItems",
 					"label": "Item",
 					"editMode": "inline",
 					"col": 12,
 					"fields": [{
 						"type": "text",
 						"name": "qty",
+						"parentNode":"invoiceItems",
 						"label": "Qty",
 						"placeHolder": "",
 						"showLabel": false
@@ -126,22 +129,26 @@ var invoiceForm =  {
 						"name": "item",
 						"label": "Item/PO.Ref",
 						"placeHolder": "",
-						"showLabel": false
+						"showLabel": false,
+						
 					}, {
 						"type": "textarea",
 						"name": "description",
+						"parentNode":"invoiceItems",
 						"label": "Description",
 						"placeHolder": "",
 						"showLabel": false
 					}, {
 						"type": "text",
 						"name": "part",
+						"parentNode":"invoiceItems",
 						"label": "Part(%)",
 						"placeHolder": "",
 						"showLabel": false
 					},{
 						"type": "text",
 						"name": "amount",
+						"parentNode":"invoiceItems",
 						"label": "Amount",
 						"placeHolder": "",
 						"showLabel": false
@@ -202,7 +209,7 @@ var invoiceForm =  {
 				
 				{
 					"type" : "text",
-					"name" : "subtotal",
+					"name" : "subTotal",
 					"label" : "SubTotal",
 					"listable" : false,
 					"searchable" : false,
@@ -211,15 +218,15 @@ var invoiceForm =  {
 				
 				{
 					"type" : "textarea",
-					"name" : "Terms & Conditions",
-					"label" : "",
+					"name" : "termsConditions",
+					"label" : "Terms & Conditions",
 					"listable" : false,
 					"searchable" : false,
 					"col":8
 				},
 				{
 					"type" : "text",
-					"name" : "grandToatal",
+					"name" : "grandTotal",
 					"label" : "Grand Total",
 					"listable" : false,
 					"searchable" : false,
@@ -292,30 +299,30 @@ var invoiceForm =  {
 ],
  	"providers": {
 		"collection": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/invoice",
 			"method": "get",
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/invoice/{id}",
 			"method": "get",
-			"pathParams":{},
+			"pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
 		"create": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/invoice",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/invoice",
 			"method": "put",
 			
 		},
 		"delete": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/invoice/{id}",
 			"method": "delete",
 			"requestParams":{"id":"{id}"}
 		}

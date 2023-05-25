@@ -7,14 +7,14 @@ var paymentListForm = {
 		"fields": [
 			
 			{
-				"type": "text",
+				"type": "hidden",
 				"name": "id",
 				"label": "#",
 				"id":true
 			},
 			{
 				"type": "text",
-				"name": "invoiceId",
+				"name": "invoice.invoiceNo",
 				"label": "Invoice No",
 				"required": true
 				
@@ -28,28 +28,28 @@ var paymentListForm = {
 			},
 			{
 				"type": "date",
-				"name": "paymentDate",
+				"name": "dateOfPayment",
 				"label": "Payment Date",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "modeOfPayment",
+				"name": "paymentMode.name",
 				"label": "Mode Of Payment",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "amount",
+				"name": "amountPaid",
 				"label": "Amount",
 				"required": true
 				
 			},
 			{
 				"type": "text",
-				"name": "amountInr",
+				"name": "amountReceived",
 				"label": "Amount(INR)",
 				"required": true
 				
@@ -100,9 +100,9 @@ var paymentListForm = {
 			"method": "get"
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/receivePayment/{id}",
 			"method": "get",
-			"pathParams":{},
+		    "pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
@@ -119,7 +119,7 @@ var paymentListForm = {
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/receivePayment",
+			"ajax": "http://localhost:9004/api/v1/receivePayment/{id}",
 			"method": "delete",
 			"requestParams":{"id":"{id}"}
 		}

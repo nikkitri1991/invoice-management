@@ -424,11 +424,11 @@ var purchaseOrderForm = {
 					
 				},
 				{
-									"type": "file",
-									"name": "poFileUrl",
-									"label": "",
-									"placeHolder": "Choose File",
-									"col": 7
+					"type": "drag_drop",
+				    "name": "poFileUrl",
+					"label": "Upload File",
+					"placeHolder": "Choose File",
+					"col": 7
 								}
 				
 				

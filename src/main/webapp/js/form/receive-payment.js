@@ -10,28 +10,48 @@
 			"name": "nameGroup",
 			"label": "name",
 			"col":12,
-			"fields": [{
+			"fields": [
+				{
+					"type":"hidden",
+					"name":"id",
+					"id":true
+				},
+				{
 				"type": "select",
-				"name": "client",
+				"name": "clientId",
 				"label": "Client",
 				"required": true,
 				"placeHolder": "client",
 				"tranzient": true,
 				"col" :12,
-				"validations": {
-					"rules": {
-						"minlength": 5
+				"options": [
+					{
+						"value": "1",
+						"label": "TATA"
 					},
-					"messages": {
-						"minlength": " Your username must consist of at least 2 characters"
-					}
-				}
+					{
+						"value": "2",
+						"label": "JIO"
+					},
+					{
+						"value": "3",
+						"label": "FACEBOOK"
+					}]
+				
+				
 			}, {
-				"type": "text",
-				"name": "invoice",
+				"type": "select",
+				"name": "invoiceNo",
 				"label": "Invoice",
 				"placeHolder": "Invoice",
-				"col" : 12
+				"col" : 12,
+				"provider": {
+						"ajax": "http://localhost:9004/api/v1/invoice",
+						"value":"id",
+						"label":"invoiceNo"
+					},
+				
+				
 			}]
 		},
 		{
@@ -41,7 +61,7 @@
 			"col": 12,
 			"fields": [{
 					"type": "text",
-					"name": "payabletotal",
+					"name": "payableTotal",
 					"label": "Payable Total",
 					"listable": false,
 					"searchable": false,
@@ -67,17 +87,7 @@
 					"type": "text",
 					"name": "balanceDue",
 					"label": "Balance Due",
-					"col": 12,
-					"validations": {
-						"rules": {
-							"required": true,
-							"email": true
-						},
-						"messages": {
-							"required": " Please enter a username",
-							"email": " Please enter a valid email address"
-						}
-					}
+					"col": 12
 				},
 				{
 					"type": "text",
@@ -90,12 +100,19 @@
 				},
 				{
 					"type": "select",
-					"name": "paymentMode",
+					"name": "name",
 					"label": "Payment Mode",
 					"minLength": 8,
 					"listable": false,
 					"searchable": false,
-					"col": 12
+					"col": 12,
+					"provider": {
+						"ajax": "http://localhost:9004/api/v1/paymentMode",
+						"value":"id",
+						"label":"name"
+					},
+					
+					
 				},
 				{
 					"type": "date",
@@ -117,7 +134,7 @@
 			"col":12,
 			"fields": [{
 					"type": "text",
-					"name": "transactionDetail",
+					"name": "transactionDetails",
 					"label": "Transaction Details (Bank, Cheque,Draft)",
 					"editMode": "inline",
 					"col": 12,
@@ -134,7 +151,7 @@
 			"type": "javascript",
 			"func": "submitForm(event)",
 			"method": "post",
-			"url": "http://localhost:9004/api/v1/billingType"
+			"url": "http://localhost:9004/api/v1/receivePayment"
 		},
 		"redirects": {
 			"success": {"href":"payments"},
@@ -164,30 +181,30 @@
 ],
  	"providers": {
 		"collection": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/receivePayment",
 			"method": "get",
 		},
 		"selector": {
-			"ajax": "",
+			"ajax": "http://localhost:9004/api/v1/api/v1/receivePayment/{id}",
 			"method": "get",
-			"pathParams":{},
+		    "pathParams":{"id":"#id"},
 			"queryParams":{}
 
 		},
 		"create": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/receivePayment",
 			"method": "post",
 			"pathParams":{},
 			"queryParams":{},
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/receivePayment",
 			"method": "put",
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/receivePayment/{id}",
 			"method": "delete",
 			"requestParams":{"id":"{id}"}
 		}
