@@ -18,26 +18,16 @@
 				},
 				{
 				"type": "select",
-				"name": "clientId",
+				"name": "client",
 				"label": "Client",
 				"required": true,
 				"placeHolder": "client",
-				"tranzient": true,
 				"col" :12,
-				"options": [
-					{
-						"value": "1",
-						"label": "TATA"
-					},
-					{
-						"value": "2",
-						"label": "JIO"
-					},
-					{
-						"value": "3",
-						"label": "FACEBOOK"
-					}]
-				
+				"provider":{
+						"ajax":"http://localhost:9004/api/v1/client",
+						"value":"id",
+						"label":"name"
+						}
 				
 			}, {
 				"type": "select",
