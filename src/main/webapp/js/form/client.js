@@ -12,6 +12,10 @@ var clientForm =  {
 						"id":true,
 						"required" : true
 					},
+					{	
+						"type": "hidden",
+						"name" :"docId"
+					},
 					{
 						"type": "group",
 						"name": "clientFields",
@@ -36,6 +40,7 @@ var clientForm =  {
 						"label": "Company Type",
 						"required" : true,
 						"col":6,
+						
 						"provider": {
 							"ajax": "http://localhost:9004/api/v1/companyType",
 							"value": "id",
@@ -68,7 +73,7 @@ var clientForm =  {
 								{
 									"type": "select",
 									"name": "addressType",
-									"label": "AddressType",
+									"label": " AddressType",
 									"col":6,
 									"provider": {
 							               "ajax": "http://localhost:9004/api/v1/addressType",
@@ -89,7 +94,7 @@ var clientForm =  {
 									}, 
 									
 									{
-									"type": "text",
+									"type": "number",
 									"name": "mobile",
 									"label": "Mobile",
 									"placeHolder": "Enter Mobile",
@@ -121,7 +126,6 @@ var clientForm =  {
 									"col":6
 								},
 									{
-									
 									"type": "email",
 									"name": "email",
 									"label": "Email",
@@ -141,14 +145,14 @@ var clientForm =  {
 								},
 								
 									{
-									"type": "text",
+									"type": "number",
 									"name": "webSite",
 									"label": "Website",
 									"placeHolder": "Enter website",
 									"col":6
 								},
 								{
-									"type": "text",
+									"type": "number",
 									"name": "phone",
 									"label": "Phone",
 									"placeHolder": "Enter Phone Number",
@@ -169,7 +173,7 @@ var clientForm =  {
 								"col":6
 							},	
 							{
-								"type": "text",
+								"type": "number",
 								"name": "phone",
 								"label": "Phone",
 								"placeHolder": "Enter Phone Number",
@@ -196,7 +200,7 @@ var clientForm =  {
 								
 									
 							{
-								"type": "text",
+								"type": "number",
 								"name": "mobile",
 								"label": "Mobile",
 								"placeHolder": "Enter Mobile",
@@ -244,14 +248,14 @@ var clientForm =  {
 							"fields": [
 
 								{
-									"type": "text",
+									"type": "number",
 									"name": "taxDocNo1",
 									"label": "Tax Doc No.1",
 									"placeHolder": "Tax Doc No.1",
 									"col": 6
 								},
 								{
-									"type": "text",
+									"type": "number",
 									"name": "taxDocNo2",
 									"label": "Tax Doc No.2",
 									"placeHolder": "Tax Doc No.2",
@@ -259,7 +263,7 @@ var clientForm =  {
 								},
 								{
 								"type": "checkbox",
-								"name": "enabled",
+								"name": "exemptable",
 								"label": "Tax Exemptable",
 								
 								"col":6,
@@ -363,8 +367,7 @@ var clientForm =  {
 		},
 		"selector": {
 			"ajax": "http://localhost:9004/api/v1/client/{id}",
-			"method": "get",
-			"pathParams":{"id":"#id"}
+			"method": "get"
 
 		},
 		"create": {
@@ -380,7 +383,7 @@ var clientForm =  {
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/client/{id}",
+			"ajax": "http://localhost:9004/api/v1/client",
 			"method": "delete"
 			
 		}
