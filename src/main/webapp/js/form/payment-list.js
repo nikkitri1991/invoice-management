@@ -21,7 +21,7 @@ var paymentListForm = {
 			},
 			{
 				"type": "text",
-				"name": "clientId",
+				"name": "client.name",
 				"label": "Client",
 				"required": true
 				
