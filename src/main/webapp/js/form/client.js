@@ -36,7 +36,6 @@ var clientForm =  {
 						"label": "Company Type",
 						"required" : true,
 						"col":6,
-						
 						"provider": {
 							"ajax": "http://localhost:9004/api/v1/companyType",
 							"value": "id",
@@ -69,7 +68,7 @@ var clientForm =  {
 								{
 									"type": "select",
 									"name": "addressType",
-									"label": " AddressType",
+									"label": "AddressType",
 									"col":6,
 									"provider": {
 							               "ajax": "http://localhost:9004/api/v1/addressType",
@@ -122,6 +121,7 @@ var clientForm =  {
 									"col":6
 								},
 									{
+									
 									"type": "email",
 									"name": "email",
 									"label": "Email",
@@ -363,7 +363,8 @@ var clientForm =  {
 		},
 		"selector": {
 			"ajax": "http://localhost:9004/api/v1/client/{id}",
-			"method": "get"
+			"method": "get",
+			"pathParams":{"id":"#id"}
 
 		},
 		"create": {
@@ -379,7 +380,7 @@ var clientForm =  {
 			
 		},
 		"delete": {
-			"ajax": "http://localhost:9004/api/v1/client",
+			"ajax": "http://localhost:9004/api/v1/client/{id}",
 			"method": "delete"
 			
 		}

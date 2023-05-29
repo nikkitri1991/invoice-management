@@ -118,7 +118,8 @@ var clientListForm = {
 		},
 		"selector": {
 			"ajax": "http://localhost:9004/api/v1/client/{id}",
-			"method": "get"
+			"method": "get",
+			"pathParams":{"id":"#id"}
 
 		},
 		"create": {

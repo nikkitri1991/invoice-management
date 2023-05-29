@@ -68,7 +68,17 @@ var purchaseOrderListForm = {
 			"type": "button",
 			"label": "+Purchase Order",
 			"applyTo": "list",
-			"cssClass": "btn-primary",
+			"cssClass": "btn btn-primary",
+			"handler": {
+				"href": "purchase_order"
+			}
+		},
+		{
+			"name": "edit",
+			"type": "button",
+			"label": "Edit",
+			"applyTo": "row",
+			"cssClass": "btn btn-primary",
 			"handler": {
 				"href": "purchase_order"
 			}
@@ -78,11 +88,12 @@ var purchaseOrderListForm = {
 			"type": "button",
 			"label": "Delete",
 			"applyTo": "row",
-			"cssClass": "btn-danger",
-			/*"handler": {
+			"cssClass": "btn btn-danger",
+			"handler": {
 				"script": "delete(event)"
-			}*/
+			}
 		}
+		
 	],
 	"providers": {
 		"collection": {

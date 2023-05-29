@@ -123,7 +123,7 @@
 			"label": "",
 			"col":12,
 			"fields": [{
-					"type": "text",
+					"type": "textarea",
 					"name": "transactionDetails",
 					"label": "Transaction Details (Bank, Cheque,Draft)",
 					"editMode": "inline",
