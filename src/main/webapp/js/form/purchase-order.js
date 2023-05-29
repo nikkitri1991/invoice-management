@@ -18,31 +18,18 @@ var purchaseOrderForm = {
 				},
        		    {
 					"type" : "select",
-					"name" : "clientId",
+					"name" : "client",
 					"label" : "Client",
 					"listable" : false,
 					"searchable" : false,
 					"col":7,
-						"options": [{
-						"value": "1",
-						"label": "Tata"
-					}, {
-						"value": "2",
-						"label": "Mark Jukarbarge"
-					}, {
-						"value": "3",
-						"label": "Jeff Bajos"
-					},
-					 {
-						"value": "4",
-						"label": "Tim Cook"
-					},
-					 {
-						"value": "5",
-						"label": "Elon Mask"
+						"provider": {
+						"ajax": "http://localhost:9004/api/v1/client",
+						"value":"id",
+						"label":"name"
 					}
 					
-					]
+				
 				},
 				
 				{
@@ -359,11 +346,6 @@ var purchaseOrderForm = {
 			"col": 12,
 			"fields": [
 				{
-					"type" : "hidden",
-					"name" : "test",
-					"col":9
-				},
-				{
 					"type" : "text",
 					"name" : "otherAmount",
 					"label" : "Others",
@@ -374,12 +356,6 @@ var purchaseOrderForm = {
 					
 					
 				},
-				
-				{
-					"type" : "hidden",
-					"name" : "test1",
-					"col":9
-				},
 				 {
 					"type" : "text",
 					"name" : "grandTotal",
@@ -389,11 +365,6 @@ var purchaseOrderForm = {
 					"showLabel" : false,
 					"col":3
 					
-				},
-				{
-					"type" : "hidden",
-					"name" : "test2",
-					"col":9
 				},
 				
 				
@@ -406,11 +377,6 @@ var purchaseOrderForm = {
 					"showLabel" : false,
 					"col":3
 				  
-				},
-				{
-					"type" : "hidden",
-					"name" : "test3",
-					"col":9
 				},
 				
 				 {
@@ -428,7 +394,7 @@ var purchaseOrderForm = {
 				    "name": "poFileUrl",
 					"label": "Upload File",
 					"placeHolder": "Choose File",
-					"col": 7
+					"col": 11
 								}
 				
 				

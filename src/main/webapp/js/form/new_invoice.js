@@ -20,21 +20,17 @@ var invoiceForm =  {
 							"fields": [
 								{
 									"type": "select",
-									"name": "clientId",
+									"name": "name",
 									"label": "Client",
 									"required": true,
 									"placeHolder": "Select a Client",
 									"col":8,
-									"options": [{
-										"value": "1",
-										"label": "ZOHO"
-									}, {
-										"value": "2",
-										"label": "Royal"
-									}, {
-										"value": "3",
-										"label": "TATA"
-									}],
+										"provider": {
+					                   	"ajax": "http://localhost:9004/api/v1/client",
+						                       "value":"id",
+						                       "label":"name"
+					                            }
+									
 									
 								},
 								{

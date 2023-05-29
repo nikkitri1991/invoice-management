@@ -1,9 +1,9 @@
 css - <style>
 .dropzone-wrapper {
 	width: 100%;
-	height: 100%;
+	height: 80%;
 	border: 2px dashed black;
-	margin: 0px;
+	margin: 10px;
 	padding: 10px;
 }
 

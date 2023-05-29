@@ -90,7 +90,7 @@ var clientForm =  {
 									}, 
 									
 									{
-									"type": "number",
+									"type": "text",
 									"name": "mobile",
 									"label": "Mobile",
 									"placeHolder": "Enter Mobile",
@@ -141,14 +141,14 @@ var clientForm =  {
 								},
 								
 									{
-									"type": "number",
+									"type": "text",
 									"name": "webSite",
 									"label": "Website",
 									"placeHolder": "Enter website",
 									"col":6
 								},
 								{
-									"type": "number",
+									"type": "text",
 									"name": "phone",
 									"label": "Phone",
 									"placeHolder": "Enter Phone Number",
@@ -169,7 +169,7 @@ var clientForm =  {
 								"col":6
 							},	
 							{
-								"type": "number",
+								"type": "text",
 								"name": "phone",
 								"label": "Phone",
 								"placeHolder": "Enter Phone Number",
@@ -196,7 +196,7 @@ var clientForm =  {
 								
 									
 							{
-								"type": "number",
+								"type": "text",
 								"name": "mobile",
 								"label": "Mobile",
 								"placeHolder": "Enter Mobile",
@@ -244,14 +244,14 @@ var clientForm =  {
 							"fields": [
 
 								{
-									"type": "number",
+									"type": "text",
 									"name": "taxDocNo1",
 									"label": "Tax Doc No.1",
 									"placeHolder": "Tax Doc No.1",
 									"col": 6
 								},
 								{
-									"type": "number",
+									"type": "text",
 									"name": "taxDocNo2",
 									"label": "Tax Doc No.2",
 									"placeHolder": "Tax Doc No.2",

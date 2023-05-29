@@ -34,14 +34,14 @@ var clientListForm = {
 				
 			},{
 				"type": "text",
-				"name": "mobile",
+				"name": "address.mobile",
 				"label": "Mobile",
 				"required": true
 				
 			},
 			{
 						"type": "text",
-						"name": "companyType.name",
+						"name": "companytype.cname",
 						"label": "Company Type",
 						"required" : true,
 						
@@ -49,7 +49,7 @@ var clientListForm = {
 			},
 			{
 				"type": "text",
-				"name": "email",
+				"name": "address.email",
 				"label": "Email",
 				"required": true
 				
@@ -124,7 +124,7 @@ var clientListForm = {
 		"create": {
 			"ajax": "http://localhost:9004/api/v1/client",
 			"method": "post",
-			"pathParams":{},
+			"pathParams":{"id":"#id"},
 			"queryParams":{},
 			"requestParams":{}
 		},
