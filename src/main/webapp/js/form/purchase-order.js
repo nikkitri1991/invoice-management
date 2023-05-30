@@ -16,10 +16,15 @@ var purchaseOrderForm = {
 			         "id":true,
 			         "required": true
 				},
+				{	
+						"type": "hidden",
+						"name" :"docId"
+					},
        		    {
 					"type" : "select",
 					"name" : "client",
 					"label" : "Client",
+					
 					"listable" : false,
 					"searchable" : false,
 					"col":7,
