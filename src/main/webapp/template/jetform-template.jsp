@@ -46,7 +46,7 @@
 </script>
 
 <script id="jf-form-template" type="text/x-handlebars-template">          
-  <form id="{{id}}" name="{{name}}" method="post" enctype="{{enctype}}">
+  <form id="{{id}}" name="{{id}}" method="post" enctype="{{enctype}}">
 	{{#if_eq modal false}}
    		<h2>{{title}}</h2>
 	{{/if_eq}}
@@ -205,36 +205,36 @@
 
 <script id="jf-button-template" type="text/x-handlebars-template">
 	{{#if_eq handler undefined}}
-  		<button name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="{{type}}" class="{{cssClass}}" onclick="{{name}}OnClick(event)">{{{label}}}</button>
+  		<button name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="{{type}}" class="{{cssClass}}" onclick="{{name}}OnClick(event)" {{#if_ne listId undefined}}list="{{listId}}"{{/if_ne}}>{{{label}}}</button>
 	{{else}}
 		{{#if_ne handler.script undefined}}
-	  		<button name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="{{type}}" applyto="{{applyTo}}" formId="{{formId}}" class="{{cssClass}}" onclick="{{handler.script}}">{{{label}}}</button>
+	  		<button name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="{{type}}" applyto="{{applyTo}}" formId="{{formId}}" class="{{cssClass}}" onclick="{{handler.script}}" {{#if_ne listId undefined}}list="{{listId}}"{{/if_ne}}>{{{label}}}</button>
 		{{/if_ne}}
 
 		{{#if_ne handler.href undefined}}
-	  		<button name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="{{type}}" applyto="{{applyTo}}" formId="{{formId}}" class="{{cssClass}}" onclick="invokeUrl(event)">{{{label}}}</button>
+	  		<button name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="{{type}}" applyto="{{applyTo}}" formId="{{formId}}" class="{{cssClass}}" onclick="invokeUrl(event)" {{#if_ne listId undefined}}list="{{listId}}"{{/if_ne}}>{{{label}}}</button>
 		{{/if_ne}}
 		
 		{{#if_ne handler.url undefined}}
-	  		<button name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="{{type}}" applyto="{{applyTo}}" formId="{{formId}}" class="{{cssClass}}" onclick="invokeUrl(event)">{{{label}}}</button>
+	  		<button name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="{{type}}" applyto="{{applyTo}}" formId="{{formId}}" class="{{cssClass}}" onclick="invokeUrl(event)" {{#if_ne listId undefined}}list="{{listId}}"{{/if_ne}}>{{{label}}}</button>
 		{{/if_ne}}
 	{{/if_eq}}
 </script>
 
 <script id="jf-link-template" type="text/x-handlebars-template">
 	{{#if_eq handler undefined}}
-		<a name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="link" onclick="{{name}}OnClick(event)" formid="{{formId}}" class="{{cssClass}}" applyto="{{applyTo}}">{{{label}}}</a>
+		<a name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="link" onclick="{{name}}OnClick(event)" formid="{{formId}}" class="{{cssClass}}" applyto="{{applyTo}}" {{#if_ne listId undefined}}list="{{listId}}"{{/if_ne}}>{{{label}}}</a>
 	{{else}}
 		{{#if_ne handler.script undefined}}
-			<a name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="link" onclick="{{handler.script}}" formid="{{formId}}" class="{{cssClass}}" applyto="{{applyTo}}">{{{label}}}</a>
+			<a name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="link" onclick="{{handler.script}}" formid="{{formId}}" class="{{cssClass}}" applyto="{{applyTo}}" {{#if_ne listId undefined}}list="{{listId}}"{{/if_ne}}>{{{label}}}</a>
 		{{/if_ne}}
 
 		{{#if_ne handler.href undefined}}
-			<a name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="link" onclick="invokeUrl(event)" formid="{{formId}}" class="{{cssClass}}" applyto="{{applyTo}}">{{{label}}}</a>
+			<a name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="link" onclick="invokeUrl(event)" formid="{{formId}}" class="{{cssClass}}" applyto="{{applyTo}}" {{#if_ne listId undefined}}list="{{listId}}"{{/if_ne}}>{{{label}}}</a>
 		{{/if_ne}}
 		
 		{{#if_ne handler.dialog undefined}}
-			<a name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="link" onclick="openDialog(event)" formid="{{formId}}" class="{{cssClass}}" applyto="{{applyTo}}">{{{label}}}</a>
+			<a name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}" type="link" onclick="openDialog(event)" formid="{{formId}}" class="{{cssClass}}" applyto="{{applyTo}}" {{#if_ne listId undefined}}list="{{listId}}"{{/if_ne}}>{{{label}}}</a>
 		{{/if_ne}}
 	{{/if_eq}}
 </script>
@@ -280,37 +280,37 @@
 </script>
 
 <script id="list-date-template" type="text/x-handlebars-template">
-    <input type="{{type}}" class="form-control" name="{{reformNameAndId parentNode name '.'}}" id="{{name}}_{{index}}" value="{{value}}">
+    <input type="{{type}}" class="form-control" name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}_{{index}}" value="{{value}}">
 </script>
 
 <script id="list-email-template" type="text/x-handlebars-template">
-    <input type="{{type}}" class="form-control" name="{{reformNameAndId parentNode name '.'}}" id="{{name}}_{{index}}" value="{{value}}">
+    <input type="{{type}}" class="form-control" name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}_{{index}}" value="{{value}}">
 </script>
 
 <script id="list-password-template" type="text/x-handlebars-template">
-    <input type="{{type}}" class="form-control" name="{{reformNameAndId parentNode name '.'}}" id="{{name}}_{{index}}" value="{{value}}"  minlength="{{minLength}}">
+    <input type="{{type}}" class="form-control" name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}_{{index}}" value="{{value}}"  minlength="{{minLength}}">
 </script>
 
 <script id="list-number-template" type="text/x-handlebars-template">
-    <input type="{{type}}" class="form-control" name="{{reformNameAndId parentNode name '.'}}" id="{{name}}_{{index}}" value="{{value}}" maxlength="{{maxlength}}">
+    <input type="{{type}}" class="form-control" name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}_{{index}}" value="{{value}}" maxlength="{{maxlength}}">
 </script>
 
 <script id="list-radio-template" type="text/x-handlebars-template">
 	{{#each options}}
-      	<input type="radio" name="{{reformNameAndId parentNode ../name '.'}}" value="{{value}}" checked="checked" id="{{../name}}_{{../index}}"> <label class="form-check-label" for="{{../name}}">{{label}}</label>
+      	<input type="radio" name="{{reformNameAndId parentNode ../name '.'}}" value="{{value}}" checked="checked" id="{{reformNameAndId ../parentNode ../name '_'}}_{{../index}}"> <label class="form-check-label" for="{{../name}}">{{label}}</label>
 	 {{/each}}
   </div>
 </script>
 
 <script id="list-checkbox-template" type="text/x-handlebars-template">
 	{{#each options}}
-      	<input type="checkbox" name="{{reformNameAndId parentNode ../name '.'}}" value="{{value}}" checked="checked"> <label class="form-check-label" for="{{../name}}">{{label}}</label>
+      	<input type="checkbox" name="{{reformNameAndId parentNode ../name '.'}}" value="{{value}}" checked="checked" id="{{reformNameAndId ../parentNode ../name '_'}}_{{../index}}"> <label class="form-check-label" for="{{../name}}">{{label}}</label>
 	 {{/each}}
   </div>
 </script>
 
 <script id="list-select-template" type="text/x-handlebars-template">
-	<select name="{{reformNameAndId parentNode name '.'}}" id="{{name}}_{{index}}" class="form-select">
+	<select name="{{reformNameAndId parentNode name '.'}}" id="{{reformNameAndId parentNode name '_'}}_{{index}}" class="form-select">
 		<option value="-1">Select {{label}}</option>
 		{{#each options}}
         	<option value="{{value}}">{{label}}</option>

@@ -168,6 +168,36 @@ JetForm.prototype.readFromQueryParam = function(){
 	var form = _this.form;
 	var idValue = getURLQueryParam(form.idField.name);
 	form.idField.value = idValue;
+	
+	form.fields.forEach(field => {
+    	if(field.type!='group' && field.type!='list'){
+    		if (field.parentNode != undefined && field.parentNode != '') {
+				var value = getURLQueryParam(field.parentNode+'.'+field.name);
+				if(value != undefined){
+					field.value = value;
+				}
+    		}else{
+				var value = getURLQueryParam(field.name);
+				if(value != undefined){
+					field.value = value;
+				}
+			}
+    	}else{
+    		field.fields.forEach(grpfield => {
+				if (grpfield.parentNode != undefined && grpfield.parentNode != '') {
+					var value = getURLQueryParam(grpfield.parentNode+'.'+grpfield.name);
+					if(value != undefined){
+						grpfield.value = value;
+					}
+	    		}else{
+					var value = getURLQueryParam(grpfield.name);
+					if(value != undefined){
+						grpfield.value = value;
+					}
+				}    			
+    		});
+    	}
+    });
 }
 JetForm.prototype.renderModal = function() {
 	//console.log("Entering JetForm.prototype.renderModal");
@@ -320,19 +350,26 @@ JetForm.prototype.renderGroups = function() {
 				row=$('<div />', {class:'row'});
 			}*/
 			
-			var colClass='col-md-'+(12/field.fields.length);
+			var hiddenCount = hiddenFieldsCount(field.fields);
+			
+			var colClass='col-md-'+(12/(field.fields.length-hiddenCount));
 			
             field.fields.forEach(subfield => {
-                const template = $(templates[subfield.type]).html();
-                const compiledTemplate = Handlebars.compile(template);
-                if(subfield.col != undefined){
-					colClass='col-md-'+subfield.col
+	            const template = $(templates[subfield.type]).html();
+	            const compiledTemplate = Handlebars.compile(template);
+	            const subfieldHtml = compiledTemplate(subfield)
+	            if(subfield.type != 'hidden'){
+	                if(subfield.col != undefined){
+						colClass='col-md-'+subfield.col
+					}
+					//if(col==undefined){
+	            	$('<div />', {class:colClass}).append(subfieldHtml).appendTo($('#' + field.name))
+	                //}else{
+					//	$('<div />', {class:colCssClass}).append(subfieldHtml).appendTo(row);
+					//}
+				}else{
+					$('#' + field.name).append(subfieldHtml);
 				}
-				//if(col==undefined){
-            	$('<div />', {class:colClass}).append(compiledTemplate(subfield)).appendTo($('#' + field.name))
-                //}else{
-				//	$('<div />', {class:colCssClass}).append(compiledTemplate(subfield)).appendTo(row);
-				//}
             });
             /*
             if(row!=undefined){
@@ -344,6 +381,17 @@ JetForm.prototype.renderGroups = function() {
     });
     
     //console.log("Exiting JetForm.prototype.renderGroups");
+}
+
+function hiddenFieldsCount(fields){
+	var hiddenCount = 0;
+	
+	fields.forEach(f => {
+		if(f.type == 'hidden'){
+			hiddenCount++;
+		}
+	});
+	return hiddenCount;
 }
 
 JetForm.prototype.renderLists = function() {
@@ -431,9 +479,7 @@ JetForm.prototype.loadOptionsFields = function() {
 
 JetForm.prototype.loadOptionsField = function(field) {
 	//console.log("Entering JetForm.prototype.loadOptionsField");
-	
-	
-	////console.log(field.provider);
+	//console.log(field.provider);
 	var form = this.form;
 	var target;
 	$('#'+field.name).empty();
@@ -578,9 +624,9 @@ function submitForm(event) {
 	var _this = window[$(target).attr('formId')];
 	var form = _this.form;
 	
-	if(!$('#'+form.id).valid()){
+	/*if(!$('#'+form.id).valid()){
 		return;	
-	}
+	}*/
 		
 	var action = findAction(event);
 	
@@ -605,13 +651,12 @@ function submitForm(event) {
     if(form.providers != undefined){
 		//console.log(form.providers);
 	    var provider;
-	    
+	    var update = false;
 	    if(form.idField == undefined || form.idField.value == undefined || form.idField.value == ''){
 	    	provider= form.providers.create;
-	    	console.log("create"+provider);
 	    }else{
 	    	provider= form.providers.update;
-	    	console.log(provider);
+	    	update = true;
 	    }
 	    
 	    //console.log(provider);
@@ -621,7 +666,16 @@ function submitForm(event) {
 			var method = (provider.method != undefined ? provider.method : "GET");
 			//var dataType = (provider.dataType != undefined ? provider.dataType : "json");
 			//var contentType = (provider.contentType != undefined ? provider.contentType : "application/json");
-			console.log(url);
+			if(update){
+				if(url.indexOf("?")>0){
+					url+="&"+ form.idField.name+"="+form.idField.value;
+				}else{
+					url+="?"+ form.idField.name+"="+form.idField.value;
+				}
+			}
+			
+			
+			
 		    $.ajax({
 		        url: url,
 		        type: method,
@@ -658,9 +712,9 @@ function addRow(event){
 	var target = getEventTarget(event);
 	var _this = window[$(target).attr('formId')];
 
-	//console.log($(target).attr("name"));
+	console.log("Target Name : "+$(target).attr("name"));
 	
-	if($(target).siblings('table').length>0){
+	/*if($(target).siblings('table').length>0){
 		table=$(target).siblings('table');
 	}
 	
@@ -670,20 +724,15 @@ function addRow(event){
 		wrapper=$(target).siblings('.dataTables_wrapper');
 		table=$(wrapper).find('.dataTable');
 		field=_this.findFieldByNameAndType($(table).attr('id'), "list");
-	}	
+	}*/
+	
+	var listName=$(target).attr("list");
+	
+	console.log("List Name : "+listName);
+	
+	field=_this.findFieldByNameAndType(listName, "list");
 	
 	if(field.editMode == "inline"){
-		//$(target).hide();
-		//$(target).siblings().show();
-		
-		/*if(elementType=='a' || elementType=='button'){
-			$(target).hide();
-			$(target).siblings().show();
-		}else{
-			$(target).parent().hide();
-			$(target).parent().siblings().show();
-		}*/
-		
 		_this.addListRow(field);
 	}else if(field.editMode == "dialog"){
 		var action = getListAction(field, $(target).attr("name"));
@@ -783,14 +832,14 @@ function deleteRow(event){
 }
 
 JetForm.prototype.addListRows = function(listField){
-	//console.log("Entering JetForm.prototype.addListRow");
+	//console.log("Entering JetForm.prototype.addListRows");
 	var _this = this;
 	var form = _this.form;
     var provider;
     if(listField.providers != undefined){
    		provider = listField.providers.collection;
 	}
-	if(provider != undefined && provider.ajax != undefined){
+	if(provider != undefined && provider.ajax != undefined && provider.ajax != ''){
 		$.ajax({
 			url: provider.ajax,
 		    type: "GET",
@@ -805,25 +854,29 @@ JetForm.prototype.addListRows = function(listField){
 					data = response;
 				}
 				
+				//console.log(data);
+				
 				$(data).each(function(i, d){
 					_this.addListRow(listField, d, i);
 				});
 				
 				_this.addListTopActions(listField);
 			},error: function(error) {
-		    	//console.log('Error in fetching data');	
+		    	//console.log('Error in fetching data');
 		    	_this.addListRow(listField);	
 		    	_this.addListTopActions(listField);
 			}
 		});	
 	}else{
+		
     	_this.addListRow(listField);	
     	_this.addListTopActions(listField);
 	}
+	//console.log("Exiting JetForm.prototype.addListRows");
 }
 
 JetForm.prototype.addListTopActions = function(listField){
-	console.log("Calling addListTopActions ..");
+	//console.log("Calling addListTopActions ..");
 	var _this = this;
 	var form = _this.form;
 	var tableWrapper;
@@ -840,6 +893,7 @@ JetForm.prototype.addListTopActions = function(listField){
 	    	const template = $(templates[action.type]).html();
 	    	const compiledTemplate = Handlebars.compile(template);
 	    	action["formId"]=form.id;
+	    	action["listId"]=reformNameAndId(listField.parentNode, listField.name, "_");
 	    	var html=compiledTemplate(action)
 	    	//console.log(html);
 	    	$(html).addClass('float-end list-action').insertBefore(tableWrapper);
@@ -848,7 +902,7 @@ JetForm.prototype.addListTopActions = function(listField){
 }
 
 JetForm.prototype.addListRow = function(field, data, index){
-	console.log("Entering JetForm.prototype.addListRow");
+	//console.log("Entering JetForm.prototype.addListRow");
 	var _this = this;
    	if(index == undefined ){
 		var ltr=$('#'+field.name+' tr').last();
@@ -1192,7 +1246,7 @@ JetForm.prototype.bindEvents = function(){
 			if(events!=undefined){
 				//var keys=Object.keys(events);
 				$.each(events, function(key, receivers) {
-					$('#'+field.name).bind(key, function(){
+					$('#'+reformNameAndId(field.parentNode, field.name, '_')).bind(key, function(){
 						_this.bindEventReceivers(field, receivers);
 					});
 				});
@@ -1203,7 +1257,7 @@ JetForm.prototype.bindEvents = function(){
 				if(events!=undefined){
 					//var keys=Object.keys(events);
 					$.each(events, function(key, receivers) {
-						$('#'+subfield.name).bind(key, function(){
+						$('#'+reformNameAndId(subfield.parentNode, subfield.name, '_')).bind(key, function(){
 							_this.bindEventReceivers(subfield, receivers);
 						});
 					});
@@ -1214,6 +1268,7 @@ JetForm.prototype.bindEvents = function(){
 }
 
 JetForm.prototype.bindEventReceivers = function(eventSource, receivers){
+	console.log(eventSource);
 	var _this = this;
 	receivers.forEach(receiver => {
 		if(receiver.type=="field"){
@@ -1262,6 +1317,7 @@ JetForm.prototype.refillField = function(fieldName){
 }
 
 JetForm.prototype.bindValidations = function(){
+	console.log("Entering bindValidations");
 	var form = this.form;
 	if(form.validations!=undefined){
 		$("#"+form.id).validate(form.validations);
@@ -1272,19 +1328,24 @@ JetForm.prototype.bindValidations = function(){
 			if(field.type!="group"){
 				
 				if(field.validations!=undefined){
-					rules[field.name]=field.validations.rules;
-					messages[field.name]=field.validations.messages;
+					var reformedId = reformNameAndId(field.parentNode, field.name, '_');
+					rules[reformedId]=field.validations.rules;
+					messages[reformedId]=field.validations.messages;
 				}
 			}else{
 				field.fields.forEach(f => {
 					if(f.validations!=undefined){
-						rules[f.name]=f.validations.rules;
-						messages[f.name]=f.validations.messages;
+						var reformedId = reformNameAndId(f.parentNode, f.name, '_');
+						rules[reformedId]=f.validations.rules;
+						messages[reformedId]=f.validations.messages;
 					}
 				});
 			}
 		});
 		
+		console.log("Exiting bindValidations "+form.id);
+		console.log(rules);
+		console.log(messages);
 		$("#"+form.id).validate({"rules":rules, "messages":messages});
 	}
 }
@@ -1656,11 +1717,10 @@ JetList.prototype.renderList = function() {
     $('#'+form.parentId).append(html);
     
     var provider=form.providers.collection;
-
-	var columns=[];
-	var columnDefs =[];
+	var columns = [];
+	var columnDefs = [];
 	var selectable = {};
-
+	
     columns[0]= { "title":''};
 
 	if(_this.selectable != undefined && _this.selectable == true){
@@ -1687,6 +1747,7 @@ JetList.prototype.renderList = function() {
 			});			
 		}
 	});
+	
 	columnDefs[columnDefs.length]={
 	    'targets': columns.length,
 	    'title': 'Actions',
@@ -1698,12 +1759,24 @@ JetList.prototype.renderList = function() {
 	    }
 	};
 	
-	//console.log(columns);
+	var params = {}; 
+
+	if(provider.requestParams != undefined){
+		var requestParams = provider.requestParams;
+		var keys=Object.keys(requestParams);
+		
+		$(keys).each(function(i, k){
+			params[k] = getURLQueryParam(k);
+		})
+	}
+	
+	console.log(params);
     $.fn.dataTable.ext.errMode = 'none';
 
     $.ajax({
         url: provider.ajax,
         type: "GET",
+        data: params,
         contentType: 'application/json',
         success: function(response) {
         	////console.log(response);
@@ -2124,11 +2197,11 @@ function callAjax(form, field, action, provider, successFunc, failureFunc){
 
         	});
         } 
-        
+/*        
         if(idField != undefined && queryParams[idField.name] != undefined && dataKey != undefined && dataKey !=''){
 			queryParams[idField.name] = dataKey;
 		}
-		
+*/		
 		//console.log("Processing queryParams finished..");
 		
 		var requestParams={};
@@ -2404,6 +2477,8 @@ function log(message){
 function error(message){
 	//console.log(message);
 }
+
+
 //==============================//
 
 Handlebars.registerHelper('if_eq', function(a, b, opts) {
@@ -2441,12 +2516,13 @@ function reformNameAndId(s1, s2, s3){
 		return s2;
 	}
 }
+
 //=============================//
 
 //drag drop upload functions
   var arr = [];
   
-  var uploadUrl = 'http://localhost:9000/api/v1/file/upload';
+  var uploadUrl = 'http://localhost:9000/api/v1/file/upload/'+localStorage.getItem("folderId");
   var uploadMultipleUrl = 'http://localhost:9000/api/v1/file/upload-multiple';
   var deleteUrl = 'http://localhost:9000/api/v1/file/';
 
@@ -2522,7 +2598,8 @@ function reformNameAndId(s1, s2, s3){
         contentType: false,
         processData: false,
         data: formD
-      }).done(function(data) {
+      })
+        .done(function(data) {
           var getid = data.id;
           arr.push({ id: data.id, fileName: formD.get('documentImage') }); // document image is used to fetch file details from backend request param
           displayFile();
