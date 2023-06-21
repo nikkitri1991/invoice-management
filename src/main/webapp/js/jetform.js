@@ -2,7 +2,8 @@ var developmentMode = true;
 var templates;
 function loadTemplates(){
 	if(templates == undefined){
-		templates = {            //object for mapping object to id
+		templates = {            
+			//object for mapping object to id
 		    text: '#jf-text-template',
 		    textarea: '#jf-textarea-template',
 		    hidden: '#jf-hidden-template',
@@ -17,12 +18,14 @@ function loadTemplates(){
 		    file : '#jf-file-template',
 		    list : '#jf-list-template',
 		    datatable: '#jf-datatable-template',
+		    datatable_empty: '#jf-datatable-empty-template',
 		    form : '#jf-form-template',
 			list_header : '#jf-list-header-template',
 			list_actions : '#jf-list-actions-template',
 			row_actions : '#jf-row-actions-template',
 		    list_text: '#list-text-template',
 		    list_textarea: '#list-textarea-template',
+		    list_hidden: '#list-hidden-template',
 		    list_date: '#list-date-template',
 		    list_email: '#list-email-template',
 		    list_password: '#list-password-template',
@@ -37,131 +40,11 @@ function loadTemplates(){
 		    link : '#jf-link-template',
 		    modal : '#jf-modal-template',
 		    confirm : '#jf-confirm-template',
-		    drag_drop: '#jf-file-drag-drop-template',
-		    time:'#jf-time-template'
+			drag_drop: '#jf-file-drag-drop-template',
+			docs: '#jf-docs-template'		    
 		};
 	}
 }
-
-var arr = [];
-
-$(document).ready(function() {
-  $(document).on('dragover', '.dropzone-wrapper', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log("dragover leave drag area..");
-  });
-
-  $(document).on('dragleave', '.dropzone-wrapper', function(e) {
-    console.log("leave drag area..");
-  });
-
-  $(document).on('drop', '.dropzone-wrapper', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log("drop drag area.." + e.originalEvent.dataTransfer.files[0].name);
-
-    console.log(e.originalEvent.dataTransfer.files[0].name);
-
-    let files = e.originalEvent.dataTransfer.files;
-    handleFileSubmit(files);
-  });
-});
-
-function removeFile(fileId, index) {
-  alert(fileId, index);
-  if (index > -1) {
-    arr.splice(index, 1);
-    console.log(arr.length);
-    $.ajax({
-      type: "DELETE",
-      url: 'http://localhost:9000/api/v1/documentManager/' + fileId,
-      contentType: false,
-      processData: false,
-    })
-      .done(function(data) {
-        $('#' + index).remove();
-        displayFile();
-      })
-      .fail((err) => {
-        console.log(err);
-      });
-  }
-}
-
-function displayFile() {
-  $('#addFile').empty();
-  console.log("+++++++++++++++=")
-  console.log(arr)
-  let allFileId = "";
-  arr.map((fileObj, key) => {
-    allFileId += fileObj.id;
-   	console.log(allFileId)
-    console.log("-----", fileObj);
-    let btnTag = "<div class='btn btn-sm btn-primary ms-2 mt-2' id='" + key + "' >" + fileObj.fileName.name + "<span style='float: right; font-size: 25px;  margin-right: -10%; cursor:pointer' onclick='removeFile(" + fileObj.id + ',' + key + ")'>&times;</span></div>";
-    $('#addFile').append(btnTag);
-  });
-
-  console.log("+++++++++++")
-  console.log("")
-  $('#docId').val(allFileId);
-}
-
-
-function handleFiles(files) {
-  handleFileSubmit(files);
-}
-
-function handleFileSubmit(files) {
-  let formD = new FormData();
-  if (files.length === 1) {
-    formD.append('documentImage', files[0]);
-    $.ajax({
-      type: "POST",
-      url: 'http://localhost:9000/api/v1/documentManager/upload',
-      contentType: false,
-      processData: false,
-      data: formD
-    })
-      .done(function(data) {
-        var getid = data.id;
-        console.log('id' + getid)
-        console.log(data)
-        console.log(formD.get('documentImage'))
-        arr.push({ id: data.id, fileName: formD.get('documentImage') });
-        displayFile();
-      })
-      .fail((err) => {
-        console.log(err);
-      });
-  } else {
-    let formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('documentImage', files[i]);
-    }
-    $.ajax({
-      type: "POST",
-      url: 'http://localhost:9000/api/v1/documentManager/upload-multiple',
-      contentType: false,
-      processData: false,
-      data: formData
-    })
-      .done(function(data) {
-        data.map((data, index) => {
-          arr.push({ id: data.id, fileName: files[index] });
-          var testid = data.id;
-          console.log('id' + id)
-        })
-        displayFile();
-      })
-      .fail((err) => {
-        console.log(err);
-      });
-  }
-}
-
-/*--------------------*/
-
 
 function JetForm (config) {
 	//console.log("Entering JetForm (config)");
@@ -230,18 +113,61 @@ JetForm.prototype.render = function() {
 	    _this.renderActions();
 		_this.loadOptionsFields();
 		_this.bindEvents();
+		_this.triggerEvents();
 		_this.bindValidations();
 	}
     
     _this.renderModal();
     //console.log("Exiting JetForm.prototype.render");
 }
+JetForm.prototype.triggerEvents = function(){
+	//To trigger the pre-bound events on setting the value
+	var _this = this;
+	var form = _this.form;
+	form.fields.forEach(field => {
+		if(field.type != 'group' && field.type != 'list'){
+			//console.log("Entering JetForm.prototype.triggerEvents is called for "+field.name + " - field.value : "+field.value);
+			_this.triggerEvent(field);
+		}else if(field.type == 'list'){
+			field.fields.forEach(lstfield => {
+				//console.log("Entering JetForm.prototype.triggerEvents is called for "+lstfield.name + " - lstfield.value : "+lstfield.value);
+				_this.triggerEvent(lstfield);
+			});
+		}else if(field.type == 'group'){
+			field.fields.forEach(subfield => {
+				if(subfield.type != 'list'){
+					//console.log("Entering JetForm.prototype.triggerEvents is called for "+subfield.name + " - subfield.value : "+subfield.value);
+					_this.triggerEvent(subfield);
+				}else{
+					subfield.fields.forEach(lstfield => {
+						//console.log("Entering JetForm.prototype.triggerEvents is called for "+lstfield.name + " - lstfield.value : "+lstfield.value);
+						_this.triggerEvent(lstfield);
+					});
+				}
+			});
+		}
+	});
+}
+	
+JetForm.prototype.triggerEvent = function(field){
+	if(field.value != undefined && field.value != '' && field.value != '-1' && field.value != '0'){
+		if(field.events != undefined){
+			Object.keys(field.events).forEach(function(key) {
+				var fieldId = field.name;
+				if(field.parentNode != undefined){
+					fieldId=field.parentNode+"_"+field.name;
+				}
+				$('#'+fieldId).trigger(key);
+			});
+		}
+	}
+}
 
 JetForm.prototype.readFromQueryParam = function(){
 	var _this = this;
 	var form = _this.form;
-	var idValue=getURLQueryParam(form.idField.name);
-	form.idField.value=idValue;
+	var idValue = getURLQueryParam(form.idField.name);
+	form.idField.value = idValue;
 }
 JetForm.prototype.renderModal = function() {
 	//console.log("Entering JetForm.prototype.renderModal");
@@ -260,7 +186,7 @@ JetForm.prototype.readObjectValues = function() {
 	
 		if(provider != undefined){
 			if(provider.ajax != undefined){
-				//console.log("provider.ajax !-undefined JetForm.prototype.readObjectValues");
+				////console.log("provider.ajax !-undefined JetForm.prototype.readObjectValues");
 				callAjax(form, field, target, provider, setFieldValues, console.log);
 		    }else if(provider.script != undefined){
 				var scriptParams = (provider.scriptParams != undefined? provider.scriptParams: {});
@@ -288,10 +214,11 @@ function setFieldValues(form, field, action, data){
 	form.fields.forEach(fld => {
 		if(fld.type != 'group' && fld.type != 'list'){
 			////console.log(fld.name + " -- "+ data[fld.name]);
-			fld.value = data[fld.name];
+			setFieldValue(fld, data);
+			
 		}else if(fld.type == 'group'){
 			fld.fields.forEach(subfield => {
-				subfield.value = data[subfield.name];
+				setFieldValue(subfield, data);
 			});
 		}
 	});
@@ -303,12 +230,33 @@ function setFieldValues(form, field, action, data){
     _this.renderActions();
 	_this.loadOptionsFields();
 	_this.bindEvents();
+	_this.triggerEvents();
 	_this.bindValidations();
 	
 	//console.log("Exiting setFieldValues");
 	
 }
 
+function setFieldValue(field, data){
+	if(field.parentNode != undefined && field.parentNode != ''){
+		var parentNames=field.parentNode.split(".");
+		var fv;
+		for(var ix=0;ix<parentNames.length;ix++){
+			if(ix==0){
+				fv = data[parentNames[ix]];
+			}else if(fv != undefined){
+				fv = fv[parentNames[ix]];
+			}else{
+				break;
+			}
+		}
+		if(fv != undefined){
+			field.value = fv[field.name];
+		}
+	}else{
+		field.value = data[field.name];
+	}
+}
 JetForm.prototype.renderForm = function() {
 	//console.log("Entering JetForm.prototype.renderForm");
 	var form = this.form;
@@ -324,7 +272,7 @@ JetForm.prototype.renderFields = function() {
 	var form = this.form;
 	// Loop through fields array
     form.fields.forEach(field => {
-        if (!(field.group && field.group != '')) {
+        if (field.group == undefined || field.group == '') {
 			var autoWidth=true;
 			if(field.type=='group'){
 				if(field.auto==undefined || field.auto==true){
@@ -425,11 +373,12 @@ JetForm.prototype.renderList = function(field) {
 	var _this = this;
     if (field.type == "list") {
     	if(field.editMode == "inline"){
-       		_this.addListRow(field);
+       		_this.addListRows(field);
        		var td=$('#'+field.name).find('tr').find('td').last();
        		$(td).children('a[name="deleteRow"]').hide();
 
        	}else if(field.editMode == 'dialog'){
+			console.log("renderList: before calling initListTable");
        		_this.initListTable(field, true);
        	}
 /*        	}else if(field.editable != '' && !field.editable){
@@ -483,7 +432,7 @@ JetForm.prototype.loadOptionsFields = function() {
 JetForm.prototype.loadOptionsField = function(field) {
 	//console.log("Entering JetForm.prototype.loadOptionsField");
 	
-	////console.log(field.name);
+	
 	////console.log(field.provider);
 	var form = this.form;
 	var target;
@@ -492,7 +441,7 @@ JetForm.prototype.loadOptionsField = function(field) {
 
     if (field.provider != undefined && field.provider.ajax !=undefined) {
 		callAjax(form, field, target, field.provider, this.populateOptions);
-    	//callAjax(form, field, target, field.provider, this.populateOptions, console.log);
+    	//callAjax(form, field, target, field.provider, this.populateOptions, //console.log);
     }
 	//console.log("Exiting JetForm.prototype.loadOptionsFields");
     
@@ -504,10 +453,13 @@ JetForm.prototype.populateOptions = function(form, field, target, data){
 	var provider = field.provider;
 	var select=(field.type == "select");
     
-    //console.log("populateOptions field.name == "+field.name+", field.value == "+field.value);
+    ////console.log("populateOptions field.name == "+field.name+", field.value == "+field.value);
     
     var i=0;
      
+    var elemId= reformNameAndId(field.parentNode, field.name, "_");
+    var elemName = reformNameAndId(field.parentNode, field.name, ".");
+    
     $.each(data, function(key, item) {
          	
      	var value;
@@ -527,7 +479,7 @@ JetForm.prototype.populateOptions = function(form, field, target, data){
      	
      	var selected = (value == field.value);
      	if(select){
-     		$("#" + field.name).append(new Option(label, value, false, selected));
+     		$("#" + elemId).append(new Option(label, value, false, selected));
      	}else{
      		var div=$('<div>', {
 				class: 'form-check'
@@ -535,21 +487,21 @@ JetForm.prototype.populateOptions = function(form, field, target, data){
 
          	$('<input />', { 
          		type: field.type, 
-         		id: field.name+(i++), 
-         		name: field.name,
+         		id: elemId+(i++), 
+         		name: elemName,
          		value: value,
          		checked: selected }).appendTo(div);
          	
 			$('<label />', {
 				class:'form-check-label ms-1',
-				for:field.name,
+				for:elemName,
 				text: label }).appendTo(div);
 
-			$("#" + field.name+"-form-group").append(div);
+			$("#" + elemId+"-form-group").append(div);
      	}
 	});
-	//console.log("Entering JetForm.prototype.populateOptions");
 	
+	//console.log("Entering JetForm.prototype.populateOptions");
 }
 
 /*JetForm.prototype.getIdField = function(){
@@ -619,13 +571,12 @@ function findAction (event){
 }
 
 function submitForm(event) {
-	console.log("Entering submitForm");
+	//console.log("Entering submitForm");
 	
 	event.preventDefault();
 	var target = getEventTarget(event);
 	var _this = window[$(target).attr('formId')];
 	var form = _this.form;
-	console.log(form)
 	
 	if(!$('#'+form.id).valid()){
 		return;	
@@ -657,8 +608,10 @@ function submitForm(event) {
 	    
 	    if(form.idField == undefined || form.idField.value == undefined || form.idField.value == ''){
 	    	provider= form.providers.create;
+	    	console.log("create"+provider);
 	    }else{
 	    	provider= form.providers.update;
+	    	console.log(provider);
 	    }
 	    
 	    //console.log(provider);
@@ -668,7 +621,7 @@ function submitForm(event) {
 			var method = (provider.method != undefined ? provider.method : "GET");
 			//var dataType = (provider.dataType != undefined ? provider.dataType : "json");
 			//var contentType = (provider.contentType != undefined ? provider.contentType : "application/json");
-			
+			console.log(url);
 		    $.ajax({
 		        url: url,
 		        type: method,
@@ -705,8 +658,10 @@ function addRow(event){
 	var target = getEventTarget(event);
 	var _this = window[$(target).attr('formId')];
 
-	if($(target).parents('table').length>0){
-		table=$(target).parents('table');
+	//console.log($(target).attr("name"));
+	
+	if($(target).siblings('table').length>0){
+		table=$(target).siblings('table');
 	}
 	
 	if (table != undefined){
@@ -718,8 +673,8 @@ function addRow(event){
 	}	
 	
 	if(field.editMode == "inline"){
-		$(target).hide();
-		$(target).siblings().show();
+		//$(target).hide();
+		//$(target).siblings().show();
 		
 		/*if(elementType=='a' || elementType=='button'){
 			$(target).hide();
@@ -731,10 +686,82 @@ function addRow(event){
 		
 		_this.addListRow(field);
 	}else if(field.editMode == "dialog"){
-		$('#'+formId+'Modal').modal('show').find('.modal-body').load('http://localhost:8081/jetform-renderer/form-template.jsp');
+		var action = getListAction(field, $(target).attr("name"));
+		if(action.handler != undefined && action.handler.dialog !=undefined){
+			$('#'+_this.form.id+'Modal').modal('show').find('.modal-body').load(action.handler.dialog);	
+		}else{
+			console.error("No dialog handler is defined.");
+		}
 	}
 }
 
+function getListAction(listField, name){
+	var action;
+	if(listField.actions != undefined){
+		listField.actions.forEach(a => {
+			if(a.name == name){
+				action = a;
+			}
+		});
+	}
+	return action;
+}
+
+function getListKeyField(listField){
+	var kf;
+	if(listField.fields != undefined){
+		listField.fields.forEach(f => {
+			if(f.id != undefined && (f.id == "true" || f.id == true)){
+				kf = f;
+			}
+		});
+	}
+	return kf;
+}
+
+function editRowOnClick(event){
+	var field;
+	var table;
+
+	var target = getEventTarget(event);
+	var _this = window[$(target).attr('formId')];
+
+	//console.log($(target).attr("name"));
+	if($(target).parents('table').length>0){
+		table=$(target).parents('table');
+	}
+	
+	//console.log(table);
+	
+	if (table != undefined){
+		field=_this.findFieldByNameAndType($(table).attr('id'), "list");
+	}else{
+		wrapper=$(target).parents('.dataTables_wrapper');
+		table=$(wrapper).find('.dataTable');
+		field=_this.findFieldByNameAndType($(table).attr('id'), "list");
+	}	
+	
+	//console.log(field);
+	
+	if(field.editMode == "dialog"){
+		var action = getListAction(field, $(target).attr("name"));
+		//console.log(action);
+		if(action.handler != undefined && action.handler.dialog != undefined){
+			var kf = getListKeyField(field);
+			var param = {};
+			param[kf.name] = $(target).attr('dataKey');
+			var url = formatMessage(action.handler.dialog, param);
+			//console.log(url);
+			$('#'+_this.form.id+'Modal').modal('show').find('.modal-body').load(url);	
+		}else{
+			console.error("No dialog handler is defined.");
+		}
+		
+	}	
+}
+function deleteRowOnClick(event){
+	deleteRow(event);
+}
 function deleteRow(event){
 	var target = $( event.target);
 	if(confirm('Are you sure to delete the row?')){
@@ -744,35 +771,132 @@ function deleteRow(event){
 
 			if($(tbody).find('tr').length==1){
 				var td=$(tbody).find('tr').find('td').last();
-				$(td).children('a[name="deleteRow"]').hide();
-				$(td).children('a[name="addRow"]').show();
+				//$(td).children('a[name="deleteRow"]').hide();
+				//$(td).children('a[name="addRow"]').show();
 			}else{
 				var td=$(tbody).find('tr').last().find('td').last();
-				$(td).children('a[name="deleteRow"]').show();
-				$(td).children('a[name="addRow"]').show();
+				//$(td).children('a[name="deleteRow"]').show();
+				//$(td).children('a[name="addRow"]').show();
 			}
 		}
 	}
 }
 
-JetForm.prototype.addListRow = function(field){
+JetForm.prototype.addListRows = function(listField){
+	//console.log("Entering JetForm.prototype.addListRow");
 	var _this = this;
-   	var tr=$('<tr />');
+	var form = _this.form;
+    var provider;
+    if(listField.providers != undefined){
+   		provider = listField.providers.collection;
+	}
+	if(provider != undefined && provider.ajax != undefined){
+		$.ajax({
+			url: provider.ajax,
+		    type: "GET",
+		    contentType: 'application/json',
+		    success: function(response) {
+		    	////console.log(response);
+		    	////console.log(columnDefs);
+				var data;
+		    	if(provider.dataNode != undefined && provider.dataNode != ''){
+					data = response[provider.dataNode];	
+				}else{
+					data = response;
+				}
+				
+				$(data).each(function(i, d){
+					_this.addListRow(listField, d, i);
+				});
+				
+				_this.addListTopActions(listField);
+			},error: function(error) {
+		    	//console.log('Error in fetching data');	
+		    	_this.addListRow(listField);	
+		    	_this.addListTopActions(listField);
+			}
+		});	
+	}else{
+    	_this.addListRow(listField);	
+    	_this.addListTopActions(listField);
+	}
+}
+
+JetForm.prototype.addListTopActions = function(listField){
+	console.log("Calling addListTopActions ..");
+	var _this = this;
+	var form = _this.form;
+	var tableWrapper;
+    		
+	if($('#'+listField.name).parents('#'+listField.name+'_wrapper').length>0){
+		tableWrapper = $('#'+listField.name).parents('#'+listField.name+'_wrapper');
+	}else{
+		tableWrapper = $('#'+listField.name)
+	}
+	
+	listField.actions.forEach(action => {
+		if(action.applyTo =='list'){
+			//console.log(action);
+	    	const template = $(templates[action.type]).html();
+	    	const compiledTemplate = Handlebars.compile(template);
+	    	action["formId"]=form.id;
+	    	var html=compiledTemplate(action)
+	    	//console.log(html);
+	    	$(html).addClass('float-end list-action').insertBefore(tableWrapper);
+		}
+	});	
+}
+
+JetForm.prototype.addListRow = function(field, data, index){
+	console.log("Entering JetForm.prototype.addListRow");
+	var _this = this;
+   	if(index == undefined ){
+		var ltr=$('#'+field.name+' tr').last();
+		if(ltr.length > 0 && $(ltr).attr('rowIndex') != undefined){
+			index = parseInt($(ltr).attr('rowIndex').trim())+1;
+		}else{
+			index = 0;
+		}
+		console.log(index);
+	}
+   	var tr = $('<tr />',{
+		rowIndex: index
+	});
+	
     field.fields.forEach(subfield => {
+		
+		if(data != undefined && data[subfield.name] != undefined){
+			subfield.value = data[subfield.name];
+		}else{
+			subfield.value = '';
+		}
+		subfield.parentNode = field.name;
+		subfield['index'] = index;
+		
+		////console.log("In JetForm.prototype.addListRow - name: "+subfield.name+", type: "+subfield.type);
+        
         const template = $(templates["list_"+subfield.type]).html();
         const compiledTemplate = Handlebars.compile(template);
         var html=compiledTemplate(subfield)
         $('<td />').append(html).appendTo(tr);
     });
     
+    ////console.log("rowCount : "+rowCount);
     if(field.actions.length>0){
-    	var td=$('<td />');
-    	field.actions.forEach(action => {
+		field.actions.forEach(action => {
+			action['formId']=_this.form.id;
+		});
+    	var td=$('<td />',{nowrap: true});
+    	const template = $(templates["row_actions"]).html();
+    	const compiledTemplate = Handlebars.compile(template);
+    	$(td).append(compiledTemplate(field.actions));
+    	
+    	/*field.actions.forEach(action => {
 			action['formId']=_this.form.id;
 	    	const template = $(templates[action.type]).html();
 	    	const compiledTemplate = Handlebars.compile(template);
 	    	$(td).append(compiledTemplate(action));
-    	});
+    	});*/
     }
     
     $(td).appendTo(tr);
@@ -780,25 +904,237 @@ JetForm.prototype.addListRow = function(field){
 }
 
 JetForm.prototype.initListTable = function(field, editable){
-	var form = this.form;
-	var table= $('#'+field.name).DataTable({
+	var _this = this;
+	//var form = _this.form;
+	
+	/*var table= $('#'+field.name).DataTable({
 		filter: false,
 		paging: false,
         ordering: false,
         info: false,
         responsive: true
-	});
+	});*/
+	console.log("initListTable : before calling renderListTable");
+	_this.renderListTable(field);
 	
-	var tableWrapper=$('#'+field.name).parents('#'+field.name+'_wrapper');
-	field.actions.forEach(action => {
-		if(action.applyTo=='list'){
-	    	const template = $(templates[action.type]).html();
-	    	const compiledTemplate = Handlebars.compile(template);
-	    	action["formId"]=form.id;
-	    	var html=compiledTemplate(action)
-	    	$(html).addClass('float-end list-action').insertBefore(tableWrapper);
+
+}
+JetForm.prototype.renderListTable = function(listField) {
+	var _this = this;
+	//var form = _this.form;
+	
+    var provider=listField.providers.collection;
+
+	var columns=[];
+	var columnDefs =[];
+	//var selectable = {};
+
+    columns[0]= { "title":''};
+
+	if(listField.selectable != undefined && listField.selectable == true){
+    	columnDefs[0] = {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+    	};
+    	
+    	selectable = {
+            style: 'multi',
+            selector: 'td:first-child'
+        };
+	}else{
+		_this.showIndex = true;
+	}
+
+	listField.fields.forEach(field => {
+		if(field.type!='list' && field.type != 'group' && field.type != 'hidden'){
+			_this.renderListColumn(field, columns, columnDefs);
+		}else if(field.type == 'group'){
+			field.fields.forEach(subfield => {
+				_this.renderListColumn(subfield, columns, columnDefs);
+			});			
 		}
 	});
+	columnDefs[columnDefs.length]={
+	    'targets': columns.length,
+	    'title': 'Actions',
+	    'searchable': false,
+	    'orderable': false,
+	    'className': 'dt-body-center dt-body-nowrap',
+	    'render': function (data, type, full, meta){
+	        return _this.renderRowActions(listField, full);
+	    }
+	};
+	
+	//console.log(columns);
+    $.fn.dataTable.ext.errMode = 'none';
+
+    $.ajax({
+        url: provider.ajax,
+        type: "GET",
+        contentType: 'application/json',
+        success: function(response) {
+        	////console.log(response);
+        	////console.log(columnDefs);
+        	var data;
+        	
+        	if(provider.dataNode != undefined && provider.dataNode != ''){
+				data = response[provider.dataNode];	
+			}else{
+				data = response;
+			}
+			
+        	////console.log(columns);
+        	////console.log(data);
+        	
+        	var table= $('#'+listField.name).DataTable({ 
+        		responsive: true,
+        		paging: false,
+        		searching: false,
+        		ordering: false,
+        		info: false,
+        		data: data,
+        		columns: columns,
+        		columnDefs: columnDefs,
+        	});
+        	/*if(listField.showIndex != undefined && listField.showIndex == true){
+	        	table.on('order.dt search.dt', function () {
+			        let i = 1;
+			 
+			        table.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+			            this.data(i++);
+			        });
+	    		}).draw();
+    		}*/
+    		
+    		/*var tableWrapper;
+    		
+    		if($('#'+listField.name).parents('#'+listField.name+'_wrapper').length>0){
+				tableWrapper = $('#'+listField.name).parents('#'+listField.name+'_wrapper');
+			}else{
+				tableWrapper = $('#'+listField.name)
+			}
+			
+			listField.actions.forEach(action => {
+				if(action.applyTo=='list'){
+			    	const template = $(templates[action.type]).html();
+			    	const compiledTemplate = Handlebars.compile(template);
+			    	action["formId"]=form.id;
+			    	var html=compiledTemplate(action)
+			    	$(html).addClass('float-end list-action').insertBefore(tableWrapper);
+				}
+			});*/
+			_this.addListTopActions(listField);
+        },
+        error: function(error) {
+            alert('Error in fetching data');
+        	var table= $('#'+listField.name).DataTable({ 
+        		responsive: true,
+        		paging: false,
+        		searching: false,
+        		ordering: false,
+        		info: false,
+        		columns: columns,
+        		columnDefs: columnDefs,
+        	});
+        	//_this.addListTopActions(listField);
+        }
+    });
+}
+JetForm.prototype.renderListColumn = function(field, columns, columnDefs) {
+	var _this = this;
+	if(field.type!='list' && field.type != 'group' && field.type != 'hidden'){	
+		var colDefCtr = columnDefs.length;
+		var colCtr = columns.length;
+		if(field.view != undefined){
+			if(field.type == 'file'){
+				if(field.view == 'thumbnail'){
+					 columnDefs[colDefCtr] = {
+	        		   'render': function (data, type, row, meta){
+	        		        return _this.renderThumbnailView(data, type, row, meta);
+	        		    }
+					}
+				}else if(field.view == 'download'){
+					columnDefs[colDefCtr] = {
+	        		    'render': function (data, type, row, meta){
+	        		        return _this.renderDownloadView(data, type, row, meta);
+	        		    }
+					}
+				}else if(field.view == 'filelink'){
+					columnDefs[colDefCtr] = {
+	        		    'render': function (data, type, row, meta){
+	        		        return _this.renderFileLinkView(data, type, row, meta);
+	        		    }
+					}
+				}
+			}else if(field.type == 'text'){
+				if(field.view == 'folder'){
+					columnDefs[colDefCtr] = {
+	        		    'render': function (data, type, row, meta){
+	        		        return _this.renderFolderView(data, type, row, meta);
+	        		    }
+					}
+				}
+			}
+			
+	        if(columnDefs[colDefCtr] != undefined){		    
+				columnDefs[colDefCtr]['targets'] = colCtr;
+			    columnDefs[colDefCtr]['searchable'] = false;
+			    columnDefs[colDefCtr]['orderable'] = false;
+			    columnDefs[colDefCtr]['className'] = 'dt-body-nowrap';
+		    }
+		}
+		columns[colCtr]= { "data": field.name, "title":field.label};
+	}
+}	
+JetForm.prototype.renderThumbnailView = function(data, type, row, meta) {
+	return "<img src='"+data+"'>";
+}
+
+JetForm.prototype.renderDownloadView = function(data, type, row, meta) {
+	return "<a href='"+data+"' target='_blank'><i class='fa fa-cloud-download' aria-hidden='true'></i></a>";
+}
+
+JetForm.prototype.renderFolderView = function(data, type, row, meta) {
+	return "<i class='fa fa-folder-o' aria-hidden='true'></i>&nbsp;"+data;
+}
+
+JetForm.prototype.renderFileLinkView = function(data, type, row, meta) {
+	////console.log(data);
+	var fileName=(data.lastIndexOf("/")>=0? data.substring(data.lastIndexOf("/")+1): data);
+	fileName=(fileName.lastIndexOf("\\")>=0? fileName.substring(fileName.lastIndexOf("\\")+1): fileName);
+	var extn=fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+	var icon=getFaFileIcon(extn);
+	
+	return "<a href='"+data+"' target='_blank' style='text-decoration:none;'><i class='fa "+icon+"' aria-hidden='true'></i>&nbsp;"+fileName+"</a>";
+}
+
+JetForm.prototype.renderRowActions = function(listField, data) {
+	var _this = this;
+	var form = _this.form;
+	var html='';
+	var keyField;
+	listField.fields.forEach(field => {
+		if(field.id != undefined && (field.id == 'true' || field.id == true)){
+			keyField = field;
+		}
+	});
+	//var idField = findIdField(form);
+	if(listField.actions.length>0){
+    	listField.actions.forEach(action => {
+			
+			action['formId']=form.id;
+			//action['dataKey']="{'"+idField.name+"':"+"'"+data[idField.name]+"'}";
+			action['dataKey']=data[keyField.name];
+    	});
+    	const template = $(templates['row_actions']).html();
+    	const compiledTemplate = Handlebars.compile(template);
+    	html=compiledTemplate(listField.actions);
+    }
+    			
+
+    ////console.log(html);
+	return html;
 }
 
 JetForm.prototype.findFieldByNameAndType = function(name, type){
@@ -1256,24 +1592,6 @@ function executeFunctionByName (functionName, context, args) {
     };
 })(jQuery);
 
-Handlebars.registerHelper('if_eq', function(a, b, opts) {
-    if(a === b) // Or === depending on your needs
-        return opts.fn(this);
-    else
-        return opts.inverse(this);
-});
-
-Handlebars.registerHelper('if_ne', function(a, b, opts) {
-    if(a === b) // Or === depending on your needs
-    	return opts.inverse(this);
-    else
-    	return opts.fn(this);
-});
-Handlebars.registerPartial('textField', Handlebars.compile('#jf-text-template'));
-
-Handlebars.registerHelper('replace', function(s1, s2, s3) {
-    return s1.replace(s2, s3);
-});
 
 
 /**************JetList***********************/
@@ -1339,6 +1657,48 @@ JetList.prototype.renderList = function() {
     
     var provider=form.providers.collection;
 
+	var columns=[];
+	var columnDefs =[];
+	var selectable = {};
+
+    columns[0]= { "title":''};
+
+	if(_this.selectable != undefined && _this.selectable == true){
+    	columnDefs[0] = {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+    	};
+    	
+    	selectable = {
+            style: 'multi',
+            selector: 'td:first-child'
+        };
+	}else{
+		_this.showIndex = true;
+	}
+
+	form.fields.forEach(field => {
+		if(field.type!='list' && field.type != 'group' && field.type != 'hidden'){
+			_this.renderListColumn(field, columns, columnDefs);
+		}else if(field.type == 'group'){
+			field.fields.forEach(subfield => {
+				_this.renderListColumn(subfield, columns, columnDefs);
+			});			
+		}
+	});
+	columnDefs[columnDefs.length]={
+	    'targets': columns.length,
+	    'title': 'Actions',
+	    'searchable': false,
+	    'orderable': false,
+	    'className': 'dt-body-center dt-body-nowrap',
+	    'render': function (data, type, full, meta){
+	        return _this.renderRowActions(full);
+	    }
+	};
+	
+	//console.log(columns);
     $.fn.dataTable.ext.errMode = 'none';
 
     $.ajax({
@@ -1347,102 +1707,6 @@ JetList.prototype.renderList = function() {
         contentType: 'application/json',
         success: function(response) {
         	////console.log(response);
-        	var columns=[];
-        	var colCtr=0;
-        	var colDefCtr=0;
-        	var columnDefs =[];
-			var selectable = {};
-        	columns[colCtr++]= { "title":''};
-
-        	if(_this.selectable != undefined && _this.selectable == true){
-	        	columnDefs[colDefCtr++] = {
-		            orderable: false,
-		            className: 'select-checkbox',
-		            targets:   0
-	        	};
-	        	
-	        	selectable = {
-		            style: 'multi',
-		            selector: 'td:first-child'
-		        };
-			}else{
-				_this.showIndex = true;
-			}
-
-        	form.fields.forEach(field => {
-        		if(field.type!='hidden'){
-
-					if(field.view != undefined){
-						//var renderFun;
-						if(field.type == 'file'){
-							if(field.view == 'thumbnail'){
-								//renderFun = _this.renderThumbnailView;
-								 columnDefs[colDefCtr] = {
-				        		   'render': function (data, type, row, meta){
-				        		        return _this.renderThumbnailView(data, type, row, meta);
-				        		    }
-								}
-							}else if(field.view == 'download'){
-								//renderFun = _this.renderDownloadView;
-								columnDefs[colDefCtr] = {
-									/*'targets': colCtr,
-				        		    'searchable': false,
-				        		    'orderable': false,
-				        		    'className': 'dt-body-nowrap',*/
-				        		    'render': function (data, type, row, meta){
-				        		        return _this.renderDownloadView(data, type, row, meta);
-				        		    }
-								}
-							}else if(field.view == 'filelink'){
-								//renderFun = _this.renderDownloadView;
-								columnDefs[colDefCtr] = {
-									/*'targets': colCtr,
-				        		    'searchable': false,
-				        		    'orderable': false,
-				        		    'className': 'dt-body-nowrap',*/
-				        		    'render': function (data, type, row, meta){
-				        		        return _this.renderFileLinkView(data, type, row, meta);
-				        		    }
-								}
-							}
-						}else if(field.type == 'text'){
-							if(field.view == 'folder'){
-								//renderFun = _this.renderFolderView;
-								columnDefs[colDefCtr] = {
-				        		    'render': function (data, type, row, meta){
-				        		        return _this.renderFolderView(data, type, row, meta);
-				        		    }
-								}
-							}
-						}
-						
-				        /*//console.log(columnDefs[colDefCtr]);
-				        //console.log("colCtr : "+colCtr);*/
-				        if(columnDefs[colDefCtr] != undefined){		    
-							columnDefs[colDefCtr]['targets'] = colCtr;
-		        		    columnDefs[colDefCtr]['searchable'] = false;
-		        		    columnDefs[colDefCtr]['orderable'] = false;
-		        		    columnDefs[colDefCtr]['className'] = 'dt-body-nowrap';
-	        		    	colDefCtr++;
-	        		    }
-	        		    
-	        		    
-					}
-					columns[colCtr++]= { "data": field.name, "title":field.label};
-				}
-        		
-        	});
-        	columnDefs[colDefCtr]={
-    		    'targets': colCtr,
-    		    'title': 'Actions',
-    		    'searchable': false,
-    		    'orderable': false,
-    		    'className': 'dt-body-center dt-body-nowrap',
-    		    'render': function (data, type, full, meta){
-    		        return _this.renderRowActions(full);
-    		    }
-			};
-        	
         	////console.log(columnDefs);
         	var data;
         	
@@ -1473,9 +1737,60 @@ JetList.prototype.renderList = function() {
         },
         error: function(error) {
             alert('Error in fetching data');
+            var table= $('#'+form.id).DataTable({ 
+        		responsive: true,
+        		columns: columns
+        	});
         }
     });
 }
+
+JetList.prototype.renderListColumn = function(field, columns, columnDefs) {
+	var _this = this;
+	if(field.type!='list' && field.type != 'group' && field.type != 'hidden'){	
+		var colDefCtr = columnDefs.length;
+		var colCtr = columns.length;
+		if(field.view != undefined){
+			if(field.type == 'file'){
+				if(field.view == 'thumbnail'){
+					 columnDefs[colDefCtr] = {
+	        		   'render': function (data, type, row, meta){
+	        		        return _this.renderThumbnailView(data, type, row, meta);
+	        		    }
+					}
+				}else if(field.view == 'download'){
+					columnDefs[colDefCtr] = {
+	        		    'render': function (data, type, row, meta){
+	        		        return _this.renderDownloadView(data, type, row, meta);
+	        		    }
+					}
+				}else if(field.view == 'filelink'){
+					columnDefs[colDefCtr] = {
+	        		    'render': function (data, type, row, meta){
+	        		        return _this.renderFileLinkView(data, type, row, meta);
+	        		    }
+					}
+				}
+			}else if(field.type == 'text'){
+				if(field.view == 'folder'){
+					columnDefs[colDefCtr] = {
+	        		    'render': function (data, type, row, meta){
+	        		        return _this.renderFolderView(data, type, row, meta);
+	        		    }
+					}
+				}
+			}
+			
+	        if(columnDefs[colDefCtr] != undefined){		    
+				columnDefs[colDefCtr]['targets'] = colCtr;
+			    columnDefs[colDefCtr]['searchable'] = false;
+			    columnDefs[colDefCtr]['orderable'] = false;
+			    columnDefs[colDefCtr]['className'] = 'dt-body-nowrap';
+		    }
+		}
+		columns[colCtr]= { "data": field.name, "title":field.label};
+	}
+}	
 
 JetList.prototype.renderThumbnailView = function(data, type, row, meta) {
 	return "<img src='"+data+"'>";
@@ -1617,7 +1932,6 @@ function appendQueryParam(message, params){
 	
 	return tmp;
 }
-
 
 function editOnClick(event){
 	event.preventDefault();
@@ -1766,7 +2080,7 @@ function callAjax(form, field, action, provider, successFunc, failureFunc){
         	$(provider.pathParams).each(function(key,param){
         		var value=param.value;
         		
-        		console.log ("key -- "+key+" typeof value: "+(typeof value)+" -- "+value);
+        		//console.log ("key -- "+key+" typeof value: "+(typeof value)+" -- "+value);
         		//console.log ("key -- "+key);
         		////console.log(param)
         		if(value != undefined){
@@ -1796,7 +2110,7 @@ function callAjax(form, field, action, provider, successFunc, failureFunc){
         	$(provider.queryParams).each(function(key,param){
         		var value=param.value;
         		
-        		console.log ("key -- "+key+" typeof value: "+(typeof value)+" -- "+value);
+        		//console.log ("key -- "+key+" typeof value: "+(typeof value)+" -- "+value);
         		if(value != undefined){
 	        		if(value.startsWith('.') || value.startsWith('#')){
 	        			if($(value).length>0){
@@ -1824,7 +2138,7 @@ function callAjax(form, field, action, provider, successFunc, failureFunc){
         	$(provider.requestParams).each(function(key,param){
         		var value=param.value;
         		
-        		console.log ("key -- "+key+" typeof value: "+(typeof value)+" -- "+value);
+        		//console.log ("key -- "+key+" typeof value: "+(typeof value)+" -- "+value);
         		if(value != undefined){
 	        		if(value.startsWith('.') || value.startsWith('#')){
 	        			if($(value).length>0){
@@ -2090,3 +2404,155 @@ function log(message){
 function error(message){
 	//console.log(message);
 }
+//==============================//
+
+Handlebars.registerHelper('if_eq', function(a, b, opts) {
+    if(a === b) // Or === depending on your needs
+        return opts.fn(this);
+    else
+        return opts.inverse(this);
+});
+
+Handlebars.registerHelper('if_ne', function(a, b, opts) {
+    if(a === b) // Or === depending on your needs
+    	return opts.inverse(this);
+    else
+    	return opts.fn(this);
+});
+
+Handlebars.registerPartial('textField', Handlebars.compile('#jf-text-template'));
+
+Handlebars.registerHelper('replace', function(s1, s2, s3) {
+    return s1.replace(s2, s3);
+});
+
+Handlebars.registerHelper('reformNameAndId', function(s1, s2, s3) {
+	return reformNameAndId(s1, s2, s3)
+});
+
+function reformNameAndId(s1, s2, s3){
+	if(s1 != undefined){
+	    var pn = s1;
+	    if(s2 != '.'){
+	    	pn = pn.replace(".", s3);
+	    }
+	    return pn.concat(s3, s2);
+    }else{
+		return s2;
+	}
+}
+//=============================//
+
+//drag drop upload functions
+  var arr = [];
+  
+  var uploadUrl = 'http://localhost:9000/api/v1/file/upload';
+  var uploadMultipleUrl = 'http://localhost:9000/api/v1/file/upload-multiple';
+  var deleteUrl = 'http://localhost:9000/api/v1/file/';
+
+  $(document).ready(function() {
+    $(document).on('dragover', '.dropzone-wrapper', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("dragover leave drag area..");
+    });
+
+    $(document).on('dragleave', '.dropzone-wrapper', function(e) {
+      console.log("leave drag area..");
+    });
+
+    $(document).on('drop', '.dropzone-wrapper', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("drop drag area.." + e.originalEvent.dataTransfer.files[0].name);
+
+      console.log(e.originalEvent.dataTransfer.files[0].name);
+
+      let files = e.originalEvent.dataTransfer.files;
+      handleFileSubmit(files);
+    });
+  });
+
+  function removeFile(fileId, index) {
+    alert(fileId, index);
+    if (index > -1) {
+      arr.splice(index, 1);
+      console.log(arr.length);
+      $.ajax({
+        type: "DELETE",
+        url: deleteUrl + fileId,
+        contentType: false,
+        processData: false,
+      })
+        .done(function(data) {
+          $('#' + index).remove();
+          displayFile();
+        })
+        .fail((err) => {
+          console.log(err);
+        });
+    }
+  }
+
+  function displayFile() { 
+    $('#addFile').empty();                    // addFile is coming from template div 
+    let allFileId = "";
+    arr.map((fileObj, key) => {
+      allFileId += fileObj.id + ",";
+      let btnTag = "<div class='btn btn-sm btn-primary ms-2 mt-2' id='" + key + "' >" + fileObj.fileName.name + "<span style='float: right; font-size: 25px;  margin-right: -10%; cursor:pointer' onclick='removeFile(" + fileObj.id + ',' + key + ")'>&times;</span></div>";
+      $('#addFile').append(btnTag);
+    });
+
+    console.log("+++++++++++")
+    console.log("")
+    $('#docId').val(allFileId);      // docId is static  name coming json 
+  }
+
+  function handleFiles(files) {
+    handleFileSubmit(files);
+  }
+
+  function handleFileSubmit(files) {
+    let formD = new FormData();
+    if (files.length === 1) {
+      formD.append('documentImage', files[0]);     // document image is used to fetch file details from backend request param
+      $.ajax({
+        type: "POST",
+        url: uploadUrl,
+        contentType: false,
+        processData: false,
+        data: formD
+      }).done(function(data) {
+          var getid = data.id;
+          arr.push({ id: data.id, fileName: formD.get('documentImage') }); // document image is used to fetch file details from backend request param
+          displayFile();
+        })
+        .fail((err) => {
+          console.log(err);
+        });
+    } else {
+      let formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append('documentImage', files[i]);
+      }
+      $.ajax({
+        type: "POST",
+        url: uploadMultipleUrl,
+        contentType: false,
+        processData: false,
+        data: formData
+      })
+        .done(function(data) {
+          data.map((data, index) => {
+            arr.push({ id: data.id, fileName: files[index] });
+            var testid = data.id;
+          })
+          displayFile();
+        })
+        .fail((err) => {
+          console.log(err);
+        });
+    }
+  }
+
+/*---------drag drop end-----------*/

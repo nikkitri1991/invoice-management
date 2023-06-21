@@ -42,7 +42,7 @@ var taxForm = {
 					},
 					{
 					"type": "date",
-					"name": "inEffectiveDate",
+					"name": "ineffectiveDate",
 					"label": "Ineffective Date",
 					"required": false
 					},

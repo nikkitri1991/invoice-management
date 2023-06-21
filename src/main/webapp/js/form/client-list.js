@@ -9,51 +9,47 @@ var clientListForm = {
 			{
 				"type": "hidden",
 				"name": "id",
-				"id": true,
-				"required": true
+				"id": true
 				
 			},
 			{
 				"type": "text",
 				"name": "name",
-				"label": "Name",
-				"required": true
-				
+				"label": "Name"	
 			},
 			{
 				"type": "text",
 				"name": "bussinessName",
-				"label": "BusinessName",
-				"required": true
+				"label": "BusinessName"
 				
 			},{
 				"type": "text",
 				"name": "primaryBussiness",
-				"label": "Business Address",
-				"required": true
+				"label": "Business Address"
 				
 			},{
 				"type": "text",
 				"name": "address.mobile",
-				"label": "Mobile",
-				"required": true
+				"label": "Mobile"
 				
 			},
 			{
-						"type": "text",
-						"name": "companytype.cname",
-						"label": "Company Type",
-						"required" : true,
-						
-					
+				"type": "text",
+				"name": "companytype.cname",
+				"label": "Company Type"		
 			},
 			{
 				"type": "text",
 				"name": "address.email",
-				"label": "Email",
-				"required": true
+				"label": "Email"
 				
-			}
+			},
+			{
+				"type": "Date",
+				"name": "createOn",
+				"label": "CreateOn"	
+			},
+			
 			
 			],
 			

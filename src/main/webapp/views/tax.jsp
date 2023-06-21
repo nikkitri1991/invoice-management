@@ -18,6 +18,16 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- <div class="container">
+		<div class="box"></div>
+	
+	</div>
+	<p>The onload method in JavaScript is associated with executing a JavaScript function once a page has loaded completely. This onload method is often used in the body, and a function is passed to it.
+	 This function is executed immediately after an object is loaded.</p>
+	 
+	 <p>The＄(document).ready() is a jQuery method that executes a block of code when the DOM has been loaded.</p>
+ -->
 </body>
 
 <script>

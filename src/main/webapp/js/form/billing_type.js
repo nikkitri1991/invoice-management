@@ -95,7 +95,7 @@ var billingTypeForm = {
 			"requestParams":{}
 		},
 		"update": {
-			"ajax": "http://localhost:9004/api/v1/billingType",
+			"ajax": "http://localhost:9004/api/v1/billingType/{id}",
 			"method": "put"
 			
 		},
